@@ -1,7 +1,8 @@
 const cloudinary = require("../middleware/cloudinary");
-const Post = require("../models/Post");
+const Post = require("../models/PostOld");
 const Jam = require("../models/Jam");
-// const Audio = require("../models/Audio");
+const ObjectId = require("mongodb").ObjectID;
+// const Audio = require("../models/Post");
 
 module.exports = {
   getProfile: async (req, res) => {
@@ -32,7 +33,7 @@ module.exports = {
     console.log('starting create post', req.body)
     try {
       // Upload image to cloudinary
-      const result = await cloudinary.uploader.upload(req.file.path, {resource_type: 'auto'});
+      const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
       // console.log('cloudinary results', result)
       await Post.create({
         title: req.body.title,
@@ -46,7 +47,7 @@ module.exports = {
       });
       console.log("Clip has been added!");
       // res.redirect("/profile");
-      res.json({ message : 'everything is good'}); // Send JSON response
+      res.json({ message: 'everything is good' }); // Send JSON response
     } catch (err) {
       console.log('create post', err);
     }
@@ -54,13 +55,13 @@ module.exports = {
   createJam: async (req, res) => {
     console.log('starting create jam', req.body)
     try {
-   
+
       // console.log('cloudinary results', result)
-     const newJam = await Jam.create({
+      const newJam = await Jam.create({
         title: req.body.title,
-        
+
         description: req.body.description,
-       
+
         user: req.user.id,
       });
       console.log("Jam has been added!");
@@ -69,10 +70,60 @@ module.exports = {
       console.log('create post', err);
     }
   },
+  // getJam: async (req, res) => {
+  //   try {
+  //     const jam = await Jam.findById(req.params.id);
+  //     const myAudioClips = await Post.find({user: ObjectId(req.user.id)}).sort({ createdAt: "desc" }).lean();
+  //     res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips });
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
   getJam: async (req, res) => {
     try {
+      // Find the Jam by its ID
       const jam = await Jam.findById(req.params.id);
-      res.render("jam.ejs", { jam: jam, user: req.user });
+      if (!jam) {
+        throw new Error("Jam not found");
+      }
+
+      // Extract audio IDs from the audioElements array
+      const audioIds = jam.audioElements;
+
+      // Fetch Audio documents for each ID in audioElements
+      const audioDetails = await Promise.all(
+        audioIds.map(async (audioId) => {
+          const audio = await Post.findById(ObjectId(audioId));
+          console.log('audio',audio, audioId)
+          return audio; // This will include only cloudinaryId and title
+        })
+      );
+
+      // Remove null values in case any audio document is not found
+      // const validAudioDetails = audioDetails.filter((audio) => audio);
+      console.log(audioDetails, 'working')
+
+      // Combine Jam data with audio details
+      // const result = {
+      //   ...jam._doc, // Include all Jam fields
+      //   audioElements: validAudioDetails, // Replace audioElements with the resolved details
+      // };
+      const myAudioClips = await Post.find({ user: ObjectId(req.user.id) }).sort({ createdAt: "desc" }).lean();
+      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, jamAudioClips: audioDetails });
+    } catch (error) {
+      console.error("Error fetching Jam with audio details:", error);
+      throw error;
+    }
+
+  },
+  addClipToJam: async (req, res) => {
+    try {
+      await Jam.findOneAndUpdate(
+        { _id: req.params.jamid },
+        { $push: { audioElements: req.params.myaudioclipid } }
+      );
+      console.log("array is updated");
+      res.redirect(`/post/jam/${req.params.jamid}`);
     } catch (err) {
       console.log(err);
     }

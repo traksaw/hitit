@@ -5,26 +5,18 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: {
+  fileName: {
     type: String,
-    require: true,
-  },
-  audio: {
-    type: String,
-    require: true,
+    required: true,
   },
   cloudinaryId: {
     type: String,
     require: true,
   },
-  cloudinaryAudioId: {
-    type: String,
-    require: true,
-  },
-  caption: {
-    type: String,
-    required: true,
-  },
+  // caption: {
+  //   type: String,
+  //   required: true,
+  // },
   likes: {
     type: Number,
     required: true,
@@ -39,4 +31,4 @@ const PostSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Post", PostSchema);
+module.exports = mongoose.model("Post", PostSchema); //change this later

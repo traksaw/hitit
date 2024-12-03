@@ -12,6 +12,7 @@ router.post("/createJam", postsController.createJam);
 router.get("/jam/:id", postsController.getJam);
 
 router.put("/likePost/:id", postsController.likePost);
+router.put("/addClipToJam/:jamid/:myaudioclipid", postsController.addClipToJam);
 
 router.delete("/deletePost/:id", postsController.deletePost);
 
