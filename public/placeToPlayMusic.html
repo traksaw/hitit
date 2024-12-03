@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Player with API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Audio Player with API</h1>
+    <div>
+        <p id="audioTitle">Loading audio...</p>
+        <audio id="audioPlayer" controls>
+            Your browser does not support the audio element.
+        </audio>
+        <div>
+            <button onclick="playAudio()">Play</button>
+            <button onclick="pauseAudio()">Pause</button>
+            <button onclick="stopAudio()">Stop</button>
+        </div>
+    </div>
+
+    <script>
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioTitle = document.getElementById('audioTitle');
+
+        // Fetch audio file from API
+        async function fetchAudio() {
+            try {
+                const response = await fetch('http://res.cloudinary.com/dztgoy8ji/video/upload/v1733023835/aaflrmvcxklybruanldc.wav'); // Adjust to your server's URL
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Convert the response to a blob
+                const audioBlob = await response.blob();
+
+                // Create a URL for the blob and set it as the audio source
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audioPlayer.src = audioUrl;
+            } catch (error) {
+                console.error('Error fetching audio:', error);
+                alert('Failed to load audio.');
+            }
+        }
+
+        // Audio controls
+        function playAudio() {
+            audioPlayer.play();
+        }
+
+        function pauseAudio() {
+            audioPlayer.pause();
+        }
+
+        function stopAudio() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0; // Reset the playback position
+        }
+
+        // Fetch the audio file when the page loads
+        fetchAudio();
+    </script>
+</body>
+</html>

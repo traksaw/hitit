@@ -1,0 +1,166 @@
+<%- include('partials/header') -%>
+  <script type="module">
+    import * as realtimeBpm from 'https://cdn.jsdelivr.net/npm/realtime-bpm-analyzer/dist/index.esm.js';
+
+    async function handleFileUpload(event) {
+      console.log('process started', event)
+      const file = event.target.files[0];
+      console.log('file is here', file)
+      if (!file) return;
+
+      const audioContext = new AudioContext();
+      console.log('audio build', audioContext)
+      const reader = new FileReader();
+      console.log('reader build', reader);
+
+      reader.onload = async () => {
+        console.log('reader started', reader)
+        const audioBuffer = await audioContext.decodeAudioData(reader.result);
+        console.log('audio decoded', audioBuffer)
+        const bpmCandidates = await realtimeBpm.analyzeFullBuffer(audioBuffer);
+        console.log('bpm analyzed', bpmCandidates)
+        const topCandidate = bpmCandidates[0]?.tempo || 'No BPM detected';
+
+        document.getElementById('bpm-result').textContent = `Detected BPM: ${topCandidate}`;
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+    async function detectBPMAndUpload(e) {
+      console.log('form submitted')
+      e.preventDefault(); //preventing form from submitting server
+      // const file = event.target.files[0];
+      // console.log('file intercepted', file)
+      const form = document.getElementById('realForm');
+      const formData = new FormData(form); // Create FormData object from the form
+      // console.log('form data', formData)
+
+      // Log each key-value pair in the FormData object
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}:`, value);
+      }
+      console.log(e.target)
+      const file = formData.get("file");
+      console.log('file is here', file);
+
+      if (!file) return;
+
+      const audioContext = new AudioContext();
+      console.log('audio build', audioContext)
+      const reader = new FileReader();
+      console.log('reader build', reader);
+
+      reader.onload = async () => {
+        console.log('reader started', reader)
+        const audioBuffer = await audioContext.decodeAudioData(reader.result);
+        console.log('audio decoded', audioBuffer)
+        const bpmCandidates = await realtimeBpm.analyzeFullBuffer(audioBuffer);
+        console.log('bpm analyzed', bpmCandidates)
+        const topCandidate = bpmCandidates[0]?.tempo || 'No BPM detected';
+        console.log('BPM here', topCandidate)
+        // Optionally, append more data programmatically
+        formData.append('BPM', topCandidate);
+        try {
+          // Use fetch to submit the form data
+          console.log('about to submit form')
+          const response = await fetch('/post/createPost', {
+            // the headers was causing big problems, its works without it +++
+            // headers: {
+            //   'Content-Type': 'multipart/form-data'
+            // },
+            method: 'POST',
+            body: formData,
+          });
+
+          // Handle the response
+          if (response.ok) {
+            const result = await response.json();
+            console.log('Form submitted successfully:', result);
+          } else {
+            console.error('Form submission failed:', response.status, response.statusText);
+          }
+        } catch (error) {
+          console.error('Error during submission:', error);
+        }
+        window.location = "/profile";
+
+        // document.getElementById('bpm-result').textContent = `Detected BPM: ${topCandidate}`;
+      };
+      reader.readAsArrayBuffer(file);
+    }
+    // document.getElementById('file-input').addEventListener('change', handleFileUpload);
+    // commented this out +++
+    //document.getElementById('testForm').addEventListener('submit', detectBPMAndUpload);
+    document.getElementById('realForm').addEventListener('submit', detectBPMAndUpload);
+
+  </script>
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-6">
+        <div>
+          <p><strong>User Name</strong>: <%= user.userName %>
+          </p>
+          <p><strong>Email</strong>: <%= user.email %>
+          </p>
+          <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+        </div>
+        <div class="mt-5">
+          <h2>Add a post</h2>
+          <form action="/post/createPost" enctype="multipart/form-data" method="POST" id="realForm">
+            <div class="mb-3">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="mb-3">
+              <label for="caption" class="form-label">Caption</label>
+              <textarea class="form-control" id="caption" name="caption"></textarea>
+            </div>
+            <!-- <div class="mb-3">
+                <label for="imgUpload" class="form-label">Image</label>
+                <input type="file" class="form-control" id="imageUpload" name="file">
+              </div> -->
+            <div class="mb-3">
+              <label for="audioUpload" class="form-label">Audio</label>
+              <input type="file" class="form-control" id="audioUpload" name="file">
+            </div>
+            <input type="hidden" name="hidden" value='test'/> <!-- dont need this +++ -->
+            <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+          </form>
+        </div>
+      </div>
+      <div class="col-6">
+        <ul class="row list-unstyled">
+          <% for(var i=0; i<posts.length; i++) {%>
+            <li class="col-6 justify-content-between mt-5">
+              <a href="/post/<%= posts[i]._id%>">
+                <img class="img-fluid" src="<%= posts[i].image%>">
+                <audio controls>
+                  <source src="<%= posts[i].audio%>" type="audio/wav">
+                  <source src="<%= posts[i].audio%>"" type=" audio/mp3">
+                  Your browser does not support the audio tag.
+                </audio>
+              </a>
+            </li>
+            <% } %>
+        </ul>
+        <div class="row justify-content-center mt-5">
+          <a class="btn btn-primary" href="/feed">Return to Feed</a>
+        </div>
+        <div>
+          <form action="/post/createJam" method="post">
+            <input type="text" name="title" />
+            <input type="text" name="description" />
+            <input type="submit" name="button" />
+          </form>
+          <!-- <form action="/post/createPost" enctype="multipart/form-data" method="POST" id="testForm">
+            <input type='file' id="file-input" name="file" />
+            <input type="text" name='text' value="test" />
+            <p id="bpm-result">Detected BPM: --</p>
+            <input type="submit" />
+          </form> -->
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <%- include('partials/footer') -%>

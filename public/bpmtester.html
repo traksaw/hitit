@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BPM Detector</title>
+</head>
+<body>
+  <h1>BPM Detector</h1>
+  <p>Select an audio file to analyze its BPM:</p>
+  <input type="file" id="audioInput" accept="audio/*">
+  <p id="result"></p>
+
+  <!-- Include the BPM Detector library -->
+  <script src="https://cdn.jsdelivr.net/npm/web-audio-beat-detector"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const { detect } = window.webAudioBeatDetector;
+  
+      document.getElementById('audioInput').addEventListener('change', async function (event) {
+        const file = event.target.files[0];
+        if (!file) {
+          alert('Please select an audio file!');
+          return;
+        }
+  
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const arrayBuffer = await file.arrayBuffer();
+          const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+  
+          // Use the correct detect function
+          const bpm = await detect(audioBuffer);
+          document.getElementById('result').textContent = `Detected BPM: ${bpm}`;
+        } catch (error) {
+          console.error(error);
+          document.getElementById('result').textContent = 'Error processing the audio file.';
+        }
+      });
+    });
+  </script>
+  
+</body>
+</html>
