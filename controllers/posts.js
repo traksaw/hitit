@@ -1,6 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Post = require("../models/PostOld");
 const Jam = require("../models/Jam");
+const User = require("../models/User");
 const ObjectId = require("mongodb").ObjectID;
 // const Audio = require("../models/Post");
 
@@ -8,7 +9,11 @@ module.exports = {
   getProfile: async (req, res) => {
     try {
       const posts = await Post.find({ user: req.user.id });
-      res.render("profile.ejs", { posts: posts, user: req.user });
+      const myJams = await Jam.find({ user: req.user.id }); //get jams of only user signed in
+      const collabJams = await Jam.find({
+        collaborators: req.user.id
+      });//jams i don't own, but i am a collaborator in
+      res.render("profile.ejs", { posts: posts, user: req.user, jams: myJams, collabJams: collabJams });
     } catch (err) {
       console.log(err);
     }
@@ -30,7 +35,6 @@ module.exports = {
     }
   },
   createPost: async (req, res) => {
-    console.log('starting create post', req.body)
     try {
       // Upload image to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
@@ -94,22 +98,33 @@ module.exports = {
       const audioDetails = await Promise.all(
         audioIds.map(async (audioId) => {
           const audio = await Post.findById(ObjectId(audioId));
-          console.log('audio',audio, audioId)
-          return audio; // This will include only cloudinaryId and title
+          return audio; // This will include all of the audio clips details
         })
       );
+            // Extract collaborators IDs from the collaborators array
+            const collaboratorIds = jam.collaborators;
+
+            // Fetch users documents for each ID in collaborators
+            const collaboratorDetails = await Promise.all(
+              collaboratorIds.map(async (collaboratorId) => {
+                const collaboratorDetails = await User.findById(ObjectId(collaboratorId));
+                console.log('users', collaboratorIds, collaboratorDetails)
+                return collaboratorDetails; // This will include collaborator Details
+              })
+            );
 
       // Remove null values in case any audio document is not found
       // const validAudioDetails = audioDetails.filter((audio) => audio);
-      console.log(audioDetails, 'working')
+      console.log('audio details', audioDetails)
 
       // Combine Jam data with audio details
       // const result = {
       //   ...jam._doc, // Include all Jam fields
       //   audioElements: validAudioDetails, // Replace audioElements with the resolved details
       // };
+      const allUsers = await User.find().lean();
       const myAudioClips = await Post.find({ user: ObjectId(req.user.id) }).sort({ createdAt: "desc" }).lean();
-      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, jamAudioClips: audioDetails });
+      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, jamAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails });
     } catch (error) {
       console.error("Error fetching Jam with audio details:", error);
       throw error;
@@ -120,7 +135,19 @@ module.exports = {
     try {
       await Jam.findOneAndUpdate(
         { _id: req.params.jamid },
-        { $push: { audioElements: req.params.myaudioclipid } }
+        { $addToSet: { audioElements: req.params.myaudioclipid } }
+      );
+      console.log("array is updated");
+      res.redirect(`/post/jam/${req.params.jamid}`);
+    } catch (err) {
+      console.log(err);
+    }
+  }, 
+  addUserToJam: async (req, res) => {
+    try {
+      await Jam.findOneAndUpdate(
+        { _id: req.params.jamid },
+        { $addToSet: { collaborators : req.params.userid} }
       );
       console.log("array is updated");
       res.redirect(`/post/jam/${req.params.jamid}`);
@@ -150,7 +177,6 @@ module.exports = {
       await cloudinary.uploader.destroy(post.cloudinaryId);
       // Delete post from db
       await Post.remove({ _id: req.params.id });
-      console.log("Deleted Post");
       res.redirect("/profile");
     } catch (err) {
       res.redirect("/profile");

@@ -143,8 +143,28 @@
             </li>
             <% } %>
         </ul>
+        <h1>MY JAMS</h1>
+        <ul class="row list-unstyled">
+          <% for(var i=0; i<jams.length; i++) {%>
+            <li class="col-6 justify-content-between mt-5">
+              <a href="/post/jam/<%= jams[i]._id%>">
+                <%= jams[i].title%>
+              </a>
+            </li>
+            <% } %>
+        </ul>
+        <h1>COLLAB JAMS</h1>
+        <ul class="row list-unstyled">
+          <% for(var i=0; i<collabJams.length; i++) {%>
+            <li class="col-6 justify-content-between mt-5">
+              <a href="/post/jam/<%= collabJams[i]._id%>">
+                <%= collabJams[i].title%>
+              </a>
+            </li>
+            <% } %>
+        </ul>
         <div class="row justify-content-center mt-5">
-          <a class="btn btn-primary" href="/feed">Return to Feed</a>
+          <a class="btn btn-primary" href="/jam">Return to Feed</a>
         </div>
         <div>
           <form action="/post/createJam" method="post">

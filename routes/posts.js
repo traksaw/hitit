@@ -13,6 +13,7 @@ router.get("/jam/:id", postsController.getJam);
 
 router.put("/likePost/:id", postsController.likePost);
 router.put("/addClipToJam/:jamid/:myaudioclipid", postsController.addClipToJam);
+router.put("/addUserToJam/:jamid/:userid", postsController.addUserToJam);
 
 router.delete("/deletePost/:id", postsController.deletePost);
 

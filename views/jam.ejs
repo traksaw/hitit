@@ -1,45 +1,85 @@
 <%- include('partials/header') -%>
 
-<section class="container">
-<h1><%=jam.title %></h1>
+  <section class="container">
+    <h1>
+      <%=jam.title %>
+    </h1>
 
-<ul class="column">
-  <% for(var i=0; i<myAudioClips.length; i++) {%>
-    <li>
-      <p><%=myAudioClips[i].title %></p>
-        <audio controls>
-          <source src="<%= myAudioClips[i].audio%>" type="audio/wav">
-          Your browser does not support the audio tag.
-        </audio>
-        <form
-        class="col-1"
-        action="/post/addClipToJam/<%= jam.id %>/<%= myAudioClips[i]._id%>?_method=PUT"
-        method="POST"
-      >
-        <button class="btn btn-primary fa fa-heart" type="submit"></button>
-      </form>
-    </li>
-    <% } %>
-</ul>
+    <section class="column">
+      <h3>My Audio Clips</h3>
+      <ul>
+        <% for(var i=0; i<myAudioClips.length; i++) {%>
+          <li>
+            <p>
+              <%=myAudioClips[i].title %>
+            </p>
+            <audio controls>
+              <source src="<%= myAudioClips[i].audio%>" type="audio/wav">
+              Your browser does not support the audio tag.
+            </audio>
+            <form class="col-1" action="/post/addClipToJam/<%= jam.id %>/<%= myAudioClips[i]._id%>?_method=PUT"
+              method="POST">
+              <button class="btn btn-primary fa fa-heart" type="submit"></button>
+            </form>
+          </li>
+          <% } %>
+      </ul>
+    </section>
+    <section class="column">
+      <h3>Clips in the Jam</h3>
+      <ul>
+        <% for(var i=0; i<jamAudioClips.length; i++) {%>
+          <li>
+            <p>
+              <%=jamAudioClips[i].title %>
+            </p>
+            <audio controls>
+              <source src="<%= jamAudioClips[i].audio%>" type="audio/wav">
+              Your browser does not support the audio tag.
+            </audio>
+            <% console.log('audio form', i, myAudioClips[i])%>
+            <form class="col-1" action="/post/deleteClipFromJam/<%= jam.id %>/<%= jamAudioClips[i]._id%>?_method=PUT"
+              method="POST">
+              <button class="btn btn-primary fa fa-trash" type="submit"></button>
+            </form>
+          </li>
+          <% } %>
+      </ul>
+    </section>
+    <section class="column">
+      <h3>All Users</h3>
+      <ul>
+        <% for(var i=0; i<allUsers.length; i++) {%>
+          <li>
+            <p>
+              <%=allUsers[i].userName %>
+            </p>
 
-<ul class="column">
-  <% for(var i=0; i<jamAudioClips.length; i++) {%>
-    <li>
-      <p><%=jamAudioClips[i].title %></p>
-        <audio controls>
-          <source src="<%= jamAudioClips[i].audio%>" type="audio/wav">
-          Your browser does not support the audio tag.
-        </audio>
-        <form
-        class="col-1"
-        action="/post/deleteClipToJam/<%= jam.id %>/<%= myAudioClips[i]._id%>?_method=PUT"
-        method="POST"
-      >
-        <button class="btn btn-primary fa fa-trash" type="submit"></button>
-      </form>
-    </li>
-    <% } %>
-</ul>
+            <form class="col-1" action="/post/addUserToJam/<%= jam.id %>/<%= allUsers[i]._id%>?_method=PUT"
+              method="POST">
+              <button class="btn btn-primary fa fa-heart" type="submit"></button>
+            </form>
+          </li>
+          <% } %>
+      </ul>
+    </section>
+    <section class="column">
+      <h3>Jam collaborators</h3>
+      <ul>
+        <% for(var i=0; i<collaborators.length; i++) {%>
+          <li>
+            <p>
+              <%= collaborators[i].userName %>
+            </p>
 
-</section>
-<%- include('partials/footer') -%>
+            <form class="col-1" action="/post/deleteToJam/<%= jam.id %>/<%= collaborators[i]._id%>?_method=PUT"
+              method="POST">
+              <button class="btn btn-primary fa fa-trash" type="submit"></button>
+            </form>
+          </li>
+          <% } %>
+      </ul>
+    </section>
+
+    </section>
+    <%- include('partials/footer') -%>
