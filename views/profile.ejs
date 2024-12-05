@@ -63,7 +63,7 @@
         try {
           // Use fetch to submit the form data
           console.log('about to submit form')
-          const response = await fetch('/post/createPost', {
+          const response = await fetch('/clips/createPost', {
             // the headers was causing big problems, its works without it +++
             // headers: {
             //   'Content-Type': 'multipart/form-data'
@@ -105,15 +105,15 @@
           <a href="/logout" class="col-3 btn btn-primary">Logout</a>
         </div>
         <div class="mt-5">
-          <h2>Add a post</h2>
-          <form action="/post/createPost" enctype="multipart/form-data" method="POST" id="realForm">
+          <h2>Add an audio clip</h2>
+          <form action="/clips/createPost" enctype="multipart/form-data" method="POST" id="realForm">
             <div class="mb-3">
               <label for="title" class="form-label">Title</label>
               <input type="text" class="form-control" id="title" name="title">
             </div>
             <div class="mb-3">
-              <label for="caption" class="form-label">Caption</label>
-              <textarea class="form-control" id="caption" name="caption"></textarea>
+              <label for="caption" class="form-label">Description</label>
+              <textarea class="form-control" id="caption" name="description"></textarea>
             </div>
             <!-- <div class="mb-3">
                 <label for="imgUpload" class="form-label">Image</label>
@@ -123,23 +123,29 @@
               <label for="audioUpload" class="form-label">Audio</label>
               <input type="file" class="form-control" id="audioUpload" name="file">
             </div>
-            <input type="hidden" name="hidden" value='test'/> <!-- dont need this +++ -->
+            <input type="hidden" name="hidden" value='test' /> <!-- dont need this +++ -->
             <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
           </form>
         </div>
       </div>
       <div class="col-6">
         <ul class="row list-unstyled">
-          <% for(var i=0; i<posts.length; i++) {%>
+          <% for(var i=0; i<clips.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
-              <a href="/post/<%= posts[i]._id%>">
-                <img class="img-fluid" src="<%= posts[i].image%>">
-                <audio controls>
-                  <source src="<%= posts[i].audio%>" type="audio/wav">
-                  <source src="<%= posts[i].audio%>"" type=" audio/mp3">
-                  Your browser does not support the audio tag.
-                </audio>
-              </a>
+              <!-- <a href="/clips/<%= clips[i]._id%>"> -->
+
+              <p>
+                <%= clips[i].title%>
+              </p>
+              <p>
+                <%= clips[i].description%>
+              </p>
+              <audio controls>
+                <source src="<%= clips[i].audio%>" type="audio/wav">
+                <source src="<%= clips[i].audio%>"" type=" audio/mp3">
+                Your browser does not support the audio tag.
+              </audio>
+              <!-- </a> -->
             </li>
             <% } %>
         </ul>
@@ -147,17 +153,23 @@
         <ul class="row list-unstyled">
           <% for(var i=0; i<jams.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
-              <a href="/post/jam/<%= jams[i]._id%>">
-                <%= jams[i].title%>
+              <a href="/clips/jam/<%= jams[i]._id%>">
+                <p><%= jams[i].title%></p>
               </a>
             </li>
             <% } %>
+            <p>Create a Jam</p>
+              <form action="/clips/createJam" method="post">
+                <input type="text" name="title" placeholder="title..."/>
+                <input type="text" name="description" placeholder="description..."/>
+                <input type="submit" name="button" />
+              </form>
         </ul>
         <h1>COLLAB JAMS</h1>
         <ul class="row list-unstyled">
           <% for(var i=0; i<collabJams.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
-              <a href="/post/jam/<%= collabJams[i]._id%>">
+              <a href="/clips/jam/<%= collabJams[i]._id%>">
                 <%= collabJams[i].title%>
               </a>
             </li>
@@ -167,11 +179,6 @@
           <a class="btn btn-primary" href="/jam">Return to Feed</a>
         </div>
         <div>
-          <form action="/post/createJam" method="post">
-            <input type="text" name="title" />
-            <input type="text" name="description" />
-            <input type="submit" name="button" />
-          </form>
           <!-- <form action="/post/createPost" enctype="multipart/form-data" method="POST" id="testForm">
             <input type='file' id="file-input" name="file" />
             <input type="text" name='text' value="test" />

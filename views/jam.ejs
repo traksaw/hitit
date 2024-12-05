@@ -1,9 +1,9 @@
 <%- include('partials/header') -%>
-
-  <section class="container">
-    <h1>
+ <h1>
       <%=jam.title %>
     </h1>
+  <section class="container">
+   
 
     <section class="column">
       <h3>My Audio Clips</h3>
@@ -17,34 +17,44 @@
               <source src="<%= myAudioClips[i].audio%>" type="audio/wav">
               Your browser does not support the audio tag.
             </audio>
-            <form class="col-1" action="/post/addClipToJam/<%= jam.id %>/<%= myAudioClips[i]._id%>?_method=PUT"
+            <form class="col-1" action="/clips/addClipToJam/<%= jam.id %>/<%= myAudioClips[i]._id%>?_method=PUT"
               method="POST">
-              <button class="btn btn-primary fa fa-heart" type="submit"></button>
+              <button class="btn btn-primary fa fa fa-plus" type="submit"></button>
             </form>
           </li>
           <% } %>
       </ul>
     </section>
     <section class="column">
-      <h3>Clips in the Jam</h3>
+      <h3>Jam</h3>
       <ul>
-        <% for(var i=0; i<jamAudioClips.length; i++) {%>
+        <% for(var i=0; i<allAudioClips.length; i++) {%>
           <li>
             <p>
-              <%=jamAudioClips[i].title %>
+              <%=allAudioClips[i].title %>
             </p>
             <audio controls>
-              <source src="<%= jamAudioClips[i].audio%>" type="audio/wav">
-              Your browser does not support the audio tag.
+              <source src="<%= allAudioClips[i].audio%>" type="audio/wav">
+              
             </audio>
             <% console.log('audio form', i, myAudioClips[i])%>
-            <form class="col-1" action="/post/deleteClipFromJam/<%= jam.id %>/<%= jamAudioClips[i]._id%>?_method=PUT"
+            <form class="col-1" action="/clips/deleteClipFromJam/<%= jam.id %>/<%= allAudioClips.id %>?_method=DELETE"
               method="POST">
               <button class="btn btn-primary fa fa-trash" type="submit"></button>
             </form>
           </li>
           <% } %>
       </ul>
+      <section>
+        <form
+          class="col-1"
+          action="/clips/likeJam/<%= jam.id %>?_method=PUT"
+          method="POST"
+        >
+          <button class="btn btn-primary fa fa-heart" type="submit"></button>
+        </form>
+        <h3>Likes: <%= jam.likes %></h3>
+      </section>
     </section>
     <section class="column">
       <h3>All Users</h3>
@@ -55,9 +65,9 @@
               <%=allUsers[i].userName %>
             </p>
 
-            <form class="col-1" action="/post/addUserToJam/<%= jam.id %>/<%= allUsers[i]._id%>?_method=PUT"
+            <form class="col-1" action="/clips/addUserToJam/<%= jam.id %>/<%= allUsers[i]._id%>?_method=PUT"
               method="POST">
-              <button class="btn btn-primary fa fa-heart" type="submit"></button>
+              <button class="btn btn-primary fa fa-plus" type="submit"></button>
             </form>
           </li>
           <% } %>
@@ -72,10 +82,33 @@
               <%= collaborators[i].userName %>
             </p>
 
-            <form class="col-1" action="/post/deleteToJam/<%= jam.id %>/<%= collaborators[i]._id%>?_method=PUT"
+            <form class="col-1" action="/clips/deleteUserFromJam/<%= jam.id %>/<%= collaborators[i]._id%>?_method=DELETE"
               method="POST">
               <button class="btn btn-primary fa fa-trash" type="submit"></button>
             </form>
+          </li>
+          <% } %>
+      </ul>
+    </section>
+
+    <section>
+      <p>Comments</p>
+              <form action="/clips/addCommentToJam/<%= jam.id %>" method="post">
+                <textarea name="commentText"></textarea>
+                <input type="submit" name="button" />
+              </form>
+    </section>
+
+    <section>
+      <h3>Comments</h3>
+      <ul>
+        <% for(var i=0; i<commentsOfJam.length; i++) {%>
+          <li>
+            <p>
+              <%= commentsOfJam[i].commentText %>
+            </p>
+
+            
           </li>
           <% } %>
       </ul>

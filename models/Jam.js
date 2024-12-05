@@ -5,10 +5,6 @@ const JamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // fileName: {
-  //   type: String,
-  //   required: true,
-  // },
   audioElements: {
     type: Array, //array of ids to audio
     require: true,
@@ -28,6 +24,10 @@ const JamSchema = new mongoose.Schema({
     type: Array, //this is gonna be an array of user ids
     required: true,
     default: []
+  },
+  genre: {
+    type: String, //this is gonna be a genre selection for the jam
+    required: false,
   },
   comments: {
     type: Array, //this is gonna be an array of comment objects {user: userID, comment: 'hello world', createAt: date }
