@@ -8,18 +8,20 @@ body {
   border-radius: 8px;
   margin-bottom: 15px;
 }
-.now-playing {
-  height: 400px; /* Twice the size */
+.jam {
+  height: 400px; 
+  width: 600px;
 }
-.recommendations {
+.jamCollaborators {
   font-size: 0.9rem; /* Slightly smaller font */
+  width: 600px;
 }
 .comment-section {
   margin-top: 30px;
 }
   .container {
     display: flex;
-    gap: 20px;
+    gap: 30%;
     padding: 20px;
   }
   .column {

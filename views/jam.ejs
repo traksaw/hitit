@@ -1,131 +1,106 @@
 <%- include('partials/header') -%>
-  <section class="jamTitleSection">
-    <h1 class="jamTitle col-md-4">
-      <%=jam.title %>
-    </h1>
-  </section>
-  <section class="container mt-4">
-    <section class="row">
-      <!-- Left Column -->
-
-      <section class="myAudioClipsSection col-md-4">
-        <section class="mb-3">
-          <!-- My Audio Clips Section -->
-          <section class="section">
-            <h3>My Audio Clips</h3>
-            <ul>
-              <% for(var i=0; i<myAudioClips.length; i++) {%>
-                <li>
-                  <p>
-                    <%=myAudioClips[i].title %>
-                  </p>
-                  <audio controls>
-                    <source src="<%= myAudioClips[i].audio%>" type="audio/wav">
-                  </audio>
-                  <form class="col-1" action="/clips/addClipToJam/<%= jam.id %>/<%= myAudioClips[i]._id%>?_method=PUT"
-                    method="POST">
-                    <button class="btn btn-primary fa fa fa-plus" type="submit"></button>
-                  </form>
-                </li>
-                <% } %>
-            </ul>
-          </section>
-        </section>
-      </section>
-      <section class="allUsersSection col-md-4 mb-6 section">
-        <h3>All Users</h3>
+<section class="jamTitleSection">
+  <h1 class="jamTitle col-md-4">
+    <%= jam.title %>
+  </h1>
+</section>
+<section class="container mt-4">
+  <section class="row">
+    <!-- Left Column -->
+    <div class="col-md-8">
+      <!-- My Audio Clips Section -->
+      <section class="section">
+        <h3>My Audio Clips</h3>
         <ul class="list-unstyled">
-          <% for(var i=0; i<allUsers.length; i++) {%>
-            <li>
-              <p>
-                <%=allUsers[i].userName %>
-              </p>
-
-              <form class="col-1" action="/clips/addUserToJam/<%= jam.id %>/<%= allUsers[i]._id%>?_method=PUT"
-                method="POST">
+          <% for(var i=0; i<myAudioClips.length; i++) {%>
+            <li class="mb-3">
+              <p><%= myAudioClips[i].title %></p>
+              <audio class="w-100" controls>
+                <source src="<%= myAudioClips[i].audio %>" type="audio/wav">
+              </audio>
+              <form action="/clips/addClipToJam/<%= jam.id %>/<%= myAudioClips[i]._id %>?_method=PUT" method="POST" class="mt-2">
                 <button class="btn btn-primary fa fa-plus" type="submit"></button>
               </form>
             </li>
-            <% } %>
+          <% } %>
         </ul>
       </section>
-      <!-- Right Column -->
 
-      <section class="currentJamSection col-md-4 ms-auto">
-        <section class="section now-playing">
-          <h3>Jam</h3>
-          <ul>
-            <% for(var i=0; i<allAudioClips.length; i++) {%>
-              <li>
-                <p>
-                  <%=allAudioClips[i].title %>
-                </p>
-                <audio controls>
-                  <source src="<%= allAudioClips[i].audio%>" type="audio/wav">
-
-                </audio>
-                <% console.log('audio form', i, myAudioClips[i])%>
-                  <form class="col-1"
-                    action="/clips/deleteClipFromJam/<%= jam.id %>/<%= allAudioClips[i].id %>?_method=DELETE"
-                    method="POST">
-                    <button class="btn btn-primary fa fa-trash" type="submit"></button>
-                  </form>
-              </li>
-              <% } %>
-          </ul>
-        </section>
-        <section>
-          <form class="col-1" action="/clips/likeJam/<%= jam.id %>?_method=PUT" method="POST">
-            <button class="btn btn-primary fa fa-heart" type="submit"></button>
-          </form>
-          <h3>Likes: <%= jam.likes %>
-          </h3>
-        </section>
-        <section class="jamCollaboratorsSection col-md-8 mb-8">
-        <h3>Jam Collaborators</h3>
+      <!-- All Users Section -->
+      <section class="section mt-4">
+        <h3>All Users</h3>
         <ul class="list-unstyled">
-          <% for(var i=0; i<collaborators.length; i++) {%>
-            <li>
-              <p>
-                <%= collaborators[i].userName %>
-              </p>
+          <% for(var i=0; i<allUsers.length; i++) {%>
+            <li class="mb-3">
+              <p><%= allUsers[i].userName %></p>
+              <form action="/clips/addUserToJam/<%= jam.id %>/<%= allUsers[i]._id %>?_method=PUT" method="POST" class="mt-2">
+                <button class="btn btn-primary fa fa-plus" type="submit"></button>
+              </form>
+            </li>
+          <% } %>
+        </ul>
+      </section>
+    </div>
 
-              <form class="col-1"
-                action="/clips/deleteUserFromJam/<%= jam.id %>/<%= collaborators[i]._id%>?_method=DELETE" method="POST">
+    <!-- Right Column -->
+    <div class="col-md-4">
+      <!-- Current Jam Section -->
+      <section class="section jam">
+        <h3>Jam</h3>
+        <ul class="list-unstyled">
+          <% for(var i=0; i<allAudioClips.length; i++) {%>
+            <li class="mb-3">
+              <p><%= allAudioClips[i].title %></p>
+              <audio controls>
+                <source src="<%= allAudioClips[i].audio %>" type="audio/wav">
+              </audio>
+              <form action="/clips/deleteClipFromJam/<%= jam.id %>/<%= allAudioClips[i].id %>?_method=DELETE" method="POST" class="mt-2">
                 <button class="btn btn-primary fa fa-trash" type="submit"></button>
               </form>
             </li>
-            <% } %>
+          <% } %>
+        </ul>
+        <form action="/clips/likeJam/<%= jam.id %>?_method=PUT" method="POST" class="mt-3">
+          <button class="btn btn-primary fa fa-heart" type="submit"></button>
+        </form>
+        <h3 class="mt-2">Likes: <%= jam.likes %></h3>
+      </section>
+
+      <!-- Jam Collaborators Section -->
+      <section class="section jamCollaborators">
+        <h3>Jam Collaborators</h3>
+        <ul class="list-unstyled">
+          <% for(var i=0; i<collaborators.length; i++) {%>
+            <li class="mb-3">
+              <p><%= collaborators[i].userName %></p>
+              <form action="/clips/deleteUserFromJam/<%= jam.id %>/<%= collaborators[i]._id %>?_method=DELETE" method="POST" class="mt-2">
+                <button class="btn btn-primary fa fa-trash" type="submit"></button>
+              </form>
+            </li>
+          <% } %>
         </ul>
       </section>
-      </section>
-
-      
-      
-
-
-
-    </section>
+    </div>
   </section>
+</section>
 
-
-  <section class="commentInputSection col-md-8 mb-8">
-    <form action="/clips/addCommentToJam/<%= jam.id %>" method="post">
-      <input name="commentText" placeholder="Enter a comment..." />
-      <input type="submit" name="button" />
-    </form>
-  </section>
-  <section class="commentSection col-md-8 mb-8">
-    <h3>Comments</h3>
-    <ul>
+<!-- Comments Section -->
+<section class="mt-5 comment-section">
+  <div class="section">
+    <h5>Comments</h5>
+    <ul class="list-unstyled">
       <% for(var i=0; i<commentsOfJam.length; i++) {%>
-
-        <p>
-          <%= commentsOfJam[i].commentText %>
-        </p>
-
-
-        <% } %>
+        <li class="mb-3">
+          <p><%= commentsOfJam[i].commentText %></p>
+        </li>
+      <% } %>
     </ul>
-  </section>
-  <%- include('partials/footer') -%>
+    <form action="/clips/addCommentToJam/<%= jam.id %>" method="POST">
+      <div class="input-group">
+        <input type="text" name="commentText" class="form-control" placeholder="Enter a comment...">
+        <button class="btn btn-primary" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</section>
+<%- include('partials/footer') -%>
