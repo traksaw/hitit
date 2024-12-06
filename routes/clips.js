@@ -5,7 +5,9 @@ const clipsController = require("../controllers/clips");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
 
 //Post Routes - simplified for now
-router.get("/:id", ensureAuth, clipsController.getPost);
+// router.get("/:id", ensureAuth, clipsController.getPost);
+router.get("/jamFeed", ensureAuth, clipsController.getFeed);
+
 router.get("/jam/:id", clipsController.getJam);
 router.post("/createPost", upload.single("file"), clipsController.createPost);
 router.post("/createJam", clipsController.createJam);

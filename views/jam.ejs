@@ -1,11 +1,11 @@
 <%- include('partials/header') -%>
- <h1>
+ <h1 class="text-center mb-4">
       <%=jam.title %>
     </h1>
-  <section class="container">
-   
+  <section class="row">
+   <!-- My Audio Clips Section -->
 
-    <section class="column">
+    <section class="col-md-4 mb-6">
       <h3>My Audio Clips</h3>
       <ul>
         <% for(var i=0; i<myAudioClips.length; i++) {%>
@@ -91,10 +91,13 @@
       </ul>
     </section>
 
+    
+
+    </section>
+
     <section>
-      <p>Comments</p>
               <form action="/clips/addCommentToJam/<%= jam.id %>" method="post">
-                <textarea name="commentText"></textarea>
+                <textarea name="commentText" placeholder="Enter a comment..."></textarea>
                 <input type="submit" name="button" />
               </form>
     </section>
@@ -112,7 +115,5 @@
           </li>
           <% } %>
       </ul>
-    </section>
-
     </section>
     <%- include('partials/footer') -%>

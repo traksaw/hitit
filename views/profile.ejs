@@ -129,6 +129,7 @@
         </div>
       </div>
       <div class="col-6">
+        <h2>MY CLIPS</h2>
         <ul class="row list-unstyled">
           <% for(var i=0; i<clips.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
@@ -149,7 +150,7 @@
             </li>
             <% } %>
         </ul>
-        <h1>MY JAMS</h1>
+        <h2>MY JAMS</h2>
         <ul class="row list-unstyled">
           <% for(var i=0; i<jams.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
@@ -158,14 +159,15 @@
               </a>
             </li>
             <% } %>
-            <p>Create a Jam</p>
+            <p>Create a new Jam</p>
               <form action="/clips/createJam" method="post">
                 <input type="text" name="title" placeholder="title..."/>
                 <input type="text" name="description" placeholder="description..."/>
                 <input type="submit" name="button" />
               </form>
         </ul>
-        <h1>COLLAB JAMS</h1>
+        <h2>COLLAB JAMS</h2>
+        <p>Jams you are a collaborator of:</p>
         <ul class="row list-unstyled">
           <% for(var i=0; i<collabJams.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
@@ -176,7 +178,7 @@
             <% } %>
         </ul>
         <div class="row justify-content-center mt-5">
-          <a class="btn btn-primary" href="/jam">Return to Feed</a>
+          <a class="btn btn-primary" href="/clips/jamFeed">Return to Feed</a>
         </div>
         <div>
           <!-- <form action="/post/createPost" enctype="multipart/form-data" method="POST" id="testForm">
