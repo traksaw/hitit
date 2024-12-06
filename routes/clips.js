@@ -21,7 +21,7 @@ router.put("/likeCommentToJam/:jamid/", clipsController.likeComment);
 
 // router.delete("/deleteClipFromJam/:jamid/:myaudioclipid", clipsController.deleteClipFromJam);
 // router.delete("/deletePost/:id", clipsController.deletePost);
-router.delete("/deleteClipFromJam/:jamid/:jamaudioclipid", clipsController.removeClipFromJam);
+router.delete("/deleteClipFromJam/:jamid/:myaudioclipid", clipsController.removeClipFromJam);
 router.delete("/deleteUserFromJam/:jamid/:userid", clipsController.removeUserFromJam);
 
 

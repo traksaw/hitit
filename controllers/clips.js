@@ -153,11 +153,11 @@ module.exports = {
       );
 
       const allUsers = await User.find().lean();
-      const audioClipsInJam = await Jam.find().lean();
+      // const audioClipsInJam = await Jam.find().lean();
       const commentsOfJam = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean()
       const myAudioClips = await Clip.find({ user: ObjectId(req.user.id) }).sort({ createdAt: "desc" }).lean();
       res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam });
-      console.log('hello jam clips', audioDetails[0])
+      console.log('song ids', audioDetails[0])
     } catch (error) {
       console.error("Error fetching Jam with audio details:", error);
       throw error;
@@ -251,6 +251,7 @@ module.exports = {
     }
   },
   removeClipFromJam: async (req, res) => {
+    console.log('remove clip from jam')
     try {
 
       await Jam.findOneAndUpdate(
