@@ -1,9 +1,9 @@
 <%- include('partials/header') -%>
 
-<section class="container mt-4">
-  <section class="row">
+<section class="container-fluid">
+  <section class="row align-items-start">
     <!-- Left Column -->
-    <section class="col-md-6">
+    <section class="col-md-4">
       <!-- My Audio Clips Section -->
       <div class="section-card">
         <h3 class="bg-header">My Audio Clips</h3>
@@ -43,7 +43,7 @@
     </section>
 
     <!-- Right Column (Jam Section) -->
-    <section class="col-md-6 ms-auto">
+    <section class="col-md-8">
       <!-- Current Jam Section -->
       <div class="section-card">
         <h1 class="bg-header">Jam: <%= jam.title %></h1>
@@ -92,6 +92,7 @@
   </section>
 </section>
 
+
 <!-- Comments Section -->
 <section class="containerComments">
   <div class="section-card">
@@ -99,7 +100,7 @@
     <ul class="list-unstyled mt-3">
       <% for(var i=0; i<commentsOfJam.length; i++) {%>
         <li class="mb-3 comment-box">
-          <p><strong><%= commentsOfJam[i].commentText %></strong></p>
+          <p><%= commentsOfJam[i].commentText %></p>
         </li>
       <% } %>
     </ul>
@@ -110,4 +111,4 @@
   </div>
 </section>
 
-<%- include('partials/footer') -%>
+  <%- include('partials/footer') -%>

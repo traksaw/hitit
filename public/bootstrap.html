@@ -1,72 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Playlist Account</title>
+    <title>Music Streaming App</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #deefd8;
+            color: #1c1c1c;
+        }
+
+        .navbar {
+            background-color: #9bcf89;
+            padding: 1rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1c1c1c;
+        }
+
+        .card {
+            background-color: #bcdfb1;
+            border: none;
+            border-radius: 10px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            border-radius: 10px;
+        }
+
+        .card-title {
+            color: #1c1c1c;
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+        }
+
+        .card-text {
+            color: #3c3c3c;
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #58af3b;
+        }
+    </style>
 </head>
-<body class="bg-light">
-    <div class="container mt-5">
-        <!-- Account Header -->
-        <div class="text-center mb-5">
-            <h1 class="fw-bold">Your Account</h1>
-            <p class="text-muted">Manage your playlists, upload audio, and stay connected to the feed!</p>
-        </div>
 
-        <!-- Playlists Section -->
-        <div class="card mb-4">
-            <div class="card-header bg-primary text-white">
-                <h2 class="h5 mb-0">Your Playlists</h2>
-            </div>
-            <div class="card-body">
-                <ul class="list-group">
-                    <li class="list-group-item">No playlists created yet!</li>
-                    <!-- Dynamic playlist items can be added here -->
-                </ul>
-            </div>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Musicify</a>
         </div>
+    </nav>
 
-        <!-- Audio Upload Section -->
-        <div class="card mb-4">
-            <div class="card-header bg-secondary text-white">
-                <h2 class="h5 mb-0">Upload Audio</h2>
-            </div>
-            <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="audioFile" class="form-label">Choose an audio file</label>
-                        <input type="file" class="form-control" id="audioFile" accept="audio/*">
+    <!-- Explore Page Content -->
+    <div class="container mt-4">
+        <!-- Section 1: Featured Playlists -->
+        <h2 class="section-title">Featured Playlists</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Chill Vibes">
+                    <div class="card-body">
+                        <h5 class="card-title">Chill Vibes</h5>
+                        <p class="card-text">Relax and unwind with soothing tunes.</p>
                     </div>
-                    <button type="button" class="btn btn-primary w-100">Upload Audio</button>
-                </form>
+                </div>
             </div>
-        </div>
-
-        <!-- Music File Upload Section -->
-        <div class="card mb-4">
-            <div class="card-header bg-success text-white">
-                <h2 class="h5 mb-0">Upload Music Files</h2>
-            </div>
-            <div class="card-body">
-                <form>
-                    <div class="mb-3">
-                        <label for="musicFile" class="form-label">Choose a music file</label>
-                        <input type="file" class="form-control" id="musicFile" accept=".mp3,.wav,.flac">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Workout Hits">
+                    <div class="card-body">
+                        <h5 class="card-title">Workout Hits</h5>
+                        <p class="card-text">High-energy tracks for your workout.</p>
                     </div>
-                    <button type="button" class="btn btn-success w-100">Upload Music</button>
-                </form>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Top 50">
+                    <div class="card-body">
+                        <h5 class="card-title">Top 50</h5>
+                        <p class="card-text">The hottest tracks right now.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Mood Booster">
+                    <div class="card-body">
+                        <h5 class="card-title">Mood Booster</h5>
+                        <p class="card-text">Feel good with uplifting tunes.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Go to Feed Button -->
-        <div class="text-center">
-            <button type="button" class="btn btn-outline-primary btn-lg">Go to Feed</button>
+        <!-- Section 2: Recommended for You -->
+        <h2 class="section-title">Recommended for You</h2>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Lo-Fi Beats">
+                    <div class="card-body">
+                        <h5 class="card-title">Lo-Fi Beats</h5>
+                        <p class="card-text">Perfect background music for focus.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Party Hits">
+                    <div class="card-body">
+                        <h5 class="card-title">Party Hits</h5>
+                        <p class="card-text">Get the party started!</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Acoustic Chill">
+                    <div class="card-body">
+                        <h5 class="card-title">Acoustic Chill</h5>
+                        <p class="card-text">Unplug and relax with acoustic tunes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    <img src="https://via.placeholder.com/300x300" class="card-img-top" alt="Jazz Classics">
+                    <div class="card-body">
+                        <h5 class="card-title">Jazz Classics</h5>
+                        <p class="card-text">Timeless jazz favorites.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

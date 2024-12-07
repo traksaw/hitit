@@ -21,7 +21,7 @@ module.exports = {
     }
   },
   likeComment: async (req, res) => {
-    console.log(req.params)
+    
     try {
       await Comment.findOneAndUpdate(
         { _id: req.params.id },
@@ -65,14 +65,7 @@ module.exports = {
       console.log(err);
     }
   },
-  // getPost: async (req, res) => {
-  //   try {
-  //     const post = await Post.findById(req.params.id);
-  //     res.render("post.ejs", { post: post, user: req.user });
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
+ 
   createPost: async (req, res) => {
     try {
       // Upload file to cloudinary
@@ -151,6 +144,9 @@ module.exports = {
       let allUsers = await User.find().lean();
       // const audioClipsInJam = await Jam.find().lean();
       const commentsOfJam = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean()
+
+      const commentsOfJamOwner = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean()
+
       let myAudioClips = await Clip.find({ user: ObjectId(req.user.id) }).sort({ createdAt: "desc" }).lean();
       allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
       myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
@@ -174,27 +170,7 @@ module.exports = {
       console.log(err);
     }
   },
-  // addCommentToJam: async (req, res) => {
-  //   try {
-  //     await Jam.findOneAndUpdate(
-  //       { _id: req.params.jamid },
-  //       {
-  //         $push: {
-  //           comments: {
-  //             comment: req.body.comment,
-  //             likes: 0,
-  //             user: req.user.id,
-  //             date: new Date()
-  //           }
-  //         }
-  //       }
-  //     );
-  //     console.log("array is updated");
-  //     res.redirect(`/clips/jam/${req.params.jamid}`);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
+ 
   addUserToJam: async (req, res) => {
 
     try {

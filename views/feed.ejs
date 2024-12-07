@@ -1,17 +1,95 @@
 <%- include('partials/header') -%>
-  <div class="container">
-    <div class="row justify-content-center mt-5">
-      <ul class="row list-unstyled">
-        <% for(var i=0; i<jams.length; i++) {%>
-          <li class="col-6 justify-content-between mt-3">
-            <a href="/clips/jam/<%= jams[i]._id%>">
-              <p>
-                <%= jams[i].title %>
-              </p>
-            </a>
-          </li>
-          <% } %>
-      </ul>
-    </div>
+<div class="container mt-5">
+  <!-- Section Title -->
+  <div class="text-center mb-4">
+    <h2 class="section-title">Explore Jams</h2>
+    <p class="section-subtitle">Your personalized music recommendations</p>
   </div>
-  <%- include('partials/footer') -%>
+
+  <!-- Jam List -->
+  <div class="row g-3">
+    <% for (var i = 0; i < jams.length; i++) { %>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="/clips/jam/<%= jams[i]._id %>" class="jam-card">
+          <div class="card">
+            <div class="card-img">
+              <!-- Placeholder image; replace with real images -->
+              <img src="https://via.placeholder.com/300x300" alt="<%= jams[i].title %>" class="img-fluid">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= jams[i].title %></h5>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+</div>
+<%- include('partials/footer') -%>
+
+<style>
+  /* Apply the green-themed palette */
+  body {
+    background-color: #deefd8;
+    color: #1c1c1c;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* Section Title */
+  .section-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #58af3b;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: #79bf62;
+    margin-top: 0.5rem;
+  }
+
+  /* Jam Card */
+  .jam-card {
+    text-decoration: none;
+  }
+
+  .jam-card .card {
+    background-color: #bcdfb1;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%; /* Ensures consistent height for cards */
+  }
+
+  .jam-card .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .jam-card .card-img img {
+    width: 100%;
+    height: auto;
+    border-bottom: 2px solid #9bcf89;
+  }
+
+  .jam-card .card-body {
+    padding: 15px;
+    text-align: center;
+  }
+
+  .jam-card .card-title {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #1c1c1c;
+  }
+
+  .jam-card .card-title:hover {
+    color: #58af3b;
+  }
+
+  /* Responsive Grid */
+  .row.g-3 > * {
+    margin-bottom: 1.5rem;
+  }
+</style>

@@ -1,4 +1,6 @@
 const path = require('path')
+const User = require("../models/User");
+
 
 module.exports = {
   getIndex: (req, res) => {
