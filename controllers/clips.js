@@ -57,7 +57,7 @@ module.exports = {
       console.log(err);
     }
   },
-  getFeed: async (req, res) => {
+  getJamFeed: async (req, res) => {
     try {
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
       res.render("feed.ejs", { jams: jams, user: req.user.id });

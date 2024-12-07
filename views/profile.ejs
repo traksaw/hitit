@@ -95,100 +95,123 @@
 
   </script>
 
-  <section class="container">
-    <section class="row mt-5">
-         <!-- Login section -->
-      
-      <!-- Users Audio Clips Section-->
-      <section class="col-8 userAudioClips">
-        <h2>MY CLIPS</h2>
-        <ul class="row list-unstyled">
-          <% for(var i=0; i<clips.length; i++) {%>
-            <li class="justify-content-between mt-3">
-              <h5>
-                <%= clips[i].title%>
-              </h5>
-              <p>
-                <%= clips[i].description%>
-              </p>
-              <audio controls>
-                <source src="<%= clips[i].audio%>" type="audio/wav">
-                <source src="<%= clips[i].audio%>"" type=" audio/mp3">
+  <section class="container mt-5">
+    <section class="row">
+      <!-- Users Audio Clips Section -->
+      <section class="col-lg-7 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-custom-light-green text-custom-deep-green">
+            <h2 class="h5 mb-0">My Clips</h2>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled">
+              <% for(var i=0; i<clips.length; i++) {%>
+                <li class="mb-4">
+                  <h5 class="fw-bold text-custom-deep-green">
+                    <%= clips[i].title %>
+                  </h5>
+                  <p class="text-custom-medium-green">
+                    <%= clips[i].description %>
+                  </p>
+                  <audio controls class="w-100">
+                    <source src="<%= clips[i].audio %>" type="audio/wav">
+                    <source src="<%= clips[i].audio %>" type="audio/mp3">
+                  </audio>
+                </li>
+                <% } %>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-              </audio>
-              <!-- </a> -->
-            </li>
-            <% } %>
-        </ul>
-      </section>
       <!-- User Created Jam Section -->
-      <section class="col-4 createdJamSection">
-       
-        <p>Create a new Jam</p>
-        <form action="/clips/createJam" method="post">
-          <input type="text" name="title" placeholder="title..." />
-          <input type="text" name="description" placeholder="description..." />
-          <input type="submit" name="button" />
-        </form>
-        <h2>MY JAMS</h2>
-        <ul class="row list-unstyled">
-          <% for(var i=0; i<jams.length; i++) {%>
-            <li class="col-6 justify-content-between mt-5">
-              <a href="/clips/jam/<%= jams[i]._id%>">
-                <span>
-                  <%= jams[i].title%>
-                </span>
-              </a>
-            </li>
-            <% } %>
-        </ul>
+      <section class="col-lg-5">
+        <div class="card shadow-sm">
+          <div class="card-header bg-custom-medium-green text-custom-deep-green">
+            <h2 class="h5 mb-0">Create a New Jam</h2>
+          </div>
+          <div class="card-body">
+            <form action="/clips/createJam" method="post" class="mb-4">
+              <div class="mb-3">
+                <input type="text" class="form-control" name="title" placeholder="Title..." required>
+              </div>
+              <div class="mb-3">
+                <input type="text" class="form-control" name="description" placeholder="Description..." required>
+              </div>
+              <button type="submit" class="btn btn-custom-green w-100">Create Jam</button>
+            </form>
+            <h2 class="h5 mb-3">My Jams</h2>
+            <ul class="row list-unstyled">
+              <% for(var i=0; i<jams.length; i++) {%>
+                <li class="col-6 mb-3">
+                  <a href="/clips/jam/<%= jams[i]._id %>" class="text-decoration-none text-custom-green">
+                    <span class="fw-bold">
+                      <%= jams[i].title %>
+                    </span>
+                  </a>
+                </li>
+                <% } %>
+            </ul>
+          </div>
+        </div>
       </section>
-      <section class="col-8"></section>
+      <!-- Section for spacing -->
+      <section class="col-lg-7 mb-4"></section>
       <!-- Collab Jams Section -->
-      <section class="col-4 collabJamSection">
-        <h2>COLLAB JAMS</h2>
-        <p>Jams you are a collaborator of:</p>
-        <ul class="row list-unstyled">
-          <% for(var i=0; i<collabJams.length; i++) {%>
-            <li class="col-6 justify-content-between mt-5">
-              <a href="/clips/jam/<%= collabJams[i]._id%>">
-                <span>
-                  <%= collabJams[i].title%>
-                </span>
-              </a>
-            </li>
-            <% } %>
-        </ul>
+      <section class="col-lg-5 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-custom-green text-custom-light-green">
+            <h2 class="h5 mb-0">Collab Jams</h2>
+          </div>
+          <div class="card-body">
+            <p class="text-custom-medium-green">Jams you are a collaborator of:</p>
+            <ul class="row list-unstyled">
+              <% for(var i=0; i<collabJams.length; i++) {%>
+                <li class="col-6 mb-3">
+                  <a href="/clips/jam/<%= collabJams[i]._id %>" class="text-decoration-none text-custom-dark-green">
+                    <span class="fw-bold">
+                      <%= collabJams[i].title %>
+                    </span>
+                  </a>
+                </li>
+                <% } %>
+            </ul>
+          </div>
+        </div>
       </section>
-      <!-- Form to upload audio file -->
-      <section class="uploadAudioFile">
-        <h2>Add an audio clip</h2>
-        <form action="/clips/createPost" enctype="multipart/form-data" method="POST" id="realForm">
-          <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" required>
+
+      <!-- Form to Upload Audio File -->
+      <section class="col-12 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-custom-dark-green text-custom-light-green">
+            <h2 class="text-center h5 mb-0">Add an Audio Clip</h2>
           </div>
-          <div class="mb-3">
-            <label for="caption" class="form-label">Description</label>
-            <textarea class="form-control" id="caption" name="description" required></textarea>
+          <div class="card-body">
+            <form action="/clips/createPost" enctype="multipart/form-data" method="POST">
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required>
+              </div>
+              <div class="mb-3">
+                <label for="caption" class="form-label">Description</label>
+                <textarea class="form-control" id="caption" name="description" rows="3" required></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="audioUpload" class="form-label">Audio File</label>
+                <input type="file" class="form-control" id="audioUpload" name="file" required>
+              </div>
+              <button type="submit" class="btn btn-custom-green w-100">Submit</button>
+            </form>
           </div>
-          <!-- <div class="mb-3">
-                    <label for="imgUpload" class="form-label">Image</label>
-                    <input type="file" class="form-control" id="imageUpload" name="file">
-                  </div> -->
-          <div class="mb-3">
-            <label for="audioUpload" class="form-label">Audio</label>
-            <input type="file" class="form-control" id="audioUpload" name="file" required>
-          </div>
-          <input type="hidden" name="hidden" value='test' /> <!-- dont need this +++ -->
-          <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
-        </form>
+        </div>
       </section>
+
       <!-- Return to Jams Button -->
-      <section class="row justify-content-center mt-5 jamBtn text-center">
-        <a class="btn btn-outline-primary btn-lg" href="/clips/jamFeed">Explore New Jams</a>
+      <section class="text-center">
+        <a href="/clips/jamFeed" class="btn btn-custom-medium-green btn-lg">Explore New Jams</a>
       </section>
     </section>
   </section>
-  </div>
+
+
   <%- include('partials/footer') -%>

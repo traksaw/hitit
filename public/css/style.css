@@ -1,78 +1,231 @@
-body {
-  background-color: #f8f9fa;
-}
+  /* Definined the custom color palette for profile page*/
+   /* Define the custom color palette */
+   :root {
+    --light-green: #deefd8;
+    --medium-green: #bcdfb1;
+    --green: #9bcf89;
+    --dark-green: #79bf62;
+    --deep-green: #58af3b;
+    --light-text: #ffffff;
+  }
 
-.section {
-  border: 1px solid #dee2e6;
-  background-color: #ffffff;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
+  .bg-header {
+    background-color: var(--dark-green) !important;
+    color: var(--light-text);
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
 
-.jam {
-  height: 400px;
-  width: 600px;
-}
+  .section-card {
+    border: 1px solid var(--medium-green);
+    border-radius: 10px;
+    background-color: var(--light-green);
+    padding: 15px;
+    margin-bottom: 20px;
+  }
 
-.jamCollaborators {
-  font-size: 0.9rem;
-  /* Slightly smaller font */
-  width: 600px;
-}
+  .btn-custom {
+    background-color: var(--green);
+    color: var(--light-text);
+    border: none;
+    border-radius: 5px;
+  }
 
-.comment-section {
-  margin-top: 30px;
-}
+  .btn-custom:hover {
+    background-color: var(--deep-green);
+  }
 
-.container {
-  display: flex;
-  gap: 30%;
-  padding: 20px;
-}
-.container2 {
-  display: flex;
-  padding: 20px;
-  margin: 20px;
-}
+  .rounded-card {
+    background-color: var(--medium-green);
+    border-radius: 10px;
+    padding: 10px;
+    color: var(--deep-green);
+  }
 
-.column {
-  flex: 1;
-  padding: 20px;
-  background-color: #f0f0f0;
-  text-align: center;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-}
+  .comment-box {
+    border: 1px solid var(--green);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: var(--light-green);
+  }
 
-li {
-  list-style: none;
-}
+  .likes-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--green);
+    color: var(--light-text);
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  
+  
+  .bg-custom-light-green {
+    background-color: #5bba6f !important;
+  }
 
-ul {
-  padding: 0;
-}
+  .bg-custom-medium-green {
+    background-color: #3fa34d !important;
+  }
 
-a {
-  text-decoration: none;
-}
+  .bg-custom-green {
+    background-color: #2a9134 !important;
+  }
 
-/* Additional Styling */
+  .bg-custom-dark-green {
+    background-color: #137547 !important;
+  }
+
+  .bg-custom-deep-green {
+    background-color: #054a29 !important;
+  }
+
+  .text-custom-light-green {
+    color: #5bba6f !important;
+  }
+
+  .text-custom-medium-green {
+    color: #3fa34d !important;
+  }
+
+  .text-custom-green {
+    color: #2a9134 !important;
+  }
+
+  .text-custom-dark-green {
+    color: #137547 !important;
+  }
+
+  .text-custom-deep-green {
+    color: #054a29 !important;
+  }
+
+ 
+
+  .bg-header {
+    background-color: var(--medium-green) !important;
+    color: var(--light-text);
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+
+  .section-card {
+    border: 1px solid var(--medium-green);
+    border-radius: 10px;
+    background-color: var(--light-green);
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+
+  .btn-custom {
+    background-color: var(--dark-green);
+    color: var(--light-text);
+    border: none;
+    border-radius: 5px;
+  }
+
+  .btn-custom:hover {
+    background-color: var(--deep-green);
+  }
+
+  .rounded-card {
+    background-color: var(--green);
+    border-radius: 10px;
+    padding: 10px;
+    color: var(--light-text);
+  }
+
+  .comment-box {
+    border: 1px solid var(--medium-green);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  .likes-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--medium-green);
+    color: var(--light-text);
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  body {
+    background-color: #f8f9fa;
+  }
+
+  .section {
+    border: 1px solid #dee2e6;
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+
+  .jam {
+    height: fit-content;
+    width: 600px;
+  }
+
+  .jamCollaborators {
+    font-size: 0.9rem;
+    /* Slightly smaller font */
+    width: 600px;
+  }
+
+  .comment-section {
+    margin-top: 30px;
+  }
+
+  .container {
+    display: flex;
+    gap: 30%;
+    padding: 20px;
+  }
+
+  .container2 {
+    display: flex;
+    padding: 20px;
+    margin: 20px;
+  }
+  .containerComments {
+    padding: 20px;
+  }
+
+  .column {
+    flex: 1;
+    padding: 20px;
+    background-color: #f0f0f0;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  /* Additional Styling */
 
 
+  .userAudioClips {
+    height: fit-content;
+  }
 
-.userAudioClips,
-.createdJamSection,
-.uploadAudioFile,
-.collabJamSection,
-.jamBtn {
-  border: 5px solid black;
-}
+  .uploadAudioFile {
+    border-top: 2px solid black;
+  }
 
-.userAudioClips {
-  height: fit-content;
-}
-
-.uploadAudioFile {
-  border-top: 2px solid black;
-}
+  .audioUploadTitle {
+    margin-top: 2%;
+  }
