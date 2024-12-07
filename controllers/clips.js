@@ -60,7 +60,7 @@ module.exports = {
   getFeed: async (req, res) => {
     try {
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { jams: jams });
+      res.render("feed.ejs", { jams: jams, user: req.user.id });
     } catch (err) {
       console.log(err);
     }

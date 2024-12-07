@@ -26,11 +26,23 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <header class="container">
-      <div class="text-center">
+    <header class="container2">
+      <div class="col-6" style="border: 5px solid black;">
         <h1 class=""><a href="/profile">hit.it</a></h1>
         <span>A Musical Hub for Producers to Collaborate</span>
       </div>
+      <section class="col-6">
+     
+        <section style="border: 5px solid black;">
+          <p><strong>User Name</strong>: <%= user.userName %>
+          </p>
+          <p><strong>Email</strong>: <%= user.email %>
+          </p>
+          <a href="/logout" class="col-3 btn btn-primary">Logout</a>
+        </section>
+  
+      </section>
     </header>
+    
   </body>
 </html>

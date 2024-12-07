@@ -94,102 +94,101 @@
     document.getElementById('realForm').addEventListener('submit', detectBPMAndUpload);
 
   </script>
-  <div class="container">
-    <div class="row mt-5">
-      <div class="col-6">
-        <div>
-          <p><strong>User Name</strong>: <%= user.userName %>
-          </p>
-          <p><strong>Email</strong>: <%= user.email %>
-          </p>
-          <a href="/logout" class="col-3 btn btn-primary">Logout</a>
-        </div>
-        <div class="mt-5">
-          <h2>Add an audio clip</h2>
-          <form action="/clips/createPost" enctype="multipart/form-data" method="POST" id="realForm">
-            <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" name="title">
-            </div>
-            <div class="mb-3">
-              <label for="caption" class="form-label">Description</label>
-              <textarea class="form-control" id="caption" name="description"></textarea>
-            </div>
-            <!-- <div class="mb-3">
-                <label for="imgUpload" class="form-label">Image</label>
-                <input type="file" class="form-control" id="imageUpload" name="file">
-              </div> -->
-            <div class="mb-3">
-              <label for="audioUpload" class="form-label">Audio</label>
-              <input type="file" class="form-control" id="audioUpload" name="file">
-            </div>
-            <input type="hidden" name="hidden" value='test' /> <!-- dont need this +++ -->
-            <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
-          </form>
-        </div>
-      </div>
-      <div class="col-6">
+
+  <section class="container">
+    <section class="row mt-5">
+         <!-- Login section -->
+      
+      <!-- Users Audio Clips Section-->
+      <section class="col-8 userAudioClips">
         <h2>MY CLIPS</h2>
         <ul class="row list-unstyled">
           <% for(var i=0; i<clips.length; i++) {%>
-            <li class="col-6 justify-content-between mt-5">
-              <!-- <a href="/clips/<%= clips[i]._id%>"> -->
-
-              <p>
+            <li class="justify-content-between mt-3">
+              <h5>
                 <%= clips[i].title%>
-              </p>
+              </h5>
               <p>
                 <%= clips[i].description%>
               </p>
               <audio controls>
                 <source src="<%= clips[i].audio%>" type="audio/wav">
                 <source src="<%= clips[i].audio%>"" type=" audio/mp3">
-                Your browser does not support the audio tag.
+
               </audio>
               <!-- </a> -->
             </li>
             <% } %>
         </ul>
+      </section>
+      <!-- User Created Jam Section -->
+      <section class="col-4 createdJamSection">
+       
+        <p>Create a new Jam</p>
+        <form action="/clips/createJam" method="post">
+          <input type="text" name="title" placeholder="title..." />
+          <input type="text" name="description" placeholder="description..." />
+          <input type="submit" name="button" />
+        </form>
         <h2>MY JAMS</h2>
         <ul class="row list-unstyled">
           <% for(var i=0; i<jams.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
               <a href="/clips/jam/<%= jams[i]._id%>">
-                <p><%= jams[i].title%></p>
+                <span>
+                  <%= jams[i].title%>
+                </span>
               </a>
             </li>
             <% } %>
-            <p>Create a new Jam</p>
-              <form action="/clips/createJam" method="post">
-                <input type="text" name="title" placeholder="title..."/>
-                <input type="text" name="description" placeholder="description..."/>
-                <input type="submit" name="button" />
-              </form>
         </ul>
+      </section>
+      <section class="col-8"></section>
+      <!-- Collab Jams Section -->
+      <section class="col-4 collabJamSection">
         <h2>COLLAB JAMS</h2>
         <p>Jams you are a collaborator of:</p>
         <ul class="row list-unstyled">
           <% for(var i=0; i<collabJams.length; i++) {%>
             <li class="col-6 justify-content-between mt-5">
               <a href="/clips/jam/<%= collabJams[i]._id%>">
-                <%= collabJams[i].title%>
+                <span>
+                  <%= collabJams[i].title%>
+                </span>
               </a>
             </li>
             <% } %>
         </ul>
-        <div class="row justify-content-center mt-5">
-          <a class="btn btn-primary" href="/clips/jamFeed">Explore New Jams</a>
-        </div>
-        <div>
-          <!-- <form action="/post/createPost" enctype="multipart/form-data" method="POST" id="testForm">
-            <input type='file' id="file-input" name="file" />
-            <input type="text" name='text' value="test" />
-            <p id="bpm-result">Detected BPM: --</p>
-            <input type="submit" />
-          </form> -->
-        </div>
-      </div>
-    </div>
-  </div>
+      </section>
+      <!-- Form to upload audio file -->
+      <section class="uploadAudioFile">
+        <h2>Add an audio clip</h2>
+        <form action="/clips/createPost" enctype="multipart/form-data" method="POST" id="realForm">
+          <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="caption" class="form-label">Description</label>
+            <textarea class="form-control" id="caption" name="description" required></textarea>
+          </div>
+          <!-- <div class="mb-3">
+                    <label for="imgUpload" class="form-label">Image</label>
+                    <input type="file" class="form-control" id="imageUpload" name="file">
+                  </div> -->
+          <div class="mb-3">
+            <label for="audioUpload" class="form-label">Audio</label>
+            <input type="file" class="form-control" id="audioUpload" name="file" required>
+          </div>
+          <input type="hidden" name="hidden" value='test' /> <!-- dont need this +++ -->
+          <button type="submit" class="btn btn-primary" value="Upload">Submit</button>
+        </form>
+      </section>
+      <!-- Return to Jams Button -->
+      <section class="row justify-content-center mt-5 jamBtn text-center">
+        <a class="btn btn-outline-primary btn-lg" href="/clips/jamFeed">Explore New Jams</a>
+      </section>
+    </section>
+  </section>
   </div>
   <%- include('partials/footer') -%>

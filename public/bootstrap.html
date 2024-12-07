@@ -1,89 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music Playlist App</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #f8f9fa;
-    }
-    .section {
-      border: 1px solid #dee2e6;
-      background-color: #ffffff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-    }
-    .now-playing {
-      height: 200px; /* Twice the size */
-    }
-    .recommendations {
-      font-size: 0.9rem; /* Slightly smaller font */
-    }
-    .comment-section {
-      margin-top: 30px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Playlist Account</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-  <div class="container mt-4">
-    <div class="row">
-      <!-- Left Column -->
-      <div class="col-md-4">
-        <!-- Playlist 1 Section -->
-        <div class="section">
-          <h5>Playlist 1</h5>
-          <audio controls>
-            <source src="path/to/your-audio.mp3" type="audio/mp3">
-            Your browser does not support the audio tag.
-          </audio>
+<body class="bg-light">
+    <div class="container mt-5">
+        <!-- Account Header -->
+        <div class="text-center mb-5">
+            <h1 class="fw-bold">Your Account</h1>
+            <p class="text-muted">Manage your playlists, upload audio, and stay connected to the feed!</p>
         </div>
-        <!-- Playlist 2 Section -->
-        <div class="section">
-          <h5>Users</h5>
-          <ul class="list-unstyled">
-            <li>User 1</li>
-            <li>User 2</li>
-            <li>User 3</li>
-          </ul>
-        </div>
-      </div>
 
-      
-      <div class="col-md-4 ms-auto">
-        <!-- Now Playing Section -->
-        <div class="section now-playing">
-          <h5>Now Playing</h5>
-          <p>Currently playing: Song Name</p>
+        <!-- Playlists Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-primary text-white">
+                <h2 class="h5 mb-0">Your Playlists</h2>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item">No playlists created yet!</li>
+                    <!-- Dynamic playlist items can be added here -->
+                </ul>
+            </div>
         </div>
-        <!-- Recommendations Section -->
-        <div class="section recommendations">
-          <h5>Recommendations</h5>
-          <ul class="list-unstyled">
-            <li>User 1</li>
-            <li>User 2</li>
-            <li>User 3</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <!-- Comment Section -->
-    <div class="comment-section">
-      <div class="section">
-        <h5>Comments</h5>
-        <form>
-          <div class="mb-3">
-            <label for="comment" class="form-label">Leave a comment</label>
-            <textarea class="form-control" id="comment" rows="3"></textarea>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
-    </div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Audio Upload Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-secondary text-white">
+                <h2 class="h5 mb-0">Upload Audio</h2>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="audioFile" class="form-label">Choose an audio file</label>
+                        <input type="file" class="form-control" id="audioFile" accept="audio/*">
+                    </div>
+                    <button type="button" class="btn btn-primary w-100">Upload Audio</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Music File Upload Section -->
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h2 class="h5 mb-0">Upload Music Files</h2>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="musicFile" class="form-label">Choose a music file</label>
+                        <input type="file" class="form-control" id="musicFile" accept=".mp3,.wav,.flac">
+                    </div>
+                    <button type="button" class="btn btn-success w-100">Upload Music</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Go to Feed Button -->
+        <div class="text-center">
+            <button type="button" class="btn btn-outline-primary btn-lg">Go to Feed</button>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

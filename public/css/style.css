@@ -1,6 +1,7 @@
 body {
   background-color: #f8f9fa;
 }
+
 .section {
   border: 1px solid #dee2e6;
   background-color: #ffffff;
@@ -8,48 +9,70 @@ body {
   border-radius: 8px;
   margin-bottom: 15px;
 }
+
 .jam {
-  height: 400px; 
+  height: 400px;
   width: 600px;
 }
+
 .jamCollaborators {
-  font-size: 0.9rem; /* Slightly smaller font */
+  font-size: 0.9rem;
+  /* Slightly smaller font */
   width: 600px;
 }
+
 .comment-section {
   margin-top: 30px;
 }
-  .container {
-    display: flex;
-    gap: 30%;
-    padding: 20px;
-  }
-  .column {
-    flex: 1;
-    padding: 20px;
-    background-color: #f0f0f0;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
 
-  li {
-    list-style: none;
-  }
+.container {
+  display: flex;
+  gap: 30%;
+  padding: 20px;
+}
+.container2 {
+  display: flex;
+  padding: 20px;
+  margin: 20px;
+}
 
-  ul {
-    padding: 0;
-  }
+.column {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f0f0;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
 
+li {
+  list-style: none;
+}
+
+ul {
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
 
 /* Additional Styling */
 
-.jamTitleSection, 
-.myAudioClipsSection,
-.currentJamSection,
-.allUsersSection,
-.jamCollaboratorsSection,
-.commentInputSection,
-.commentSection {
+
+
+.userAudioClips,
+.createdJamSection,
+.uploadAudioFile,
+.collabJamSection,
+.jamBtn {
   border: 5px solid black;
+}
+
+.userAudioClips {
+  height: fit-content;
+}
+
+.uploadAudioFile {
+  border-top: 2px solid black;
 }
