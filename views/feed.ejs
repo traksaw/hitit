@@ -1,10 +1,11 @@
 <%- include('partials/header') -%>
+<div class="text-center mb-4">
+  <h2 class="section-title">Explore Jams</h2>
+  <p class="section-subtitle">Your personalized music recommendations</p>
+</div>
 <div class="container mt-5">
   <!-- Section Title -->
-  <div class="text-center mb-4">
-    <h2 class="section-title">Explore Jams</h2>
-    <p class="section-subtitle">Your personalized music recommendations</p>
-  </div>
+ 
 
   <!-- Jam List -->
   <div class="row g-3">
@@ -14,16 +15,48 @@
           <div class="card">
             <div class="card-img">
               <!-- Placeholder image; replace with real images -->
-              <img src="https://via.placeholder.com/300x300" alt="<%= jams[i].title %>" class="img-fluid">
+              <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
             </div>
             <div class="card-body">
               <h5 class="card-title"><%= jams[i].title %></h5>
+              <p><%= jams[i].description %></p>
             </div>
           </div>
         </a>
       </div>
     <% } %>
   </div>
+  
+</div>
+
+<div class="text-center mb-4">
+  <h2 class="section-title">Hip-Hop Jams</h2>
+  <p class="section-subtitle">Hip-Hop Bangers For You To Check Out!</p>
+</div>
+<div class="container mt-5">
+  <!-- Section Title -->
+ 
+
+  <!-- Jam List -->
+  <div class="row g-3">
+    <% for (var i = 0; i < hipHopJams.length; i++) { %>
+      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+        <a href="/clips/jam/<%= hipHopJams[i]._id %>" class="jam-card">
+          <div class="card">
+            <div class="card-img">
+              <!-- Placeholder image; replace with real images -->
+              <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= jams[i].title %></h5>
+              <p><%= jams[i].description %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% } %>
+  </div>
+  
 </div>
 <%- include('partials/footer') -%>
 

@@ -8,7 +8,7 @@
       <div class="section-card">
         <h3 class="bg-header">My Audio Clips</h3>
         <ul class="list-unstyled mt-3">
-          <% for(var i=0; i<myAudioClips.length; i++) {%>
+          <% for (var i = 0; i < myAudioClips.length; i++) { %>
             <li class="mb-3">
               <div class="rounded-card">
                 <p class="mb-1"><strong><%= myAudioClips[i].title %></strong></p>
@@ -28,7 +28,7 @@
       <div class="section-card">
         <h3 class="bg-header">All Users</h3>
         <ul class="list-unstyled mt-3">
-          <% for(var i=0; i<allUsers.length; i++) {%>
+          <% for (var i = 0; i < allUsers.length; i++) { %>
             <li class="mb-3">
               <div class="rounded-card">
                 <p class="mb-1"><strong><%= allUsers[i].userName %></strong></p>
@@ -42,13 +42,13 @@
       </div>
     </section>
 
-    <!-- Right Column (Jam Section) -->
+    <!-- Right Column -->
     <section class="col-md-8">
       <!-- Current Jam Section -->
       <div class="section-card">
-        <h1 class="bg-header">Jam: <%= jam.title %></h1>
+        <h1 class="bg-header"><%= jam.title %></h1>
         <ul class="list-unstyled mt-3">
-          <% for(var i=0; i<allAudioClips.length; i++) {%>
+          <% for (var i = 0; i < allAudioClips.length; i++) { %>
             <li class="mb-3">
               <div class="rounded-card">
                 <p class="mb-1"><strong><%= allAudioClips[i].title %></strong></p>
@@ -72,11 +72,11 @@
         </form>
       </div>
 
-      <!-- Jam Collaborators Section -->
+      <!-- Collaborators Section -->
       <div class="section-card mt-3">
         <h3 class="bg-header">Jam Collaborators</h3>
         <ul class="list-unstyled mt-3">
-          <% for(var i=0; i<collaborators.length; i++) {%>
+          <% for (var i = 0; i < collaborators.length; i++) { %>
             <li class="mb-3">
               <div class="rounded-card">
                 <p class="mb-1"><strong><%= collaborators[i].userName %></strong></p>
@@ -92,18 +92,17 @@
   </section>
 </section>
 
-
 <!-- Comments Section -->
-<section class="containerComments">
+<section class="container-fluid mt-4">
   <div class="section-card">
     <h5 class="bg-header">Comments</h5>
-    <ul class="list-unstyled mt-3">
-      <% for(var i=0; i<commentsOfJam.length; i++) {%>
-        <li class="mb-3 comment-box">
+    <div class="comments-grid">
+      <% for (var i = 0; i < commentsOfJam.length; i++) { %>
+        <div class="comment-box">
           <p><%= commentsOfJam[i].commentText %></p>
-        </li>
+        </div>
       <% } %>
-    </ul>
+    </div>
     <form action="/clips/addCommentToJam/<%= jam.id %>" method="POST">
       <textarea name="commentText" class="form-control mb-3" rows="3" placeholder="Enter a comment..."></textarea>
       <button class="btn btn-custom w-100" type="submit">Submit</button>
@@ -111,4 +110,5 @@
   </div>
 </section>
 
-  <%- include('partials/footer') -%>
+<%- include('partials/footer') -%>
+

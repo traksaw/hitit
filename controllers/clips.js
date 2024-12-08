@@ -60,7 +60,8 @@ module.exports = {
   getJamFeed: async (req, res) => {
     try {
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { jams: jams, user: req.user.id });
+      const hipHopJams = await Jam.find({"genre" : "Hip-Hop"}).sort({ createdAt: "desc" }).lean();
+      res.render("feed.ejs", { jams: jams, user: req.user.id, hipHopJams: hipHopJams });
     } catch (err) {
       console.log(err);
     }
@@ -91,13 +92,16 @@ module.exports = {
   createJam: async (req, res) => {
     console.log('starting create jam', req.body)
     try {
-
-      // console.log('cloudinary results', result)
+       // Upload file to cloudinary
+       const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
+       
       const newJam = await Jam.create({
         title: req.body.title,
-
+        image: result.secure_url,
+        genre: req.body.genre,
+        cloudinaryImageId: result.public_id,
+        fileName: req.file.path,
         description: req.body.description,
-
         user: req.user.id,
       });
       console.log("Jam has been added!");

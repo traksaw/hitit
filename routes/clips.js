@@ -10,7 +10,7 @@ router.get("/jamFeed", ensureAuth, clipsController.getJamFeed);
 
 router.get("/jam/:id", clipsController.getJam);
 router.post("/createPost", upload.single("file"), clipsController.createPost);
-router.post("/createJam", clipsController.createJam);
+router.post("/createJam",upload.single("file"), clipsController.createJam);
 router.post("/addCommentToJam/:jamid", clipsController.createComment);
 
 

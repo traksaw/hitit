@@ -9,11 +9,22 @@ const JamSchema = new mongoose.Schema({
     type: Array, //array of ids to audio
     require: true,
     default: []
-
+  },
+  fileName: {
+    type: String,
+    required: true,
+  },
+  cloudinaryId: { //
+    type: String,
+    require: true,
   },
   description: {
     type: String,
     required: false,
+  },
+  image: {
+    type: String,
+    require: true,
   },
   likes: {
     type: Number,

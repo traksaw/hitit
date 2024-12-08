@@ -229,3 +229,53 @@
   .audioUploadTitle {
     margin-top: 2%;
   }
+
+  body {
+    background-color: #deefd8;
+    color: #1c1c1c;
+  }
+
+  .bg-header {
+    color: #58af3b;
+  }
+
+  .section-card {
+    background-color: #bcdfb1;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .rounded-card {
+    background-color: #9bcf89;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-custom {
+    background-color: #58af3b;
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+  }
+
+  .btn-custom:hover {
+    background-color: #79bf62;
+  }
+
+  .likes-section {
+    background-color: #bcdfb1;
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .comment-box {
+    background-color: #9bcf89;
+    padding: 10px;
+    border-radius: 10px;
+  }
