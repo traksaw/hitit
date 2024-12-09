@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
   userName: { type: String, unique: true },
   email: { type: String, unique: true },
   password: String,
-  favoritesGenres: { type: Array },
+  favoriteGenres: [String], // Array to store selected genres
   fileName: {
     type: String,
     required: false,

@@ -88,13 +88,14 @@ exports.postSignup = async (req, res, next) => {
 
   const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
   
+  const { userName, email, password, favoriteGenres } = req.body;
 
   const user = new User({
-    userName: req.body.userName,
-    email: req.body.email,
-    password: req.body.password,
+    userName,
+    email,
+    password,
     image: result.secure_url,
-    favoritesGenres: req.body.genre,
+    favoriteGenres: Array.isArray(favoriteGenres) ? favoriteGenres : [favoriteGenres],
     cloudinaryImageId: result.public_id,
     fileName: req.file.path,
   });

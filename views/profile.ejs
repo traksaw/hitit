@@ -121,15 +121,15 @@
 
   
 
-  <!-- Collaborator Jams Section  -->
-  <div class="col-lg-6 ms-auto">
+   <!-- Collaborator Jams Section -->
+   <div class="col-lg-6 ms-auto">
     <div class="card">
       <div class="card-header">Collab Jams</div>
       <div class="card-body">
         <p>Jams you are a collaborator of:</p>
-        <ul class="list-unstyled">
-          <% for(var i=0; i<collabJams.length; i++) {%>
-            <li class="mb-2">
+        <ul class="list-group list-group-flush">
+          <% for(var i=0; i < collabJams.length; i++) { %>
+            <li class="list-group-item">
               <a href="/clips/jam/<%= collabJams[i]._id %>" class="text-custom-green"><%= collabJams[i].title %></a>
             </li>
           <% } %>
