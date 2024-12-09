@@ -1,6 +1,6 @@
-  /* Definined the custom color palette for profile page*/
-   /* Define the custom color palette */
-   :root {
+
+  /* Define the custom color palette */
+  :root {
     --light-green: #deefd8;
     --medium-green: #bcdfb1;
     --green: #9bcf89;
@@ -8,274 +8,512 @@
     --deep-green: #58af3b;
     --light-text: #ffffff;
   }
-
-  .bg-header {
-    background-color: var(--dark-green) !important;
-    color: var(--light-text);
-    padding: 10px 15px;
-    border-radius: 5px;
-  }
-
-  .section-card {
-    border: 1px solid var(--medium-green);
-    border-radius: 10px;
-    background-color: var(--light-green);
-    padding: 15px;
-    margin-bottom: 20px;
-  }
-
-  .btn-custom {
-    background-color: var(--green);
-    color: var(--light-text);
-    border: none;
-    border-radius: 5px;
-  }
-
-  .btn-custom:hover {
-    background-color: var(--deep-green);
-  }
-
-  .rounded-card {
+  .form-section {
     background-color: var(--medium-green);
-    border-radius: 10px;
-    padding: 10px;
-    color: var(--deep-green);
-  }
-
-  .comment-box {
     border: 1px solid var(--green);
     border-radius: 10px;
-    padding: 10px;
-    background-color: var(--light-green);
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
-  .likes-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--green);
-    color: var(--light-text);
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  
-  
-  .bg-custom-light-green {
-    background-color: #5bba6f !important;
-  }
-
-  .bg-custom-medium-green {
-    background-color: #3fa34d !important;
-  }
-
-  .bg-custom-green {
-    background-color: #2a9134 !important;
-  }
-
-  .bg-custom-dark-green {
-    background-color: #137547 !important;
-  }
-
-  .bg-custom-deep-green {
-    background-color: #054a29 !important;
-  }
-
-  .text-custom-light-green {
-    color: #5bba6f !important;
-  }
-
-  .text-custom-medium-green {
-    color: #3fa34d !important;
-  }
-
-  .text-custom-green {
-    color: #2a9134 !important;
-  }
-
-  .text-custom-dark-green {
-    color: #137547 !important;
-  }
-
-  .text-custom-deep-green {
-    color: #054a29 !important;
-  }
-
- 
-
-  .bg-header {
-    background-color: var(--medium-green) !important;
-    color: var(--light-text);
-    padding: 10px 15px;
-    border-radius: 5px;
-  }
-
-  .section-card {
-    border: 1px solid var(--medium-green);
-    border-radius: 10px;
-    background-color: var(--light-green);
-    padding: 15px;
+  .form-section h2 {
+    color: var(--deep-green);
+    font-weight: bold;
+    text-align: center;
     margin-bottom: 20px;
+  }
+
+  .form-section label {
+    color: var(--dark-green);
+    font-weight: 600;
+  }
+
+  .form-control {
+    border: 1px solid var(--green);
+    border-radius: 5px;
   }
 
   .btn-custom {
     background-color: var(--dark-green);
-    color: var(--light-text);
+    color: var(--light-text); /* Text is explicitly set to white */
     border: none;
     border-radius: 5px;
+    padding: 10px 15px;
+    font-weight: bold;
+    width: 100%;
   }
 
   .btn-custom:hover {
     background-color: var(--deep-green);
   }
 
-  .rounded-card {
-    background-color: var(--green);
-    border-radius: 10px;
-    padding: 10px;
-    color: var(--light-text);
-  }
-
-  .comment-box {
-    border: 1px solid var(--medium-green);
-    border-radius: 10px;
-    padding: 10px;
-  }
-
-  .likes-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--medium-green);
-    color: var(--light-text);
-    padding: 10px;
+  .alert {
     border-radius: 5px;
-  }
-
-  body {
-    background-color: #f8f9fa;
-  }
-
-  .section {
-    border: 1px solid #dee2e6;
-    background-color: #ffffff;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
-  }
-
-  .jam {
-    height: fit-content;
-    width: 600px;
-  }
-
-  .jamCollaborators {
-    font-size: 0.9rem;
-    /* Slightly smaller font */
-    width: 600px;
-  }
-
-  .comment-section {
-    margin-top: 30px;
-  }
-
-  .container {
-    display: flex;
-    gap: 30%;
-    padding: 20px;
-  }
-
-  .container2 {
-    display: flex;
-    padding: 20px;
-    margin: 20px;
-  }
-  .containerComments {
-    padding: 20px;
-  }
-
-  .column {
-    flex: 1;
-    padding: 20px;
-    background-color: #f0f0f0;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-  }
-
-  li {
-    list-style: none;
-  }
-
-  ul {
-    padding: 0;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  /* Additional Styling */
-
-
-  .userAudioClips {
-    height: fit-content;
-  }
-
-  .uploadAudioFile {
-    border-top: 2px solid black;
-  }
-
-  .audioUploadTitle {
-    margin-top: 2%;
-  }
-
-  body {
-    background-color: #deefd8;
-    color: #1c1c1c;
-  }
-
-  .bg-header {
-    color: #58af3b;
-  }
-
-  .section-card {
-    background-color: #bcdfb1;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .rounded-card {
-    background-color: #9bcf89;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .btn-custom {
-    background-color: #58af3b;
-    color: white;
-    border: none;
-    transition: background-color 0.3s;
-  }
-
-  .btn-custom:hover {
-    background-color: #79bf62;
-  }
-
-  .likes-section {
-    background-color: #bcdfb1;
     padding: 10px 15px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-size: 0.9rem;
   }
 
-  .comment-box {
-    background-color: #9bcf89;
-    padding: 10px;
-    border-radius: 10px;
+  .alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
   }
+
+  .alert-info {
+    background-color: #cff4fc;
+    color: #055160;
+  }
+
+  .form-text {
+    color: var(--dark-green);
+  }
+
+body {
+  background-color: var(--light-green);
+  color: #1c1c1c;
+  font-family: 'Arial', sans-serif;
+}
+
+.bg-header {
+  background-color: var(--dark-green) !important;
+  color: var(--light-text);
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.section-card {
+  border: 1px solid var(--medium-green);
+  border-radius: 10px;
+  background-color: var(--light-green);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-custom {
+  background-color: var(--green);
+  color: var(--light-text);
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+}
+
+.rounded-card {
+  background-color: var(--medium-green);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--deep-green);
+}
+
+.comment-box {
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: var(--light-green);
+}
+
+.likes-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--green);
+  color: var(--light-text);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--deep-green);
+  margin-bottom: 2rem;
+}
+
+.card {
+  border: none;
+  border-radius: 20px;
+  background-color: var(--medium-green);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+  background-color: var(--accent-green);
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--deep-green);
+  padding: 1rem 1.5rem;
+  border-radius: 20px 20px 0 0;
+}
+
+.btn-custom-green {
+  background-color: var(--deep-green);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-custom-green:hover {
+  background-color: var(--dark-green);
+}
+
+.text-custom-green {
+  color: var(--deep-green);
+  font-weight: bold;
+}
+
+.text-custom-green:hover {
+  color: var(--dark-green);
+}
+
+.form-control {
+  border: 1px solid var(--accent-green);
+  border-radius: 10px;
+}
+
+.audio-player {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.bg-custom-light-green {
+  background-color: #5bba6f !important;
+}
+
+.bg-custom-medium-green {
+  background-color: #3fa34d !important;
+}
+
+.bg-custom-green {
+  background-color: #2a9134 !important;
+}
+
+.bg-custom-dark-green {
+  background-color: #137547 !important;
+}
+
+.bg-custom-deep-green {
+  background-color: #054a29 !important;
+}
+
+.text-custom-light-green {
+  color: #5bba6f !important;
+}
+
+.text-custom-medium-green {
+  color: #3fa34d !important;
+}
+
+.text-custom-green {
+  color: #2a9134 !important;
+}
+
+.text-custom-dark-green {
+  color: #137547 !important;
+}
+
+.text-custom-deep-green {
+  color: #054a29 !important;
+}
+
+
+
+.bg-header {
+  background-color: var(--medium-green) !important;
+  color: var(--light-text);
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.section-card {
+  border: 1px solid var(--medium-green);
+  border-radius: 10px;
+  background-color: var(--light-green);
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.btn-custom {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  border: none;
+  border-radius: 5px;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+}
+
+.rounded-card {
+  background-color: var(--green);
+  border-radius: 10px;
+  padding: 10px;
+  color: var(--light-text);
+}
+
+.comment-box {
+  border: 1px solid var(--medium-green);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.likes-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--medium-green);
+  color: var(--light-text);
+  padding: 10px;
+  border-radius: 5px;
+}
+
+body {
+  background-color: #f8f9fa;
+}
+
+.section {
+  border: 1px solid #dee2e6;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.jam {
+  height: fit-content;
+  width: 600px;
+}
+
+.jamCollaborators {
+  font-size: 0.9rem;
+  /* Slightly smaller font */
+  width: 600px;
+}
+
+.comment-section {
+  margin-top: 30px;
+}
+
+.container {
+  /* display: flex; */
+  gap: 5%;
+  padding: 20px;
+}
+
+.container2 {
+  display: flex;
+  padding: 20px;
+  margin: 20px;
+}
+
+.containerComments {
+  padding: 20px;
+}
+
+.column {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f0f0;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+li {
+  list-style: none;
+}
+
+ul {
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Additional Styling */
+
+
+.userAudioClips {
+  height: fit-content;
+}
+
+.uploadAudioFile {
+  border-top: 2px solid black;
+}
+
+.audioUploadTitle {
+  margin-top: 2%;
+}
+
+body {
+  background-color: #deefd8;
+  color: #1c1c1c;
+}
+
+.bg-header {
+  color: #58af3b;
+}
+
+.section-card {
+  background-color: #bcdfb1;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-card {
+  background-color: #9bcf89;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn-custom {
+  background-color: #58af3b;
+  color: white;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.btn-custom:hover {
+  background-color: #79bf62;
+}
+
+.likes-section {
+  background-color: #bcdfb1;
+  padding: 10px 15px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-box {
+  background-color: #9bcf89;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+
+body {
+  background-color: var(--light-green);
+  font-family: Arial, sans-serif;
+}
+
+.form-section {
+  background-color: var(--medium-green);
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+  color: var(--deep-green);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-section label {
+  color: var(--dark-green);
+  font-weight: 600;
+}
+
+.form-control {
+  border: 1px solid var(--green);
+  border-radius: 5px;
+}
+
+.btn-custom {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+}
+
+.alert {
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.alert-info {
+  background-color: #cff4fc;
+  color: #055160;
+}
+
+.form-section {
+  background-color: var(--medium-green);
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2 {
+  color: var(--deep-green);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-section label {
+  color: var(--dark-green);
+  font-weight: 600;
+}
+
+.form-control {
+  border: 1px solid var(--green);
+  border-radius: 5px;
+}
+
+.btn-custom {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-weight: bold;
+  width: 100%;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+}
+
+.alert {
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+.alert-info {
+  background-color: #cff4fc;
+  color: #055160;
+}
+
+.form-text {
+  color: var(--dark-green);
+}
