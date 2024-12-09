@@ -6,6 +6,7 @@ console.log('here .5')
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
+const path = require('path');
 console.log('here 1')
 const MongoStore = require("connect-mongo")(session);
 const methodOverride = require("method-override");

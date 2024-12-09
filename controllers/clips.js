@@ -124,7 +124,6 @@ module.exports = {
       // res.render("profile.ejs", { clips: newClip, user: req.user, jams: jams, collabJams: collabJams });
       
       res.redirect("/profile");
-      // res.json({ message: 'everything is good' }); // Send JSON response
     } catch (err) {
       console.log('create post', err);
     }
