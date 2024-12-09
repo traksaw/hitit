@@ -69,7 +69,7 @@
   body {
   background-color: var(--light-green);
   color: #1c1c1c;
-  font-family: 'Arial', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .bg-header {
@@ -398,10 +398,6 @@ body {
 }
 
 
-body {
-  background-color: var(--light-green);
-  font-family: Arial, sans-serif;
-}
 
 .form-section {
   background-color: var(--medium-green);
@@ -689,7 +685,6 @@ body {
 }
 
 .list-item {
-  display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--light-green);
@@ -821,4 +816,119 @@ body {
 /* Responsive Grid */
 .row.g-3 > * {
   margin-bottom: 1.5rem;
+}
+
+.main-container {
+  background-color: var(--medium-green);
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.btn-custom {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  text-transform: uppercase;
+  margin: 10px;
+  width: 120px;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+}
+
+
+.header-container {
+  background-color: transparent;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.header-container h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--deep-green);
+  margin: 0;
+}
+
+.header-container h1 a {
+  text-decoration: none;
+  color: var(--deep-green);
+}
+
+.header-container h1 a:hover {
+  text-decoration: underline;
+}
+
+.header-container span {
+  font-size: 1rem;
+  color: var(--medium-green);
+  margin-top: 5px;
+  display: block;
+}
+
+.navbar-custom {
+  background-color: var(--medium-green);
+  padding: 10px 20px;
+  border-bottom: 2px solid var(--green);
+}
+
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: var(--deep-green);
+  text-decoration: none;
+}
+
+.navbar-brand:hover {
+  text-decoration: underline;
+}
+
+.navbar-nav .nav-link {
+  color: var(--deep-green);
+  font-size: 1rem;
+  margin-right: 20px;
+  text-decoration: none;
+}
+
+.navbar-nav .nav-link:hover {
+  color: var(--dark-green);
+}
+
+.profile-menu {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-menu {
+  background-color: var(--light-green);
+  border: 1px solid var(--green);
+  border-radius: 5px;
+}
+
+.dropdown-item {
+  color: var(--deep-green);
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 10px;
+}
+
+.dropdown-item:hover {
+  background-color: var(--medium-green);
+  color: var(--dark-green);
 }

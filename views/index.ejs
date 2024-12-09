@@ -1,11 +1,13 @@
-<%- include('partials/header') -%>
+<%- include('partials/headerNoLogin') -%>
+
 
 <main class="container">
-    <div class="row justify-content-around mt-5">
-        <a href="/login" class="btn btn-primary"> Login</a>
-        <a href="/signup" class="btn btn-primary"> Signup</a>
+    <div class="row justify-content-center mt-5">
+      <div class="col-4 main-container">
+        <a href="/login" class="btn btn-custom">Login</a>
+        <a href="/signup" class="btn btn-custom">Signup</a>
+      </div>
     </div>
-</main>
-    
+  </main>
 
 <%- include('partials/footer') -%>

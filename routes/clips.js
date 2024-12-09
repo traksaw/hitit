@@ -9,7 +9,7 @@ const { ensureAuth, ensureGuest } = require("../middleware/auth");
 router.get("/jamFeed", ensureAuth, clipsController.getJamFeed);
 
 router.get("/jam/:id", clipsController.getJam);
-router.post("/createPost", upload.single("file"), clipsController.createPost);
+router.post("/createClip", upload.single("file"), clipsController.createClip);
 router.post("/createJam",upload.single("file"), clipsController.createJam);
 router.post("/addCommentToJam/:jamid", clipsController.createComment);
 
@@ -21,8 +21,6 @@ router.put("/addUserToJam/:jamid/:userid", clipsController.addUserToJam);
 
 router.put("/likeCommentToJam/:jamid/", clipsController.likeComment);
 
-// router.delete("/deleteClipFromJam/:jamid/:myaudioclipid", clipsController.deleteClipFromJam);
-// router.delete("/deletePost/:id", clipsController.deletePost);
 router.delete("/deleteClipFromJam/:jamid/:myaudioclipid", clipsController.removeClipFromJam);
 router.delete("/deleteUserFromJam/:jamid/:userid", clipsController.removeUserFromJam);
 

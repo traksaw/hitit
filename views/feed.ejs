@@ -1,98 +1,113 @@
-<%- include('partials/header') -%>
-<div class="text-center mb-4">
-  <h2 class="section-title">Explore Jams</h2>
-  <p class="section-subtitle">Your personalized music recommendations</p>
-</div>
-<div class="container mt-5">
-  <!-- Section Title -->
- 
+<%- include('partials/headerLogin') -%>
 
-  <!-- Jam List -->
-  <div class="row g-3">
-    <% for (var i = 0; i < jams.length; i++) { %>
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="/clips/jam/<%= jams[i]._id %>" class="jam-card">
-          <div class="card">
-            <div class="card-img">
-              <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
-            </div>
-            <div class="card-body">
-              <h5 class="card-title"><%= jams[i].title %></h5>
-              <p><%= jams[i].description %></p>
-            </div>
-          </div>
-        </a>
-      </div>
-    <% } %>
+  <div class="text-center mb-4 mt-5">
+    <h2 class="section-title"> Favorite Genres</h2>
+    <p class="section-subtitle">Discover jams from your favorite genres</p>
   </div>
-  
-</div>
-
-<div class="text-center mb-4">
-  <h2 class="section-title">Hip-Hop Jams</h2>
-  <p class="section-subtitle">Hip-Hop Bangers For You To Check Out!</p>
-</div>
-<div class="container mt-5">
-  <!-- Section Title -->
- 
-
-  <!-- Jam List -->
-  <div class="row g-3">
-    <% for (var i = 0; i < hipHopJams.length; i++) { %>
-      <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-        <a href="/clips/jam/<%= hipHopJams[i]._id %>" class="jam-card">
-          <div class="card">
-            <div class="card-img">
-         
-              <img src="<%= hipHopJams[i].image %>" alt="<%= hipHopJams[i].title %>" class="img-fluid">
-            </div>
-            <div class="card-body">
-              <h5 class="card-title"><%= hipHopJams[i].title %></h5>
-              <p><%= hipHopJams[i].description %></p>
-            </div>
+  <div class="container mt-5">
+    <div class="row g-3">
+      <% for (const [genre, jams] of Object.entries(genreFavJams)) { %>
+        <% for (var i=0; i < jams.length; i++) { %>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="/clips/jam/<%= jams[i]._id %>" class="jam-card">
+              <div class="card">
+                <div class="card-img">
+                  <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= jams[i].title %>
+                  </h5>
+                  <p>
+                    <%= jams[i].description %>
+                  </p>
+                </div>
+              </div>
+            </a>
           </div>
-        </a>
-      </div>
-    <% } %>
+          <% } %>
+            <% } %>
+    </div>
   </div>
-  
+
+  </div>
+
   <div class="text-center mb-4">
-    <h2 class="section-title">Pop Jams</h2>
-    <p class="section-subtitle">Pop Hits For You To Check Out!</p>
+    <h2 class="section-title">Hip-Hop Jams</h2>
+    <p class="section-subtitle">Hip-Hop Bangers For You To Check Out!</p>
   </div>
   <div class="container mt-5">
     <!-- Section Title -->
-   
-  
+
+
     <!-- Jam List -->
     <div class="row g-3">
-      <% for (var i = 0; i < popJams.length; i++) { %>
+      <% for (var i=0; i < hipHopJams.length; i++) { %>
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <a href="/clips/jam/<%= popJams[i]._id %>" class="jam-card">
+          <a href="/clips/jam/<%= hipHopJams[i]._id %>" class="jam-card">
             <div class="card">
               <div class="card-img">
-                <img src="<%= popJams[i].image %>" alt="<%= popJams[i].title %>" class="img-fluid">
+
+                <img src="<%= hipHopJams[i].image %>" alt="<%= hipHopJams[i].title %>" class="img-fluid">
               </div>
               <div class="card-body">
-                <h5 class="card-title"><%= popJams[i].title %></h5>
-                <p><%= popJams[i].description %></p>
+                <h5 class="card-title">
+                  <%= hipHopJams[i].title %>
+                </h5>
+                <p>
+                  <%= hipHopJams[i].description %>
+                </p>
               </div>
             </div>
           </a>
         </div>
-      <% } %>
+        <% } %>
     </div>
-
-  
 
     <div class="text-center mb-4">
-      <h2 class="section-title">Explore Favorite Genres</h2>
-      <p class="section-subtitle">Discover jams from your favorite genres</p>
+      <h2 class="section-title">Pop Jams</h2>
+      <p class="section-subtitle">Pop Hits For You To Check Out!</p>
     </div>
     <div class="container mt-5">
+      <!-- Section Title -->
+
+
+      <!-- Jam List -->
       <div class="row g-3">
-        <% for (const [genre, jams] of Object.entries(genreFavJams)) { %>
-          <% for (var i = 0; i < jams.length; i++) { %>
+        <% for (var i=0; i < popJams.length; i++) { %>
+          <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <a href="/clips/jam/<%= popJams[i]._id %>" class="jam-card">
+              <div class="card">
+                <div class="card-img">
+                  <img src="<%= popJams[i].image %>" alt="<%= popJams[i].title %>" class="img-fluid">
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= popJams[i].title %>
+                  </h5>
+                  <p>
+                    <%= popJams[i].description %>
+                  </p>
+                </div>
+              </div>
+            </a>
+          </div>
+          <% } %>
+      </div>
+
+
+
+      <div class="text-center mb-4">
+        <h2 class="section-title">Explore All Jams</h2>
+        <p class="section-subtitle">Recently Created Jams</p>
+      </div>
+      <div class="container mt-5">
+        <!-- Section Title -->
+
+
+        <!-- Jam List -->
+        <div class="row g-3">
+          <% for (var i=0; i < jams.length; i++) { %>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
               <a href="/clips/jam/<%= jams[i]._id %>" class="jam-card">
                 <div class="card">
@@ -100,19 +115,18 @@
                     <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
                   </div>
                   <div class="card-body">
-                    <h5 class="card-title"><%= jams[i].title %></h5>
-                    <p><%= jams[i].description %></p>
+                    <h5 class="card-title">
+                      <%= jams[i].title %>
+                    </h5>
+                    <p>
+                      <%= jams[i].description %>
+                    </p>
                   </div>
                 </div>
               </a>
             </div>
-          <% } %>
-        <% } %>
+            <% } %>
+        </div>
+
       </div>
-    </div>
-    
-    
-
-</div>
-<%- include('partials/footer') -%>
-
+      <%- include('partials/footer') -%>

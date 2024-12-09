@@ -1,4 +1,4 @@
-<%- include('partials/header') -%>
+<%- include('partials/headerNoLogin') -%>
 
 
   <main class="container">
@@ -41,31 +41,31 @@
                                 required>
                             </div>
                             <div class="mb-3">
+                              <label for="file" class="form-label">Upload a Profile Photo</label>
                               <input type="file" class="form-control" name="file" required>
                             </div>
                             <div class="mb-3">
-                              <fieldset name="favoriteGenres">
+                              <fieldset name="favoriteGenres" class="form-control">
                                 <legend>Choose your favorite genres:</legend>
-                              
                                 <div>
                                   <input type="checkbox" id="Hip-Hop" name="favoriteGenres[]" value="Hip-Hop" />
-                                  <label for="Hip-Hop">Hip-Hop</label>
+                                  <label class="form-label" for="Hip-Hop">Hip-Hop</label>
                                 </div>
                                 <div>
                                   <input type="checkbox" id="Rock" name="favoriteGenres[]" value="Rock" />
-                                  <label for="Rock">Rock</label>
+                                  <label class="form-label" for="Rock">Rock</label>
                                 </div>
                                 <div>
                                   <input type="checkbox" id="Pop" name="favoriteGenres[]" value="Pop" />
-                                  <label for="Pop">Pop</label>
+                                  <label class="form-label" for="Pop">Pop</label>
                                 </div>
                                 <div>
                                   <input type="checkbox" id="Jazz" name="favoriteGenres[]" value="Jazz" />
-                                  <label for="Jazz">Jazz</label>
+                                  <label class="form-label" for="Jazz">Jazz</label>
                                 </div>
                                 <div>
                                   <input type="checkbox" id="Classical" name="favoriteGenres[]" value="Classical" />
-                                  <label for="Classical">Classical</label>
+                                  <label class="form-label" for="Classical">Classical</label>
                                 </div>
                               </fieldset>
                             </div>

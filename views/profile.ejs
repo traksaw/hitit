@@ -1,18 +1,9 @@
-<%- include('partials/header') -%>
+<%- include('partials/headerLogin') -%>
 
 
 
 <section class="container mt-5">
   <!-- Profile Info -->
-   <div class="row text-center mb-5">
-    <div class="col-12">
-      <h1 class="section-title">Welcome, <%= user.userName %>!</h1>
-      <img src="<%= user.image %>" alt="Profile Picture" class="profile-img" />
-      <p class="text-muted">Email: <%= user.email %></p>
-      <a href="/logout" class="btn btn-custom-green">Logout</a>
-    </div>
-  </div>
-  </div>
 
   <div class="row g-4">
     <!-- My Clips Section -->
@@ -45,14 +36,14 @@
         <div class="card">
           <div class="card-header">Add an Audio Clip</div>
           <div class="card-body">
-            <form action="/clips/createPost" enctype="multipart/form-data" method="POST">
+            <form action="/clips/createClip" enctype="multipart/form-data" method="POST">
               <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
                 <input type="text" class="form-control" id="title" name="title" required placeholder="Enter the title of track...">
               </div>
               <div class="mb-3">
                 <label for="caption" class="form-label">Description</label>
-                <textarea class="form-control" id="caption" name="description" rows="3" required placeholder="Enter a quick description of this audio clip..."></textarea>
+                <textarea class="form-control" id="caption" name="description" rows="3" required placeholder="Enter a description of this audio clip..."></textarea>
               </div>
               <div class="mb-3">
                 <label for="audioUpload" class="form-label">Audio File</label>
@@ -67,20 +58,20 @@
     <!-- Create a New Jam Section -->
     <div class="col-lg-6">
       <div class="card">
-        <div class="card-header">Create a New Jam</div>
+        <div class="card-header">Create a new Jam</div>
         <div class="card-body">
           <form action="/clips/createJam" method="POST" enctype="multipart/form-data">
             <div class="mb-4">
               <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" name="title" placeholder="Jam Title..." required>
+              <input type="text" class="form-control" name="title" placeholder="Create a Jam Title..." required>
             </div>
             <div class="mb-4">
               <label for="description" class="form-label">Description</label>
-              <textarea class="form-control" name="description" placeholder="Description..." rows="3" required></textarea>
+              <textarea class="form-control" name="description" placeholder="Enter a description of jam..." rows="3" required></textarea>
             </div>
             <div class="mb-4">
               <label for="coverPhoto" class="form-label">Cover Photo</label>
-              <input type="file" id="coverPhoto" class="form-control" name="file" required>
+              <input type="file" id="coverPhoto" class="form-control" name="file" placeholder="Upload Cover Photo" required>
             </div>
             <div class="mb-4">
               <label for="genre" class="form-label">Select a genre:</label>
@@ -126,7 +117,7 @@
     <div class="card">
       <div class="card-header">Collab Jams</div>
       <div class="card-body">
-        <p>Jams you are a collaborator of:</p>
+        <p class="form-label">Jams you are a collaborator of:</p>
         <ul class="list-group list-group-flush">
           <% for(var i=0; i < collabJams.length; i++) { %>
             <li class="list-group-item">
@@ -139,14 +130,7 @@
   </div>
 
     <!-- Explore More Jams Section -->
-    <div>
-      <div class="card text-center">
-        <div class="card-body">
-          <h5 class="card-title">Ready to explore?</h5>
-          <a href="/clips/jamFeed" class="btn btn-custom-green btn-lg">Explore New Jams</a>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </section>
 

@@ -48,19 +48,18 @@ module.exports = {
   getProfile: async (req, res) => {
     try {
       const clips = await Clip.find({ user: req.user.id });
-      const profilePic = await User.find({ user: req.user.id });
       const myJams = await Jam.find({ user: req.user.id }); //get jams of only user signed in
       const collabJams = await Jam.find({
         collaborators: req.user.id
       });//jams i don't own, but i am a collaborator in
-
-      console.log('profile pic', profilePic, req.user)
-      res.render("profile.ejs", { clips: clips, user: req.user, jams: myJams, collabJams: collabJams, profilePic: req.user.image });
+      res.render("profile.ejs", { clips: clips, user: req.user, jams: myJams, collabJams: collabJams });
     } catch (err) {
       console.log(err);
     }
   },
   getJamFeed: async (req, res) => {
+  console.log('this is the user', req.user)
+
     try {
       // Extract favorite genres array
       const favoriteGenreIds = req.user.favoriteGenres;
@@ -84,13 +83,15 @@ module.exports = {
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
       const hipHopJams = await Jam.find({ genre: "Hip-Hop" }).sort({ createdAt: "desc" }).lean();
       const popJams = await Jam.find({ genre: "Pop" }).sort({ createdAt: "desc" }).lean();
-  
+      const profilePicture = await User.find({ user: req.user.id });
+
       // Render the feed page with all data, including jams filtered by favorite genres
       res.render("feed.ejs", { 
         jams, 
-        user: req.user.id, 
+        user: req.user, 
         hipHopJams, 
         popJams, 
+        profilePicture,
         genreFavJams // Pass this object to your ejs template
       });
     } catch (err) {
@@ -100,11 +101,15 @@ module.exports = {
   },
   
 
-  createPost: async (req, res) => {
+  createClip: async (req, res) => {
     try {
       // Upload file to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
-      await Clip.create({
+      const collabJams = await Jam.find({
+        collaborators: req.user.id
+      });//jams i don't own, but i am a collaborator in
+      const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
+      const newClip = await Clip.create({
         title: req.body.title,
         image: '',
         fileName: req.file.path,
@@ -115,9 +120,11 @@ module.exports = {
         likes: 0,
         user: req.user.id,
       });
-      console.log("Clip has been added!");
-      // res.redirect("/profile");
-      res.json({ message: 'everything is good' }); // Send JSON response
+      console.log("Clip has been added!", newClip);
+      // res.render("profile.ejs", { clips: newClip, user: req.user, jams: jams, collabJams: collabJams });
+      
+      res.redirect("/profile");
+      // res.json({ message: 'everything is good' }); // Send JSON response
     } catch (err) {
       console.log('create post', err);
     }

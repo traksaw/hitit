@@ -1,7 +1,7 @@
-<%- include('partials/header') -%>
+<%- include('partials/headerLogin') -%>
 
 
-<section class="container-fluid">
+<section class="container mt-5">
   <div class="row">
     <!-- Left Column -->
     <div class="col-md-4">
@@ -105,7 +105,7 @@
         <div class="comment-content">
           <p class="username"><%= userCommentDetails[i].userName %></p>
           <p><%= commentsOfJam[i].commentText %></p>
-          <p><%= commentsOfJam[i].createdAt %></p>
+          <p><%= new Date(commentsOfJam[i].createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) %>
         </div>
       </div>
     <% } %>
