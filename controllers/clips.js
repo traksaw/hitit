@@ -62,29 +62,43 @@ module.exports = {
   },
   getJamFeed: async (req, res) => {
     try {
-     // Extract fav genre elements from the favGenres array
-     const favoriteGenreIds = req.user.favoriteGenres;
-
-     console.log('favorite genres', favoriteGenreIds)
-
-    //  Fetch Audio documents for each ID in audioElements
-    //  const audioDetails = await Promise.all(
-    //   favoriteGenreIds.map(async (audioId) => {
-
-    //      const audio = await Clip.findById(ObjectId(audioId));
-
-    //      return audio; // This will include all of the audio clips details
-    //    })
-    //  );
-
+      // Extract favorite genres array
+      const favoriteGenreIds = req.user.favoriteGenres;
+  
+      console.log('Favorite genres:', favoriteGenreIds);
+  
+      // Object to store jams filtered by genres
+      const genreFavJams = {};
+  
+      // Fetch jams for each favorite genre
+      for (const genre of favoriteGenreIds) {
+        console.log('Processing genre:', genre);
+        const jamsByGenre = await Jam.find({ genre }).sort({ createdAt: "desc" }).lean();
+        genreFavJams[genre] = jamsByGenre;
+        console.log(`Jams for genre "${genre}":`, jamsByGenre);
+      }
+  
+      console.log('My collection:', genreFavJams);
+  
+      // Fetch general and specific genre jams
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
-      const hipHopJams = await Jam.find({ "genre": "Hip-Hop" }).sort({ createdAt: "desc" }).lean();
-      const popJams = await Jam.find({ "genre": "Pop" }).sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { jams: jams, user: req.user.id, hipHopJams: hipHopJams, popJams: popJams });
+      const hipHopJams = await Jam.find({ genre: "Hip-Hop" }).sort({ createdAt: "desc" }).lean();
+      const popJams = await Jam.find({ genre: "Pop" }).sort({ createdAt: "desc" }).lean();
+  
+      // Render the feed page with all data, including jams filtered by favorite genres
+      res.render("feed.ejs", { 
+        jams, 
+        user: req.user.id, 
+        hipHopJams, 
+        popJams, 
+        genreFavJams // Pass this object to your ejs template
+      });
     } catch (err) {
-      console.log(err);
+      console.log('Error fetching jams:', err);
+      res.status(500).send('An error occurred while fetching the jam feed.');
     }
   },
+  
 
   createPost: async (req, res) => {
     try {

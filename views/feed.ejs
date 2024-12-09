@@ -14,7 +14,6 @@
         <a href="/clips/jam/<%= jams[i]._id %>" class="jam-card">
           <div class="card">
             <div class="card-img">
-              <!-- Placeholder image; replace with real images -->
               <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
             </div>
             <div class="card-body">
@@ -83,6 +82,36 @@
         </div>
       <% } %>
     </div>
+
+  
+
+    <div class="text-center mb-4">
+      <h2 class="section-title">Explore Favorite Genres</h2>
+      <p class="section-subtitle">Discover jams from your favorite genres</p>
+    </div>
+    <div class="container mt-5">
+      <div class="row g-3">
+        <% for (const [genre, jams] of Object.entries(genreFavJams)) { %>
+          <% for (var i = 0; i < jams.length; i++) { %>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+              <a href="/clips/jam/<%= jams[i]._id %>" class="jam-card">
+                <div class="card">
+                  <div class="card-img">
+                    <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title"><%= jams[i].title %></h5>
+                    <p><%= jams[i].description %></p>
+                  </div>
+                </div>
+              </a>
+            </div>
+          <% } %>
+        <% } %>
+      </div>
+    </div>
+    
+    
 
 </div>
 <%- include('partials/footer') -%>
