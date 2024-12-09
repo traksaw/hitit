@@ -93,22 +93,25 @@
 </section>
 
 <!-- Comments Section -->
-<section class="container-fluid mt-4">
-  <div class="section-card">
-    <h5 class="bg-header">Comments</h5>
-    <div class="comments-grid">
-      <% for (var i = 0; i < commentsOfJam.length; i++) { %>
-        <div class="comment-box">
+<section class="container-fluid mt-4 comment-section">
+  <h5 class="bg-header mb-4">Comments</h5>
+  <div class="comments-grid">
+    <% for (var i = 0; i < commentsOfJam.length; i++) { %>
+      <div class="comment-box">
+        <img src="<%= userCommentDetails[i].image %>" alt="profile-img">
+        <div class="comment-content">
+          <p class="username"><%= userCommentDetails[i].userName %></p>
           <p><%= commentsOfJam[i].commentText %></p>
-          <p><%= userCommentDetails[i].userName %></p>
         </div>
-      <% } %>
-    </div>
-    <form action="/clips/addCommentToJam/<%= jam.id %>" method="POST">
-      <textarea name="commentText" class="form-control mb-3" rows="3" placeholder="Enter a comment..."></textarea>
-      <button class="btn btn-custom w-100" type="submit">Submit</button>
-    </form>
+      </div>
+    <% } %>
   </div>
+  <form action="/clips/addCommentToJam/<%= jam.id %>" method="POST" class="mt-4">
+    <div class="d-flex align-items-center">
+      <textarea name="commentText" class="form-control me-2" rows="1" placeholder="Add a comment..."></textarea>
+      <button class="btn btn-custom" type="submit">Post</button>
+    </div>
+  </form>
 </section>
 
 <%- include('partials/footer') -%>

@@ -525,3 +525,62 @@ body {
   border: 2px solid var(--dark-green);
   margin-bottom: 10px;
 }
+
+.comment-section {
+  background-color: var(--light-green);
+  border: 1px solid var(--medium-green);
+  border-radius: 10px;
+  padding: 20px;
+}
+
+.comment-box {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.comment-box img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 10px;
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--medium-green);
+  border-radius: 10px;
+  padding: 10px;
+  flex: 1;
+}
+
+.comment-content p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.comment-content .username {
+  font-weight: bold;
+  color: var(--deep-green);
+  margin-bottom: 5px;
+}
+
+.form-control {
+  border-radius: 20px;
+  border: 1px solid var(--green);
+}
+
+.btn-custom {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  border: none;
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-weight: bold;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+}
