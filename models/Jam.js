@@ -38,7 +38,7 @@ const JamSchema = new mongoose.Schema({
   },
   genre: {
     type: String, //this is gonna be a genre selection for the jam
-    required: false,
+    required: true,
   },
   comments: {
     type: Array, //this is gonna be an array of comment objects {user: userID, comment: 'hello world', createAt: date }

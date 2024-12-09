@@ -48,11 +48,14 @@ module.exports = {
   getProfile: async (req, res) => {
     try {
       const clips = await Clip.find({ user: req.user.id });
+      const profilePic = await User.find({ user: req.user.id });
       const myJams = await Jam.find({ user: req.user.id }); //get jams of only user signed in
       const collabJams = await Jam.find({
         collaborators: req.user.id
       });//jams i don't own, but i am a collaborator in
-      res.render("profile.ejs", { clips: clips, user: req.user, jams: myJams, collabJams: collabJams });
+
+      console.log('profile pic', profilePic, req.user)
+      res.render("profile.ejs", { clips: clips, user: req.user, jams: myJams, collabJams: collabJams, profilePic : req.user.image });
     } catch (err) {
       console.log(err);
     }
@@ -147,15 +150,25 @@ module.exports = {
 
       let allUsers = await User.find().lean();
       // const audioClipsInJam = await Jam.find().lean();
-      const commentsOfJam = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean()
+      const commentsOfJam = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean() //array of comments 
 
-      const commentsOfJamOwner = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean()
+      const userCommentDetails = await Promise.all(
+        commentsOfJam.map(async (comment) => {
+
+          const user = await User.findById(ObjectId(comment.user));
+
+          return user; // This will include all of the comment users details
+        })
+      );
+      console.log('comment users', userCommentDetails)
+
+      // const commentsOfJamOwner = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean()
 
       let myAudioClips = await Clip.find({ user: ObjectId(req.user.id) }).sort({ createdAt: "desc" }).lean();
       allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
       myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
-      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam });
-      console.log('song ids', audioDetails[0])
+      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam, userCommentDetails : userCommentDetails });
+      console.log('song ids', audioDetails)
     } catch (error) {
       console.error("Error fetching Jam with audio details:", error);
       throw error;

@@ -4,12 +4,14 @@
 
 <section class="container mt-5">
   <!-- Profile Info -->
-  <div class="row text-center mb-5">
+   <div class="row text-center mb-5">
     <div class="col-12">
       <h1 class="section-title">Welcome, <%= user.userName %>!</h1>
+      <img src="<%= user.image %>" alt="Profile Picture" class="profile-img" />
       <p class="text-muted">Email: <%= user.email %></p>
       <a href="/logout" class="btn btn-custom-green">Logout</a>
     </div>
+  </div>
   </div>
 
   <div class="row g-4">
@@ -38,6 +40,30 @@
       </div>
     </div>
 
+      <!-- Form to Upload Audio File Section -->
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">Add an Audio Clip</div>
+          <div class="card-body">
+            <form action="/clips/createPost" enctype="multipart/form-data" method="POST">
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required placeholder="Enter the title of track...">
+              </div>
+              <div class="mb-3">
+                <label for="caption" class="form-label">Description</label>
+                <textarea class="form-control" id="caption" name="description" rows="3" required placeholder="Enter a quick description of this audio clip..."></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="audioUpload" class="form-label">Audio File</label>
+                <input type="file" class="form-control" id="audioUpload" name="file" required>
+              </div>
+              <button type="submit" class="btn btn-custom-green w-100">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
     <!-- Create a New Jam Section -->
     <div class="col-lg-6">
       <div class="card">
@@ -45,16 +71,21 @@
         <div class="card-body">
           <form action="/clips/createJam" method="POST" enctype="multipart/form-data">
             <div class="mb-4">
-              <input type="text" class="form-control" name="title" placeholder="Jam Title" required>
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" name="title" placeholder="Jam Title..." required>
             </div>
             <div class="mb-4">
-              <textarea class="form-control" name="description" placeholder="Description" rows="3" required></textarea>
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" name="description" placeholder="Description..." rows="3" required></textarea>
             </div>
             <div class="mb-4">
-              <input type="file" class="form-control" name="file" required>
+              <label for="coverPhoto" class="form-label">Cover Photo</label>
+              <input type="file" id="coverPhoto" class="form-control" name="file" required>
             </div>
             <div class="mb-4">
+              <label for="genre" class="form-label">Select a genre:</label>
               <select name="genre" class="form-select" required>
+                <option>--</option>
                 <option value="Hip-Hop">Hip-Hop</option>
                 <option value="Rock">Rock</option>
                 <option value="Pop">Pop</option>
@@ -88,32 +119,27 @@
       </div>
     </div>
 
-    <!-- Form to Upload Audio File Section -->
-    <div class="col-lg-6">
-      <div class="card">
-        <div class="card-header">Add an Audio Clip</div>
-        <div class="card-body">
-          <form action="/clips/createPost" enctype="multipart/form-data" method="POST">
-            <div class="mb-3">
-              <label for="title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="title" name="title" required>
-            </div>
-            <div class="mb-3">
-              <label for="caption" class="form-label">Description</label>
-              <textarea class="form-control" id="caption" name="description" rows="3" required></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="audioUpload" class="form-label">Audio File</label>
-              <input type="file" class="form-control" id="audioUpload" name="file" required>
-            </div>
-            <button type="submit" class="btn btn-custom-green w-100">Submit</button>
-          </form>
-        </div>
+  
+
+  <!-- Collaborator Jams Section  -->
+  <div class="col-lg-6 ms-auto">
+    <div class="card">
+      <div class="card-header">Collab Jams</div>
+      <div class="card-body">
+        <p>Jams you are a collaborator of:</p>
+        <ul class="list-unstyled">
+          <% for(var i=0; i<collabJams.length; i++) {%>
+            <li class="mb-2">
+              <a href="/clips/jam/<%= collabJams[i]._id %>" class="text-custom-green"><%= collabJams[i].title %></a>
+            </li>
+          <% } %>
+        </ul>
       </div>
     </div>
+  </div>
 
     <!-- Explore More Jams Section -->
-    <div class="col-lg-6">
+    <div>
       <div class="card text-center">
         <div class="card-body">
           <h5 class="card-title">Ready to explore?</h5>
