@@ -21,7 +21,7 @@ module.exports = {
     }
   },
   likeComment: async (req, res) => {
-    
+
     try {
       await Comment.findOneAndUpdate(
         { _id: req.params.id },
@@ -55,21 +55,37 @@ module.exports = {
       });//jams i don't own, but i am a collaborator in
 
       console.log('profile pic', profilePic, req.user)
-      res.render("profile.ejs", { clips: clips, user: req.user, jams: myJams, collabJams: collabJams, profilePic : req.user.image });
+      res.render("profile.ejs", { clips: clips, user: req.user, jams: myJams, collabJams: collabJams, profilePic: req.user.image });
     } catch (err) {
       console.log(err);
     }
   },
   getJamFeed: async (req, res) => {
     try {
+     // Extract fav genre elements from the favGenres array
+     const favoriteGenreIds = req.user.favoriteGenres;
+
+     console.log('favorite genres', favoriteGenreIds)
+
+    //  Fetch Audio documents for each ID in audioElements
+    //  const audioDetails = await Promise.all(
+    //   favoriteGenreIds.map(async (audioId) => {
+
+    //      const audio = await Clip.findById(ObjectId(audioId));
+
+    //      return audio; // This will include all of the audio clips details
+    //    })
+    //  );
+
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
-      const hipHopJams = await Jam.find({"genre" : "Hip-Hop"}).sort({ createdAt: "desc" }).lean();
-      res.render("feed.ejs", { jams: jams, user: req.user.id, hipHopJams: hipHopJams });
+      const hipHopJams = await Jam.find({ "genre": "Hip-Hop" }).sort({ createdAt: "desc" }).lean();
+      const popJams = await Jam.find({ "genre": "Pop" }).sort({ createdAt: "desc" }).lean();
+      res.render("feed.ejs", { jams: jams, user: req.user.id, hipHopJams: hipHopJams, popJams: popJams });
     } catch (err) {
       console.log(err);
     }
   },
- 
+
   createPost: async (req, res) => {
     try {
       // Upload file to cloudinary
@@ -95,9 +111,9 @@ module.exports = {
   createJam: async (req, res) => {
     console.log('starting create jam', req.body)
     try {
-       // Upload file to cloudinary
-       const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
-       
+      // Upload file to cloudinary
+      const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
+
       const newJam = await Jam.create({
         title: req.body.title,
         image: result.secure_url,
@@ -125,7 +141,6 @@ module.exports = {
       // Extract audio IDs from the audioElements array
       const audioIds = jam.audioElements;
 
-      console.log(audioIds, jam.audioElements, 'audio ID here')
 
       // Fetch Audio documents for each ID in audioElements
       const audioDetails = await Promise.all(
@@ -162,12 +177,10 @@ module.exports = {
       );
       console.log('comment users', userCommentDetails)
 
-      // const commentsOfJamOwner = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean()
-
       let myAudioClips = await Clip.find({ user: ObjectId(req.user.id) }).sort({ createdAt: "desc" }).lean();
       allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
       myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
-      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam, userCommentDetails : userCommentDetails });
+      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam, userCommentDetails: userCommentDetails });
       console.log('song ids', audioDetails)
     } catch (error) {
       console.error("Error fetching Jam with audio details:", error);
@@ -187,7 +200,7 @@ module.exports = {
       console.log(err);
     }
   },
- 
+
   addUserToJam: async (req, res) => {
 
     try {
@@ -197,12 +210,6 @@ module.exports = {
         console.log("Jam not found");
         return res.status(404).send("Jam not found");
       }
-
-      // Check if the logged-in user is the owner of the jam
-      // if (jam.user.id == req.user.id) {
-      //   console.log("User is not the owner of the jam");
-      //   return res.status(403).send("You are not authorized to add collaborators to this jam");
-      // }
       await Jam.findOneAndUpdate(
         { _id: req.params.jamid },
         { $addToSet: { collaborators: req.params.userid } }

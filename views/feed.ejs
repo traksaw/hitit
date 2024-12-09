@@ -44,12 +44,12 @@
         <a href="/clips/jam/<%= hipHopJams[i]._id %>" class="jam-card">
           <div class="card">
             <div class="card-img">
-              <!-- Placeholder image; replace with real images -->
-              <img src="<%= jams[i].image %>" alt="<%= jams[i].title %>" class="img-fluid">
+         
+              <img src="<%= hipHopJams[i].image %>" alt="<%= hipHopJams[i].title %>" class="img-fluid">
             </div>
             <div class="card-body">
-              <h5 class="card-title"><%= jams[i].title %></h5>
-              <p><%= jams[i].description %></p>
+              <h5 class="card-title"><%= hipHopJams[i].title %></h5>
+              <p><%= hipHopJams[i].description %></p>
             </div>
           </div>
         </a>
@@ -57,72 +57,33 @@
     <% } %>
   </div>
   
+  <div class="text-center mb-4">
+    <h2 class="section-title">Pop Jams</h2>
+    <p class="section-subtitle">Pop Hits For You To Check Out!</p>
+  </div>
+  <div class="container mt-5">
+    <!-- Section Title -->
+   
+  
+    <!-- Jam List -->
+    <div class="row g-3">
+      <% for (var i = 0; i < popJams.length; i++) { %>
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <a href="/clips/jam/<%= popJams[i]._id %>" class="jam-card">
+            <div class="card">
+              <div class="card-img">
+                <img src="<%= popJams[i].image %>" alt="<%= popJams[i].title %>" class="img-fluid">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title"><%= popJams[i].title %></h5>
+                <p><%= popJams[i].description %></p>
+              </div>
+            </div>
+          </a>
+        </div>
+      <% } %>
+    </div>
+
 </div>
 <%- include('partials/footer') -%>
 
-<style>
-  /* Apply the green-themed palette */
-  body {
-    background-color: #deefd8;
-    color: #1c1c1c;
-    font-family: 'Arial', sans-serif;
-  }
-
-  /* Section Title */
-  .section-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #58af3b;
-  }
-
-  .section-subtitle {
-    font-size: 1rem;
-    color: #79bf62;
-    margin-top: 0.5rem;
-  }
-
-  /* Jam Card */
-  .jam-card {
-    text-decoration: none;
-  }
-
-  .jam-card .card {
-    background-color: #bcdfb1;
-    border: none;
-    border-radius: 15px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    height: 100%; /* Ensures consistent height for cards */
-  }
-
-  .jam-card .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .jam-card .card-img img {
-    width: 100%;
-    height: auto;
-    border-bottom: 2px solid #9bcf89;
-  }
-
-  .jam-card .card-body {
-    padding: 15px;
-    text-align: center;
-  }
-
-  .jam-card .card-title {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #1c1c1c;
-  }
-
-  .jam-card .card-title:hover {
-    color: #58af3b;
-  }
-
-  /* Responsive Grid */
-  .row.g-3 > * {
-    margin-bottom: 1.5rem;
-  }
-</style>
