@@ -144,7 +144,7 @@ module.exports = {
         user: req.user.id,
       });
       console.log("Jam has been added!");
-      res.redirect(`/clips/jam/${newJam._id}`);
+      // res.redirect(`/clips/jam/${newJam._id}`);
     } catch (err) {
       console.log('create post', err);
     }
