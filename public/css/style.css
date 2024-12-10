@@ -776,6 +776,8 @@ body {
 /* Jam Card */
 .jam-card {
   text-decoration: none;
+  font-weight: 300;
+  color: black;
 }
 
 .jam-card .card {
