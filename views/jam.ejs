@@ -120,10 +120,14 @@
                   <p>
                     <%= collaborators[i].userName %>
                   </p>
-                  <form action="/clips/deleteUserFromJam/<%= jam.id %>/<%= collaborators[i]._id %>?_method=DELETE"
-                    method="POST">
-                    <button class="btn btn-custom">Remove</button>
-                  </form>
+                  <% if (user.id.toString()===jam.user.toString()) { %>
+
+                    <form action="/clips/deleteUserFromJam/<%= jam.id %>/<%= collaborators[i]._id %>?_method=DELETE"
+                      method="POST">
+                      <button class="btn btn-custom">Remove</button>
+                    </form>
+                    <% } %>
+
                 </li>
                 <% } %>
             </ul>
@@ -146,8 +150,8 @@
               <%= commentsOfJam[i].commentText %>
             </p>
             <p>
-              <%= new Date(commentsOfJam[i].createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' })
-                %>
+              <%= new Date(commentsOfJam[i].createdAt).toLocaleTimeString('en-US', { hour: '2-digit' , minute: '2-digit'
+                , timeZone: 'America/New_York' }) %>
           </div>
         </div>
         <% } %>
