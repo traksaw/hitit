@@ -16,6 +16,10 @@
                     <h5>
                       <%= myAudioClips[i].title %>
                     </h5>
+                    <% if (myAudioClips[i].BPM) { %>
+
+                      <span>Detected BPM: <%= myAudioClips[i].BPM %></span>
+                  <% } %>
                     <audio class="audio-player" controls>
                       <source src="<%= myAudioClips[i].audio %>" type="audio/wav">
                     </audio>
@@ -86,6 +90,10 @@
                     <h5>
                       <%= allAudioClips[i].title %>
                     </h5>
+                    <% if (allAudioClips[i].BPM) { %>
+
+                      <span>Detected BPM: <%= allAudioClips[i].BPM %></span>
+                  <% } %>
                     <audio class="audio-player" controls>
                       <source src="<%= allAudioClips[i].audio %>" type="audio/wav">
                     </audio>
