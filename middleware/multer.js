@@ -6,7 +6,7 @@ module.exports = multer({
   fileFilter: (req, file, cb) => {
     console.log('multar', file)
     let ext = path.extname(file.originalname);
-    
+    ext = ext.toLowerCase()
     if (ext !== ".jpg" && ext !== ".jpeg" && ext !== ".webp" && ext !== ".png" && ext !== ".wav" && ext !== ".mp3" && ext !== ".mp4" && ext !== ".mpa") {
       cb(new Error("File type is not supported"), false);
       return;
