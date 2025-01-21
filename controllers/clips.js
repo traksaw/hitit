@@ -58,27 +58,22 @@ module.exports = {
     }
   },
   getJamFeed: async (req, res) => {
-  console.log('this is the user', req.user)
-
     try {
       // Extract favorite genres array
       const favoriteGenreIds = req.user.favoriteGenres;
 
-      // console.log('Favorite genres:', favoriteGenreIds);
+      console.log('Favorite genres:', favoriteGenreIds);
 
       // Object to store jams filtered by genres
       const genreFavJams = {};
 
       // Fetch jams for each favorite genre
       for (const genre of favoriteGenreIds) {
-        console.log('Processing genre:', genre);
         const jamsByGenre = await Jam.find({ genre }).sort({ createdAt: "desc" }).lean();
         genreFavJams[genre] = jamsByGenre;
         console.log(`Jams for genre "${genre}":`, jamsByGenre);
       }
-  
-      console.log('My collection:', genreFavJams);
-  
+
       // Fetch general and specific genre jams
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
       const hipHopJams = await Jam.find({ genre: "Hip-Hop" }).sort({ createdAt: "desc" }).lean();
@@ -113,8 +108,7 @@ module.exports = {
         title: req.body.title,
         image: '',
         fileName: req.file.path,
-        cloudinaryId: result.public_id,
-        BPM: req.body.BPM,
+        cloudinaryId: '',
         audio: result.secure_url,
         cloudinaryAudioId: result.public_id,
         description: req.body.description,
@@ -149,6 +143,7 @@ module.exports = {
       console.log('create post', err);
     }
   },
+
   getJam: async (req, res) => {
     try {
       console.log(req.params.id, 'hello Jam')
@@ -164,11 +159,15 @@ module.exports = {
       let audioDetails = await Promise.all(
         audioIds.map(async (audioId) => {
 
-          const audio = await Clip.findById(ObjectId(audioId));
+          const audio = await Clip.findById((audioId));
 
           return audio; // This will include all of the audio clips details
         })
       );
+
+        // Filter out any null values before passing to template
+        const validAudioDetails = audioDetails.filter(audio => audio !== null);
+
       // Extract collaborators IDs from the collaborators array
       const collaboratorIds = jam.collaborators;
 
@@ -188,23 +187,23 @@ module.exports = {
           return user;
         })
       );
-      
+
 
       let myAudioClips = await Clip.find({ user: req.user.id }).sort({ createdAt: "desc" }).lean();
       allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
       allUsers = allUsers.filter((availableUser) => availableUser._id.toString() != req.user._id.toString())
       myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
       console.log('jam is here', jam)
-      res.render("jam.ejs", { 
-        jam: jam, 
-        user: req.user, 
-        myAudioClips: myAudioClips, 
+      res.render("jam.ejs", {
+        jam: jam,
+        user: req.user,
+        myAudioClips: myAudioClips,
         allAudioClips: validAudioDetails,  // Use filtered array
-        allUsers: allUsers, 
-        collaborators: collaboratorDetails, 
-        commentsOfJam: commentsOfJam, 
-        userCommentDetails: userCommentDetails, 
-        reqUser: req.user.toString() 
+        allUsers: allUsers,
+        collaborators: collaboratorDetails,
+        commentsOfJam: commentsOfJam,
+        userCommentDetails: userCommentDetails,
+        reqUser: req.user.toString()
       });
       console.log('song ids', audioDetails)
     } catch (error) {
@@ -288,4 +287,33 @@ module.exports = {
       console.log(err);
     }
   },
+  deleteClip: async (req, res) => {
+    console.log(req.params.id)
+    try {
+      // Find clip by id
+      let clip = await Clip.findOneAndDelete({ _id: req.params.id });
+      // Delete image from cloudinary
+      if (clip.cloudinaryId) { await cloudinary.uploader.destroy(clip.cloudinaryId) }
+      // Delete clip from db
+      await Clip.findOneAndDelete({ _id: req.params.id });
+      res.redirect("/profile");
+    } catch (err) {
+      console.log(err)
+      res.redirect("/profile");
+    }
+  },
+  deleteJam: async (req, res) => {
+    console.log(req.params.id, 'jam id to delete' )
+    try {
+       // Ensure the ID is converted to an ObjectId
+       const jamId = req.params.id;
+       const results = await Jam.findOneAndDelete({ _id: jamId });
+       console.log(results, 'results');
+      console.log("Deleted Post");
+      res.redirect('/profile');
+    } catch (err) {
+      console.log(err)
+      res.redirect("/profile");
+    }
+  }
 };

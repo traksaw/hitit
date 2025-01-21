@@ -24,12 +24,8 @@ router.put("/likeCommentToJam/:jamid/", clipsController.likeComment);
 router.delete("/deleteClipFromJam/:jamid/:myaudioclipid", clipsController.removeClipFromJam);
 router.delete("/deleteUserFromJam/:jamid/:userid", clipsController.removeUserFromJam);
 
-router.delete("/deleteClip/:id", clipsController.deleteClip);
+router.delete("/deleteClip/:id", ensureAuth, clipsController.deleteClip);
 router.delete("/deleteJam/:id", clipsController.deleteJam);
-<<<<<<< HEAD
-=======
-
->>>>>>> 193477b0e62314f38aaf292b2b60077208c1379f
 
 
 module.exports = router;
