@@ -26,6 +26,10 @@ router.delete("/deleteUserFromJam/:jamid/:userid", clipsController.removeUserFro
 
 router.delete("/deleteClip/:id", clipsController.deleteClip);
 router.delete("/deleteJam/:id", clipsController.deleteJam);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 193477b0e62314f38aaf292b2b60077208c1379f
 
 
 module.exports = router;
