@@ -21,6 +21,11 @@
                     <source src="<%= clip.audio %>" type="audio/wav">
                     <source src="<%= clip.audio %>" type="audio/mp3">
                   </audio>
+                  <form action="/clips/deleteClip/<%= clip.id %>?_method=DELETE" method="POST">
+                    <button class="btn-trash" type="submit">
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </form>
                 </li>
               <% }); %>
             </ul>

@@ -1,14 +1,10 @@
-console.log('server first starting')
 const express = require("express");
-console.log('here .25')
 const app = express();
-console.log('here .5')
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const path = require('path');
-console.log('here 1')
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const flash = require("express-flash");
 const logger = require("morgan");
@@ -29,6 +25,7 @@ connectDB();
 
 //Using EJS for views
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 //Static Folder
 app.use(express.static("public"));
@@ -49,7 +46,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
   })
 );
 

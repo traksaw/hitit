@@ -24,5 +24,8 @@ router.put("/likeCommentToJam/:jamid/", clipsController.likeComment);
 router.delete("/deleteClipFromJam/:jamid/:myaudioclipid", clipsController.removeClipFromJam);
 router.delete("/deleteUserFromJam/:jamid/:userid", clipsController.removeUserFromJam);
 
+router.delete("/deleteClip/:id", clipsController.deleteClip);
+router.delete("/deleteJam/:id", clipsController.deleteJam);
+
 
 module.exports = router;

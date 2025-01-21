@@ -1,33 +1,42 @@
 {
-  "name": "hit.it",
+  "name": "hitit",
   "version": "1.0.0",
-  "description": "Music collaboration app",
+  "description": "`npm install`",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "start"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/traksaw/hitit.git"
+  },
+  "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/traksaw/hitit/issues"
+  },
+  "homepage": "https://github.com/traksaw/hitit#readme",
   "dependencies": {
-    "bcrypt": "^5.0.1",
-    "body-parser": "^1.20.3",
-    "cloudinary": "^1.25.1",
-    "connect-mongo": "^3.2.0",
-    "dotenv": "^8.6.0",
-    "ejs": "^3.1.6",
-    "express": "^4.21.1",
+    "bcrypt": "^5.1.1",
+    "cloudinary": "^2.5.1",
+    "connect-mongo": "^5.1.0",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
     "express-flash": "^0.0.2",
-    "express-session": "^1.17.1",
+    "express-session": "^1.18.1",
+    "media-typer": "^1.1.0",
+    "method": "^2.0.0",
     "method-override": "^3.0.0",
-    "mongodb": "^3.6.5",
-    "mongoose": "^5.12.3",
+    "mongoose": "^8.9.5",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "passport": "^0.6.0",
+    "override": "^0.0.1",
+    "passport": "^0.7.0",
     "passport-local": "^1.0.0",
-    "path": "^0.12.7",
-    "validator": "^13.6.0",
-    "web-audio-beat-detector": "^8.2.19"
+    "validator": "^13.12.0"
   }
 }

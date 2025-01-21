@@ -79,26 +79,16 @@
             <%= jam.title %>
           </div>
           <div class="card-body">
-            <ul class="list-unstyled">
-              <% for (var i=0; i < allAudioClips.length; i++) { %>
-                <li class="list-item">
-                  <div>
-                    <h5>
-                      <%= allAudioClips[i].title %>
-                    </h5>
-                    <audio class="audio-player" controls>
-                      <source src="<%= allAudioClips[i].audio %>" type="audio/wav">
-                    </audio>
-                  </div>
-                  <% if (user.id.toString()===jam.user.toString()) { %>
-                    <form action="/clips/deleteClipFromJam/<%= jam.id %>/<%= allAudioClips[i]._id %>?_method=DELETE"
-                      method="POST">
-                      <button class="btn btn-custom">Remove</button>
-                    </form>
-                    <% } %>
-                </li>
-                <% } %>
-            </ul>
+            <% if (allAudioClips && allAudioClips.length > 0) { %>
+              <% allAudioClips.forEach(function(clip) { %>
+                <div>
+                  <h5><%= clip.title %></h5>
+                  <audio class="audio-player" controls>
+                    <source src="<%= clip.audio %>" type="audio/wav">
+                  </audio>
+                </div>
+              <% }); %>
+            <% } %>
           </div>
         </div>
 
