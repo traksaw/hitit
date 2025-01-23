@@ -25,7 +25,7 @@ router.delete("/deleteClipFromJam/:jamid/:myaudioclipid", clipsController.remove
 router.delete("/deleteUserFromJam/:jamid/:userid", clipsController.removeUserFromJam);
 
 router.delete("/deleteClip/:id", ensureAuth, clipsController.deleteClip);
-router.delete("/deleteJam/:id", clipsController.deleteJam);
+router.delete("/deleteJam/:id", ensureAuth, clipsController.deleteJam);
 
 
 module.exports = router;

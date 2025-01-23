@@ -64,6 +64,6 @@ app.use("/clips", clipRoutes);
 console.log('server starting to listen')
 
 //Server Running
-app.listen(process.env.PORT, () => {
-  console.log("Server is running, you better catch it!");
+app.listen(process.env.PORT || 3000, () => {
+  console.log('Server is running on port', process.env.PORT || 3000)
 });

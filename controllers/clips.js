@@ -299,17 +299,13 @@ module.exports = {
     }
   },
   deleteJam: async (req, res) => {
-    console.log(req.params.id, 'jam id to delete' )
     try {
-       // Ensure the ID is converted to an ObjectId
-       const jamId = req.params.id;
-       const results = await Jam.findOneAndDelete({ _id: jamId });
-       console.log(results, 'results');
-      console.log("Deleted Post");
-      res.redirect('/profile');
+      // Delete jam from database
+      await Jam.findByIdAndDelete(req.params.id)
+      res.status(200).json({ message: 'Jam deleted successfully' })
     } catch (err) {
       console.log(err)
-      res.redirect("/profile");
+      res.status(500).json({ error: 'Error deleting jam' })
     }
   }
 };

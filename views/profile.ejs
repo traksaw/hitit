@@ -101,8 +101,12 @@
           <% if (jams.length > 0) { %>
             <ul class="list-group list-group-flush">
               <% jams.forEach((jam) => { %>
-                <li class="list-group-item">
-                  <a href="/clips/jam/<%= jam._id %>" class="text-custom-green"><%= jam.title %></a>
+                <li class="list-group-item" data-jam-id="<%= jam._id %>">
+                  <h5 class="text-custom-green mb-1"><%= jam.title %></h5>
+                  <p class="text-muted mb-2"><%= jam.description %></p>
+                  <button class="btn-trash" onclick="deleteJam('<%= jam._id %>')">
+                    <i class="fa fa-trash"></i>
+                  </button>
                 </li>
               <% }); %>
             </ul>
