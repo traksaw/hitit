@@ -288,18 +288,14 @@ module.exports = {
     }
   },
   deleteClip: async (req, res) => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
     try {
-      // Find clip by id
-      let clip = await Clip.findOneAndDelete({ _id: req.params.id });
-      // Delete image from cloudinary
-      if (clip.cloudinaryId) { await cloudinary.uploader.destroy(clip.cloudinaryId) }
-      // Delete clip from db
-      await Clip.findOneAndDelete({ _id: req.params.id });
-      res.redirect("/profile");
+      await Clip.findByIdAndDelete(req.params.id)
+      // Instead of redirecting, just send a success response
+      res.status(200).json({ message: 'Clip deleted successfully' })
     } catch (err) {
-      console.log(err)
-      res.redirect("/profile");
+      console.error(err)
+      res.status(500).json({ error: 'Error deleting clip' })
     }
   },
   deleteJam: async (req, res) => {

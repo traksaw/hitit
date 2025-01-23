@@ -38,5 +38,8 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
   }
 }
