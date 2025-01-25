@@ -1,0 +1,140 @@
+<%- include('partials/headerLogin') -%>
+
+
+
+<section class="container mt-5">
+  <!-- Profile Info -->
+
+  <div class="row g-4">
+    <!-- My Clips Section -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">My Clips</div>
+        <div class="card-body">
+          <% if (clips.length > 0) { %>
+            <ul class="list-group list-group-flush">
+              <% clips.forEach((clip) => { %>
+                <li class="list-group-item" data-clip-id="<%= clip.id %>">
+                  <h5 class="text-custom-green mb-1"><%= clip.title %></h5>
+                  <p class="text-muted mb-2"><%= clip.description %></p>
+                  <audio controls class="audio-player">
+                    <source src="<%= clip.audio %>" type="audio/wav">
+                    <source src="<%= clip.audio %>" type="audio/mp3">
+                  </audio>
+                  <button class="btn-trash" onclick="deleteClip('<%= clip.id %>')">
+                    <i class="fa fa-trash"></i>
+                  </button>
+                </li>
+              <% }); %>
+            </ul>
+          <% } else { %>
+            <p class="text-muted">No clips available. Start creating your music!</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+      <!-- Form to Upload Audio File Section -->
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header">Add an Audio Clip</div>
+          <div class="card-body">
+            <form action="/clips/createClip" enctype="multipart/form-data" method="POST">
+              <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title" required placeholder="Enter the title of track...">
+              </div>
+              <div class="mb-3">
+                <label for="caption" class="form-label">Description</label>
+                <textarea class="form-control" id="caption" name="description" rows="3" required placeholder="Enter a description of this audio clip..."></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="audioUpload" class="form-label">Audio File</label>
+                <input type="file" class="form-control" id="audioUpload" name="file" required>
+              </div>
+              <button type="submit" class="btn btn-custom-green w-100">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    <!-- Create a New Jam Section -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">Create a new Jam</div>
+        <div class="card-body">
+          <form action="/clips/createJam" method="POST" enctype="multipart/form-data">
+            <div class="mb-4">
+              <label for="title" class="form-label">Title</label>
+              <input type="text" class="form-control" name="title" placeholder="Create a Jam Title..." required>
+            </div>
+            <div class="mb-4">
+              <label for="description" class="form-label">Description</label>
+              <textarea class="form-control" name="description" placeholder="Enter a description of jam..." rows="3" required></textarea>
+            </div>
+            <div class="mb-4">
+              <label for="coverPhoto" class="form-label">Cover Photo</label>
+              <input type="file" id="coverPhoto" class="form-control" name="file" placeholder="Upload Cover Photo" required>
+            </div>
+            <div class="mb-4">
+              <label for="genre" class="form-label">Select a genre:</label>
+              <select name="genre" class="form-select" required>
+                <option>--</option>
+                <option value="Hip-Hop">Hip-Hop</option>
+                <option value="Rock">Rock</option>
+                <option value="Pop">Pop</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Classical">Classical</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-custom-green w-100">Create Jam</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Jams Section -->
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header">My Jams</div>
+        <div class="card-body">
+          <% if (jams.length > 0) { %>
+            <ul class="list-group list-group-flush">
+              <% jams.forEach((jam) => { %>
+                <li class="list-group-item">
+                  <a href="/clips/jam/<%= jam._id %>" class="text-custom-green"><%= jam.title %></a>
+                </li>
+              <% }); %>
+            </ul>
+          <% } else { %>
+            <p class="text-muted">No jams created yet.</p>
+          <% } %>
+        </div>
+      </div>
+    </div>
+
+
+
+   <!-- Collaborator Jams Section -->
+   <div class="col-lg-6 ms-auto">
+    <div class="card">
+      <div class="card-header">Collab Jams</div>
+      <div class="card-body">
+        <p class="form-label">Jams you are a collaborator of:</p>
+        <ul class="list-group list-group-flush">
+          <% for(var i=0; i < collabJams.length; i++) { %>
+            <li class="list-group-item">
+              <a href="/clips/jam/<%= collabJams[i]._id %>" class="text-custom-green"><%= collabJams[i].title %></a>
+            </li>
+          <% } %>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+    <!-- Explore More Jams Section -->
+
+  </div>
+</section>
+
+<%- include('partials/footer') -%>

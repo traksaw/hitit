@@ -1,0 +1,31 @@
+const express = require("express");
+const router = express.Router();
+const upload = require("../middleware/multer");
+const clipsController = require("../controllers/clips");
+const { ensureAuth, ensureGuest } = require("../middleware/auth");
+
+//Post Routes - simplified for now
+// router.get("/:id", ensureAuth, clipsController.getPost);
+router.get("/jamFeed", ensureAuth, clipsController.getJamFeed);
+
+router.get("/jam/:id", clipsController.getJam);
+router.post("/createClip", upload.single("file"), clipsController.createClip);
+router.post("/createJam",upload.single("file"), clipsController.createJam);
+router.post("/addCommentToJam/:jamid", clipsController.createComment);
+
+
+
+router.put("/likeJam/:id", clipsController.likeJam);
+router.put("/addClipToJam/:jamId/:clipId", clipsController.addClipToJam);
+router.put("/addUserToJam/:jamid/:userid", clipsController.addUserToJam);
+
+router.put("/likeCommentToJam/:jamid/", clipsController.likeComment);
+
+router.delete("/deleteClipFromJam/:jamId/:clipId", ensureAuth, clipsController.deleteClipFromJam);
+router.delete("/deleteUserFromJam/:jamid/:userid", clipsController.removeUserFromJam);
+
+router.delete("/deleteClip/:id", ensureAuth, clipsController.deleteClip);
+router.delete("/deleteJam/:id", clipsController.deleteJam);
+
+
+module.exports = router;
