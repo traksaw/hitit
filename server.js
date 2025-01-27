@@ -8,7 +8,7 @@ const passport = require("passport");
 const session = require("express-session");
 const path = require('path');
 console.log('here 1')
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const flash = require("express-flash");
 const logger = require("morgan");
@@ -49,7 +49,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection }),
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
   })
 );
 

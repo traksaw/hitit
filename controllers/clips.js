@@ -1,7 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Jam = require("../models/Jam");
 const User = require("../models/User");
-const ObjectId = require("mongodb").ObjectID;
+const ObjectId = require("mongodb");
 const Clip = require("../models/Clip");
 const Comment = require("../models/Comment");
 
@@ -153,7 +153,7 @@ module.exports = {
     try {
       console.log(req.params.id, 'hello Jam')
       // Find the Jam by its ID
-      const jam = await Jam.findById(ObjectId(req.params.id));
+      const jam = await Jam.findById((req.params.id));
       if (!jam) {
         throw new Error("Jam not found");
       }
@@ -161,23 +161,25 @@ module.exports = {
       // Extract audio IDs from the audioElements array
       const audioIds = jam.audioElements;
 
+      console.log('hello audio ids', audioIds)
 
       // Fetch Audio documents for each ID in audioElements
       const audioDetails = await Promise.all(
         audioIds.map(async (audioId) => {
-
-          const audio = await Clip.findById(ObjectId(audioId));
+          console.log('single', audioId)
+          const audio = await Clip.findById((audioId));
 
           return audio; // This will include all of the audio clips details
         })
       );
+
       // Extract collaborators IDs from the collaborators array
       const collaboratorIds = jam.collaborators;
 
       // Fetch users documents for each ID in collaborators
       const collaboratorDetails = await Promise.all(
         collaboratorIds.map(async (collaboratorId) => {
-          const collaboratorDetails = await User.findById(ObjectId(collaboratorId));
+          const collaboratorDetails = await User.findById((collaboratorId));
           console.log('users', collaboratorIds, collaboratorDetails)
           return collaboratorDetails; // This will include collaborator Details
         })
@@ -185,24 +187,24 @@ module.exports = {
 
       let allUsers = await User.find().lean();
       // const audioClipsInJam = await Jam.find().lean();
-      const commentsOfJam = await Comment.find({ jam: ObjectId(req.params.id) }).sort({ createdAt: -1 }).lean() //array of comments 
+      const commentsOfJam = await Comment.find({ jam: (req.params.id) }).sort({ createdAt: -1 }).lean() //array of comments 
 
       const userCommentDetails = await Promise.all(
         commentsOfJam.map(async (comment) => {
 
-          const user = await User.findById(ObjectId(comment.user));
+          const user = await User.findById((comment.user));
 
           return user; // This will include all of the comment users details
         })
       );
       console.log('comment users', userCommentDetails)
 
-      let myAudioClips = await Clip.find({ user: ObjectId(req.user.id) }).sort({ createdAt: "desc" }).lean();
+      let myAudioClips = await Clip.find({ user: (req.user.id) }).sort({ createdAt: "desc" }).lean();
       allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
       myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
       console.log('jam is here', jam)
       res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam, userCommentDetails: userCommentDetails, reqUser: req.user.toString() });
-      console.log('song ids', audioDetails)
+      // console.log('song ids', audioDetails)
     } catch (error) {
       console.error("Error fetching Jam with audio details:", error);
       throw error;
