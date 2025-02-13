@@ -1,27 +1,17 @@
-console.log('server first starting')
 const express = require("express");
-console.log('here .25')
 const app = express();
-console.log('here .5')
 const mongoose = require("mongoose");
 const passport = require("passport");
 const session = require("express-session");
 const path = require('path');
-console.log('here 1')
-const MongoStore = require("connect-mongo")(session);
+const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const flash = require("express-flash");
-console.log('here 2')
 const logger = require("morgan");
 const connectDB = require("./config/database");
-console.log('hell')
-const mainRoutes = require("./routes/main.js");
-console.log('hello world')
-const clipRoutes = require("./routes/clips.js");
-console.log('hey 2.5')
+const mainRoutes = require("./routes/main");
+const clipRoutes = require("./routes/clips");
 const bodyParser = require('body-parser');
-
-console.log('here 3')
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -35,6 +25,7 @@ connectDB();
 
 //Using EJS for views
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 //Static Folder
 app.use(express.static("public"));
@@ -55,10 +46,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    store: new MongoStore({
-      url: process.env.DB_STRING,
-      collection: 'sessions'
-    }),
+    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
   })
 );
 
@@ -71,7 +59,7 @@ app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/clips", clipRoutes);
+app.use("/clips", clipRoutes); 
 
 console.log('server starting to listen')
 

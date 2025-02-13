@@ -14,13 +14,16 @@
           <% if (clips.length > 0) { %>
             <ul class="list-group list-group-flush">
               <% clips.forEach((clip) => { %>
-                <li class="list-group-item">
+                <li class="list-group-item" data-clip-id="<%= clip.id %>">
                   <h5 class="text-custom-green mb-1"><%= clip.title %></h5>
                   <p class="text-muted mb-2"><%= clip.description %></p>
                   <audio controls class="audio-player">
                     <source src="<%= clip.audio %>" type="audio/wav">
                     <source src="<%= clip.audio %>" type="audio/mp3">
                   </audio>
+                  <button class="btn-trash" onclick="deleteClip('<%= clip.id %>')">
+                    <i class="fa fa-trash"></i>
+                  </button>
                 </li>
               <% }); %>
             </ul>
@@ -110,7 +113,7 @@
       </div>
     </div>
 
-  
+
 
    <!-- Collaborator Jams Section -->
    <div class="col-lg-6 ms-auto">
@@ -130,7 +133,7 @@
   </div>
 
     <!-- Explore More Jams Section -->
-    
+
   </div>
 </section>
 

@@ -1,7 +1,7 @@
 const cloudinary = require("../middleware/cloudinary");
 const Jam = require("../models/Jam");
 const User = require("../models/User");
-const ObjectId = require("mongodb");
+const ObjectId = require("mongodb").ObjectID;
 const Clip = require("../models/Clip");
 const Comment = require("../models/Comment");
 
@@ -58,27 +58,22 @@ module.exports = {
     }
   },
   getJamFeed: async (req, res) => {
-  console.log('this is the user', req.user)
-
     try {
       // Extract favorite genres array
       const favoriteGenreIds = req.user.favoriteGenres;
-  
+
       console.log('Favorite genres:', favoriteGenreIds);
-  
+
       // Object to store jams filtered by genres
       const genreFavJams = {};
-  
+
       // Fetch jams for each favorite genre
       for (const genre of favoriteGenreIds) {
-        console.log('Processing genre:', genre);
         const jamsByGenre = await Jam.find({ genre }).sort({ createdAt: "desc" }).lean();
         genreFavJams[genre] = jamsByGenre;
         console.log(`Jams for genre "${genre}":`, jamsByGenre);
       }
-  
-      console.log('My collection:', genreFavJams);
-  
+
       // Fetch general and specific genre jams
       const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
       const hipHopJams = await Jam.find({ genre: "Hip-Hop" }).sort({ createdAt: "desc" }).lean();
@@ -86,11 +81,11 @@ module.exports = {
       const profilePicture = await User.find({ user: req.user.id });
 
       // Render the feed page with all data, including jams filtered by favorite genres
-      res.render("feed.ejs", { 
-        jams, 
-        user: req.user, 
-        hipHopJams, 
-        popJams, 
+      res.render("feed.ejs", {
+        jams,
+        user: req.user,
+        hipHopJams,
+        popJams,
         profilePicture,
         genreFavJams // Pass this object to your ejs template
       });
@@ -99,7 +94,7 @@ module.exports = {
       res.status(500).send('An error occurred while fetching the jam feed.');
     }
   },
-  
+
 
   createClip: async (req, res) => {
     try {
@@ -122,14 +117,13 @@ module.exports = {
       });
       console.log("Clip has been added!", newClip);
       // res.render("profile.ejs", { clips: newClip, user: req.user, jams: jams, collabJams: collabJams });
-      
+
       res.redirect("/profile");
     } catch (err) {
       console.log('create post', err);
     }
   },
   createJam: async (req, res) => {
-    console.log('starting create jam', req.body)
     try {
       // Upload file to cloudinary
       const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
@@ -149,65 +143,69 @@ module.exports = {
       console.log('create post', err);
     }
   },
+
   getJam: async (req, res) => {
     try {
       console.log(req.params.id, 'hello Jam')
       // Find the Jam by its ID
-      const jam = await Jam.findById((req.params.id));
+      const jam = await Jam.findById(req.params.id);
       if (!jam) {
         throw new Error("Jam not found");
       }
 
-      // Extract audio IDs from the audioElements array
       const audioIds = jam.audioElements;
 
-      console.log('hello audio ids', audioIds)
-
       // Fetch Audio documents for each ID in audioElements
-      const audioDetails = await Promise.all(
+      let audioDetails = await Promise.all(
         audioIds.map(async (audioId) => {
-          console.log('single', audioId)
+
           const audio = await Clip.findById((audioId));
 
           return audio; // This will include all of the audio clips details
         })
       );
 
+        // Filter out any null values before passing to template
+        const validAudioDetails = audioDetails.filter(audio => audio !== null);
+
       // Extract collaborators IDs from the collaborators array
       const collaboratorIds = jam.collaborators;
 
-      // Fetch users documents for each ID in collaborators
       const collaboratorDetails = await Promise.all(
         collaboratorIds.map(async (collaboratorId) => {
-          const collaboratorDetails = await User.findById((collaboratorId));
-          console.log('users', collaboratorIds, collaboratorDetails)
-          return collaboratorDetails; // This will include collaborator Details
+          const collaboratorDetails = await User.findById(collaboratorId);
+          return collaboratorDetails;
         })
       );
 
       let allUsers = await User.find().lean();
-      // const audioClipsInJam = await Jam.find().lean();
-      const commentsOfJam = await Comment.find({ jam: (req.params.id) }).sort({ createdAt: -1 }).lean() //array of comments 
+      const commentsOfJam = await Comment.find({ jam: req.params.id }).sort({ createdAt: -1 }).lean();
 
       const userCommentDetails = await Promise.all(
         commentsOfJam.map(async (comment) => {
-
-          const user = await User.findById((comment.user));
-
-          return user; // This will include all of the comment users details
+          const user = await User.findById(comment.user);
+          return user;
         })
       );
-      console.log('comment users', userCommentDetails)
 
-      let myAudioClips = await Clip.find({ user: (req.user.id) }).sort({ createdAt: "desc" }).lean();
+
+      let myAudioClips = await Clip.find({ user: req.user.id }).sort({ createdAt: "desc" }).lean();
       allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
-      allUsers = allUsers.filter((availableUser) => availableUser._id.toString() != req.user._id.toString() )
+      allUsers = allUsers.filter((availableUser) => availableUser._id.toString() != req.user._id.toString())
       myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
-console.log(audioDetails, 'here are the clips')
-
       console.log('jam is here', jam)
-      res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam, userCommentDetails: userCommentDetails, reqUser: req.user.toString() });
-      // console.log('song ids', audioDetails)
+      res.render("jam.ejs", {
+        jam: jam,
+        user: req.user,
+        myAudioClips: myAudioClips,
+        allAudioClips: validAudioDetails,  // Use filtered array
+        allUsers: allUsers,
+        collaborators: collaboratorDetails,
+        commentsOfJam: commentsOfJam,
+        userCommentDetails: userCommentDetails,
+        reqUser: req.user.toString()
+      });
+      console.log('song ids', audioDetails)
     } catch (error) {
       console.error("Error fetching Jam with audio details:", error);
       throw error;
@@ -264,9 +262,9 @@ console.log(audioDetails, 'here are the clips')
     try {
 
       await Jam.findOneAndUpdate(
-        { _id: req.params.jamid }, // Find the Jam by its ID
-        { $pull: { collaborators: req.params.userid } }, // Remove the user from collaborators array
-        { new: true } // Return the updated document
+        { _id: req.params.jamid },
+        { $pull: { collaborators: req.params.userid } },
+        { new: true }
       );
       console.log("array is updated");
       res.redirect(`/clips/jam/${req.params.jamid}`);
@@ -279,9 +277,9 @@ console.log(audioDetails, 'here are the clips')
     try {
 
       await Jam.findOneAndUpdate(
-        { _id: req.params.jamid }, // Find the Jam by its ID
-        { $pull: { audioElements: req.params.myaudioclipid } }, // Remove the clip from audioElements array
-        { new: true } // Return the updated document
+        { _id: req.params.jamid },
+        { $pull: { audioElements: req.params.myaudioclipid } },
+        { new: true }
       );
       console.log("song is not here");
       res.redirect(`/clips/jam/${req.params.jamid}`);
@@ -289,4 +287,29 @@ console.log(audioDetails, 'here are the clips')
       console.log(err);
     }
   },
+  deleteClip: async (req, res) => {
+    // console.log(req.params.id)
+    try {
+      await Clip.findByIdAndDelete(req.params.id)
+      // Instead of redirecting, just send a success response
+      res.status(200).json({ message: 'Clip deleted successfully' })
+    } catch (err) {
+      console.error(err)
+      res.status(500).json({ error: 'Error deleting clip' })
+    }
+  },
+  deleteJam: async (req, res) => {
+    console.log(req.params.id, 'jam id to delete' )
+    try {
+       // Ensure the ID is converted to an ObjectId
+       const jamId = req.params.id;
+       const results = await Jam.findOneAndDelete({ _id: jamId });
+       console.log(results, 'results');
+      console.log("Deleted Post");
+      res.redirect('/profile');
+    } catch (err) {
+      console.log(err)
+      res.redirect("/profile");
+    }
+  }
 };
