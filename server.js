@@ -8,14 +8,20 @@ const passport = require("passport");
 const session = require("express-session");
 const path = require('path');
 console.log('here 1')
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo")(session);
 const methodOverride = require("method-override");
 const flash = require("express-flash");
+console.log('here 2')
 const logger = require("morgan");
 const connectDB = require("./config/database");
-const mainRoutes = require("./routes/main");
-const clipRoutes = require("./routes/clips");
+console.log('hell')
+const mainRoutes = require("./routes/main.js");
+console.log('hello world')
+const clipRoutes = require("./routes/clips.js");
+console.log('hey 2.5')
 const bodyParser = require('body-parser');
+
+console.log('here 3')
 
 //Use .env file in config folder
 require("dotenv").config({ path: "./config/.env" });
@@ -49,7 +55,10 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
+    store: new MongoStore({
+      url: process.env.DB_STRING,
+      collection: 'sessions'
+    }),
   })
 );
 
@@ -62,7 +71,7 @@ app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/clips", clipRoutes); 
+app.use("/clips", clipRoutes);
 
 console.log('server starting to listen')
 

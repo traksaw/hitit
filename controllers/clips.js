@@ -203,6 +203,8 @@ module.exports = {
       allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
       allUsers = allUsers.filter((availableUser) => availableUser._id.toString() != req.user._id.toString() )
       myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
+console.log(audioDetails, 'here are the clips')
+
       console.log('jam is here', jam)
       res.render("jam.ejs", { jam: jam, user: req.user, myAudioClips: myAudioClips, allAudioClips: audioDetails, allUsers: allUsers, collaborators: collaboratorDetails, commentsOfJam: commentsOfJam, userCommentDetails: userCommentDetails, reqUser: req.user.toString() });
       // console.log('song ids', audioDetails)
