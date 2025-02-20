@@ -11,12 +11,12 @@
           <div class="card-body">
             <ul class="list-unstyled">
               <% for (var i=0; i < myAudioClips.length; i++) { %>
-                <li class="list-item mb-3">
+                <li class="list-item">
                   <div>
                     <h5>
                       <%= myAudioClips[i].title %>
                     </h5>
-                    <audio class="audio-player w-100" controls>
+                    <audio class="audio-player" controls>
                       <source src="<%= myAudioClips[i].audio %>" type="audio/wav">
                     </audio>
                   </div>
@@ -49,7 +49,24 @@
               </ul>
             </div>
             <% } %>
-          
+              <!-- <% if (user.id.toString() !== jam.user.toString()) { %>
+          <p><%=user.id %></p>
+          <p><%=jam.user %></p>
+       
+        <div class="card-header">All Users</div>
+        <div class="card-body">
+          <ul class="list-unstyled">
+            <% for (var i = 0; i < allUsers.length; i++) { %>
+              <li class="list-item">
+                <p class="mb-1"><%= allUsers[i].userName %></p>
+                <form action="/clips/addUserToJam/<%= jam.id %>/<%= allUsers[i]._id %>?_method=PUT" method="POST">
+                  <button class="btn btn-custom">Add</button>
+                </form>
+              </li>
+            <% } %>
+          </ul>
+        </div>
+        <% } %> -->
         </div>
       </div>
 
@@ -63,9 +80,9 @@
           <div class="card-body">
             <% if (allAudioClips && allAudioClips.length > 0) { %>
               <% allAudioClips.forEach(function(clip) { %>
-                <div class="list-group-item">
-                  <h5 class="text-custom-green mb-1"><%= clip.title %></h5>
-                  <audio class="audio-player w-100" controls>
+                <div>
+                  <h5><%= clip.title %></h5>
+                  <audio class="audio-player" controls>
                     <source src="<%= clip.audio %>" type="audio/wav">
                   </audio>
                 </div>
