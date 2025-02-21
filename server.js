@@ -21,7 +21,13 @@ require("./config/passport")(passport);
 
 console.log('connecting to database')
 //Connect To Database
-connectDB();
+connectDB().then(() => {
+  console.log('✅ Database connected, starting server...');
+
+  app.listen(process.env.PORT, () => {
+    console.log("🚀 Server is running, you better catch it!");
+  });
+});
 
 //Using EJS for views
 app.set("view engine", "ejs");
@@ -46,9 +52,20 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DB_STRING }),
+    store: MongoStore.create({ mongoUrl: 'mongodb+srv://waskarpaulino:Hello@cluster0.lx8zw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'}),
   })
 );
+
+app.use((req, res, next) => {
+  console.log("🔍 Middleware Debug: Checking req.session...");
+  console.log("req.session:", req.session); // Should not be undefined
+  if (!req.session) {
+    console.error("❌ ERROR: req.session is undefined! Check express-session setup.");
+  } else {
+    console.log("✅ req.session exists:", req.session);
+  }
+  next();
+});
 
 // Passport middleware
 app.use(passport.initialize());
@@ -59,11 +76,13 @@ app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
 app.use("/", mainRoutes);
-app.use("/clips", clipRoutes); 
+app.use("/clips", clipRoutes);
 
 console.log('server starting to listen')
 
+
+
 //Server Running
-app.listen(process.env.PORT, () => {
-  console.log("Server is running, you better catch it!");
+app.listen(1237, () => {
+  console.log(`Server is running on port 1234, you better catch it!`);
 });
