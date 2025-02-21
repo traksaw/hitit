@@ -52,6 +52,7 @@ app.use(
     secret: "keyboard cat",
     resave: false,
     saveUninitialized: false,
+    cookie: { secure: false }, // Set to true if using HTTPS
     store: MongoStore.create({ mongoUrl: 'mongodb+srv://waskarpaulino:Hello@cluster0.lx8zw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'}),
   })
 );
@@ -82,7 +83,7 @@ console.log('server starting to listen')
 
 
 
-//Server Running
-app.listen(1237, () => {
-  console.log(`Server is running on port 1234, you better catch it!`);
-});
+// //Server Running
+// app.listen(1237, () => {
+//   console.log(`Server is running on port 1234, you better catch it!`);
+// });
