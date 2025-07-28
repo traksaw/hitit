@@ -53,7 +53,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false }, // Set to true if using HTTPS
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://waskarpaulino:Hello@cluster0.lx8zw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'}),
+    store: MongoStore.create({ mongoUrl: process.env.MONGODB_STRING }),
   })
 );
 

@@ -62,7 +62,6 @@ module.exports = {
       // Extract favorite genres array
       const favoriteGenreIds = req.user.favoriteGenres;
 
-      console.log('Favorite genres:', favoriteGenreIds);
 
       // Object to store jams filtered by genres
       const genreFavJams = {};
@@ -71,7 +70,6 @@ module.exports = {
       for (const genre of favoriteGenreIds) {
         const jamsByGenre = await Jam.find({ genre }).sort({ createdAt: "desc" }).lean();
         genreFavJams[genre] = jamsByGenre;
-        console.log(`Jams for genre "${genre}":`, jamsByGenre);
       }
 
       // Fetch general and specific genre jams
