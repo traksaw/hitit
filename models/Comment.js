@@ -23,4 +23,8 @@ const CommentSchema = new mongoose.Schema({
   },
 });
 
+// Create indexes for better query performance
+CommentSchema.index({ jam: 1, createdAt: -1 }); // For finding jam comments sorted by date
+CommentSchema.index({ user: 1 }); // For finding user's comments
+
 module.exports = mongoose.model("Comment", CommentSchema);

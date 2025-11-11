@@ -8,6 +8,8 @@ const MongoStore = require("connect-mongo");
 const methodOverride = require("method-override");
 const flash = require("express-flash");
 const logger = require("morgan");
+const helmet = require("helmet");
+const mongoSanitize = require("express-mongo-sanitize");
 const connectDB = require("./config/database");
 const mainRoutes = require("./routes/main");
 const clipRoutes = require("./routes/clips");
@@ -36,9 +38,16 @@ app.set("views", path.join(__dirname, "views"));
 //Static Folder
 app.use(express.static("public"));
 
+//Security Middleware
+app.use(helmet({
+  contentSecurityPolicy: false, // Disable for now to allow external scripts/styles
+  crossOriginEmbedderPolicy: false
+}));
+app.use(mongoSanitize()); // Prevent MongoDB injection
+
 //Body Parsing
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '50mb' }));
 
 //Logging
 app.use(logger("dev"));
@@ -49,10 +58,13 @@ app.use(methodOverride("_method"));
 // Setup Sessions - stored in MongoDB
 app.use(
   session({
-    secret: "keyboard cat",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }, // Set to true if using HTTPS
+    cookie: {
+      secure: false, // Set to true if using HTTPS
+      maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+    },
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_STRING }),
   })
 );

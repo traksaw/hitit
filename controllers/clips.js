@@ -59,33 +59,56 @@ module.exports = {
   },
   getJamFeed: async (req, res) => {
     try {
-      // Extract favorite genres array
-      const favoriteGenreIds = req.user.favoriteGenres;
+      // Pagination settings
+      const page = parseInt(req.query.page) || 1;
+      const limit = 20; // Show 20 jams per page
+      const skip = (page - 1) * limit;
 
+      // Extract favorite genres array
+      const favoriteGenreIds = req.user.favoriteGenres || [];
 
       // Object to store jams filtered by genres
       const genreFavJams = {};
 
-      // Fetch jams for each favorite genre
+      // Fetch jams for each favorite genre (with pagination)
       for (const genre of favoriteGenreIds) {
-        const jamsByGenre = await Jam.find({ genre }).sort({ createdAt: "desc" }).lean();
+        const jamsByGenre = await Jam.find({ genre })
+          .sort({ createdAt: "desc" })
+          .limit(10) // Limit favorite genre sections to 10 jams each
+          .lean();
         genreFavJams[genre] = jamsByGenre;
       }
 
-      // Fetch general and specific genre jams
-      const jams = await Jam.find().sort({ createdAt: "desc" }).lean();
-      const hipHopJams = await Jam.find({ genre: "Hip-Hop" }).sort({ createdAt: "desc" }).lean();
-      const popJams = await Jam.find({ genre: "Pop" }).sort({ createdAt: "desc" }).lean();
-      const profilePicture = await User.find({ user: req.user.id });
+      // Get total count for pagination
+      const totalJams = await Jam.countDocuments();
+      const totalPages = Math.ceil(totalJams / limit);
 
-      // Render the feed page with all data, including jams filtered by favorite genres
+      // Fetch general jams with pagination
+      const jams = await Jam.find()
+        .sort({ createdAt: "desc" })
+        .skip(skip)
+        .limit(limit)
+        .lean();
+
+      // Fetch specific genre jams (limited to prevent overload)
+      const [hipHopJams, popJams, profilePicture] = await Promise.all([
+        Jam.find({ genre: "Hip-Hop" }).sort({ createdAt: "desc" }).limit(10).lean(),
+        Jam.find({ genre: "Pop" }).sort({ createdAt: "desc" }).limit(10).lean(),
+        User.findById(req.user.id).lean()
+      ]);
+
+      // Render the feed page with all data, including pagination info
       res.render("feed.ejs", {
         jams,
         user: req.user,
         hipHopJams,
         popJams,
         profilePicture,
-        genreFavJams // Pass this object to your ejs template
+        genreFavJams,
+        currentPage: page,
+        totalPages: totalPages,
+        hasNextPage: page < totalPages,
+        hasPrevPage: page > 1
       });
     } catch (err) {
       console.log('Error fetching jams:', err);
@@ -145,68 +168,64 @@ module.exports = {
   getJam: async (req, res) => {
     try {
       console.log(req.params.id, 'hello Jam')
-      // Find the Jam by its ID
-      const jam = await Jam.findById(req.params.id);
+      // Find the Jam by its ID with populated references - FIXES N+1 QUERY PROBLEM
+      const jam = await Jam.findById(req.params.id)
+        .populate('audioElements') // Populate all audio clips in one query
+        .populate('collaborators') // Populate all collaborators in one query
+        .lean();
+
       if (!jam) {
-        throw new Error("Jam not found");
+        return res.status(404).send("Jam not found");
       }
 
-      const audioIds = jam.audioElements;
+      // Filter out any null audio elements (in case some were deleted)
+      const validAudioDetails = (jam.audioElements || []).filter(audio => audio !== null);
+      const collaboratorDetails = jam.collaborators || [];
 
-      // Fetch Audio documents for each ID in audioElements
-      let audioDetails = await Promise.all(
-        audioIds.map(async (audioId) => {
+      // Fetch comments with populated user data in a single query
+      const commentsOfJam = await Comment.find({ jam: req.params.id })
+        .populate('user') // Populate user for each comment in one query
+        .sort({ createdAt: -1 })
+        .lean();
 
-          const audio = await Clip.findById((audioId));
+      // Extract user details from populated comments
+      const userCommentDetails = commentsOfJam.map(comment => comment.user);
 
-          return audio; // This will include all of the audio clips details
-        })
+      // Fetch all users and user's clips efficiently
+      const [allUsers, myAudioClips] = await Promise.all([
+        User.find().lean(),
+        Clip.find({ user: req.user.id }).sort({ createdAt: "desc" }).lean()
+      ]);
+
+      // Filter out current user and existing collaborators from available users
+      const collaboratorIds = new Set(jam.collaborators.map(c => c._id.toString()));
+      const availableUsers = allUsers.filter(user =>
+        user._id.toString() !== req.user._id.toString() &&
+        !collaboratorIds.has(user._id.toString())
       );
 
-        // Filter out any null values before passing to template
-        const validAudioDetails = audioDetails.filter(audio => audio !== null);
-
-      // Extract collaborators IDs from the collaborators array
-      const collaboratorIds = jam.collaborators;
-
-      const collaboratorDetails = await Promise.all(
-        collaboratorIds.map(async (collaboratorId) => {
-          const collaboratorDetails = await User.findById(collaboratorId);
-          return collaboratorDetails;
-        })
+      // Filter out clips already in jam
+      const audioElementIds = new Set(jam.audioElements.map(a => a._id.toString()));
+      const availableClips = myAudioClips.filter(clip =>
+        !audioElementIds.has(clip._id.toString())
       );
 
-      let allUsers = await User.find().lean();
-      const commentsOfJam = await Comment.find({ jam: req.params.id }).sort({ createdAt: -1 }).lean();
-
-      const userCommentDetails = await Promise.all(
-        commentsOfJam.map(async (comment) => {
-          const user = await User.findById(comment.user);
-          return user;
-        })
-      );
-
-
-      let myAudioClips = await Clip.find({ user: req.user.id }).sort({ createdAt: "desc" }).lean();
-      allUsers = allUsers.filter((availableUser) => !jam.collaborators.find((c) => c === availableUser._id.toString()))
-      allUsers = allUsers.filter((availableUser) => availableUser._id.toString() != req.user._id.toString())
-      myAudioClips = myAudioClips.filter((availableClip) => !jam.audioElements.find((c) => c === availableClip._id.toString()))
       console.log('jam is here', jam)
       res.render("jam.ejs", {
         jam: jam,
         user: req.user,
-        myAudioClips: myAudioClips,
-        allAudioClips: validAudioDetails,  // Use filtered array
-        allUsers: allUsers,
+        myAudioClips: availableClips,
+        allAudioClips: validAudioDetails,
+        allUsers: availableUsers,
         collaborators: collaboratorDetails,
         commentsOfJam: commentsOfJam,
         userCommentDetails: userCommentDetails,
         reqUser: req.user.toString()
       });
-      console.log('song ids', audioDetails)
+      console.log('song ids', validAudioDetails.map(a => a._id))
     } catch (error) {
       console.error("Error fetching Jam with audio details:", error);
-      throw error;
+      res.status(500).send("Error loading jam");
     }
 
   },

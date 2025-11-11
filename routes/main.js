@@ -5,6 +5,8 @@ const homeController = require("../controllers/home");
 const clipsController = require("../controllers/clips");
 const upload = require("../middleware/multer");
 const { ensureAuth, ensureGuest } = require("../middleware/auth");
+const { validateSignup, validateFileUpload } = require("../middleware/validation");
+const { authLimiter } = require("../middleware/rateLimiter");
 
 //Main Routes - simplified for now
 router.get("/", homeController.getIndex);
@@ -12,9 +14,9 @@ router.get("/audio", homeController.getAudio);
 router.get("/profile", ensureAuth, clipsController.getProfile);
 router.get("/feed", ensureAuth, clipsController.getJamFeed);
 router.get("/login", authController.getLogin);
-router.post("/login", authController.postLogin);
+router.post("/login", authLimiter, authController.postLogin);
 router.get("/logout", authController.logout);
-router.get("/signup", upload.single("file"), authController.getSignup);
-router.post("/signup", upload.single("file"), authController.postSignup);
+router.get("/signup", authController.getSignup);
+router.post("/signup", authLimiter, upload.single("file"), validateFileUpload('image', 10), validateSignup, authController.postSignup);
 
 module.exports = router;

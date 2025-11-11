@@ -128,5 +128,68 @@
             <% } %>
         </div>
 
+        <!-- Pagination Controls -->
+        <% if (totalPages > 1) { %>
+        <div class="container mt-5 mb-5">
+          <nav aria-label="Jam feed pagination">
+            <ul class="pagination justify-content-center">
+              <% if (hasPrevPage) { %>
+                <li class="page-item">
+                  <a class="page-link" href="/feed?page=<%= currentPage - 1 %>" aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Previous</span>
+                  </a>
+                </li>
+              <% } else { %>
+                <li class="page-item disabled">
+                  <span class="page-link">&laquo; Previous</span>
+                </li>
+              <% } %>
+
+              <%
+                // Show up to 5 page numbers
+                let startPage = Math.max(1, currentPage - 2);
+                let endPage = Math.min(totalPages, currentPage + 2);
+
+                if (startPage > 1) { %>
+                  <li class="page-item">
+                    <a class="page-link" href="/feed?page=1">1</a>
+                  </li>
+                  <% if (startPage > 2) { %>
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                  <% } %>
+                <% } %>
+
+                <% for (let page = startPage; page <= endPage; page++) { %>
+                  <li class="page-item <%= page === currentPage ? 'active' : '' %>">
+                    <a class="page-link" href="/feed?page=<%= page %>"><%= page %></a>
+                  </li>
+                <% } %>
+
+                <% if (endPage < totalPages) { %>
+                  <% if (endPage < totalPages - 1) { %>
+                    <li class="page-item disabled"><span class="page-link">...</span></li>
+                  <% } %>
+                  <li class="page-item">
+                    <a class="page-link" href="/feed?page=<%= totalPages %>"><%= totalPages %></a>
+                  </li>
+                <% } %>
+
+              <% if (hasNextPage) { %>
+                <li class="page-item">
+                  <a class="page-link" href="/feed?page=<%= currentPage + 1 %>" aria-label="Next">
+                    <span aria-hidden="true">Next &raquo;</span>
+                  </a>
+                </li>
+              <% } else { %>
+                <li class="page-item disabled">
+                  <span class="page-link">Next &raquo;</span>
+                </li>
+              <% } %>
+            </ul>
+          </nav>
+          <p class="text-center text-muted">Page <%= currentPage %> of <%= totalPages %></p>
+        </div>
+        <% } %>
+
       </div>
       <%- include('partials/footer') -%>

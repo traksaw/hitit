@@ -43,4 +43,8 @@ const ClipSchema = new mongoose.Schema({
   },
 });
 
+// Create indexes for better query performance
+ClipSchema.index({ user: 1, createdAt: -1 }); // For finding user's clips sorted by date
+ClipSchema.index({ genre: 1 }); // For genre filtering
+
 module.exports = mongoose.model("Clip", ClipSchema); 

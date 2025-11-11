@@ -5,18 +5,21 @@ const JamSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  audioElements: {
-    type: Array, //array of ids to audio
-    require: true,
-    default: []
-  },
+  audioElements: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Clip"
+  }],
   fileName: {
     type: String,
     required: true,
   },
-  cloudinaryId: { //
+  cloudinaryId: {
     type: String,
-    require: true,
+    required: false,
+  },
+  cloudinaryImageId: {
+    type: String,
+    required: false,
   },
   description: {
     type: String,
@@ -24,36 +27,41 @@ const JamSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    require: true,
+    required: false,
   },
   likes: {
     type: Number,
     required: true,
-    default: 0, // Set default value to 0
+    default: 0,
   },
-  collaborators: {
-    type: Array, //this is gonna be an array of user ids
-    required: true,
-    default: []
-  },
+  collaborators: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }],
   genre: {
-    type: String, //this is gonna be a genre selection for the jam
+    type: String,
     required: true,
   },
   comments: {
-    type: Array, //this is gonna be an array of comment objects {user: userID, comment: 'hello world', createAt: date }
-    required: true,
+    type: Array,
+    required: false,
     default: []
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    default: []
+    required: true
   },
   createdAt: {
     type: Date,
     default: Date.now,
   },
 });
+
+// Create indexes for better query performance
+JamSchema.index({ createdAt: -1 }); // For sorting by newest first
+JamSchema.index({ genre: 1, createdAt: -1 }); // For genre filtering
+JamSchema.index({ user: 1 }); // For finding user's jams
+JamSchema.index({ collaborators: 1 }); // For finding collab jams
 
 module.exports = mongoose.model("Jam", JamSchema);
