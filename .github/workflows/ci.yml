@@ -53,7 +53,8 @@ jobs:
         run: |
           rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps
-          npm rebuild rollup
+          # Explicitly install the platform-specific rollup package
+          npm install --save-optional @rollup/rollup-linux-x64-gnu
 
       - name: Type check (Svelte)
         working-directory: ./frontend
