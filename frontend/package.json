@@ -13,7 +13,7 @@
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint .",
 		"lint:fix": "prettier --write . && eslint . --fix",
-		"prepush": "npm run check && npm run lint",
+		"prepush": "npm run check && npm run lint && npm run test",
 		"test:unit": "vitest",
 		"test": "vitest run --passWithNoTests"
 	},
