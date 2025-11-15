@@ -167,11 +167,14 @@
 			}
 
 			// Add clip to placed clips
-			placedClips = [...placedClips, {
-				clip: data.clip,
-				startTime: dropTime,
-				trackIndex: selectedTrackIndex
-			}];
+			placedClips = [
+				...placedClips,
+				{
+					clip: data.clip,
+					startTime: dropTime,
+					trackIndex: selectedTrackIndex
+				}
+			];
 
 			console.log('Clip placed at', dropTime, 'seconds on track', selectedTrackIndex);
 		} catch (error) {
@@ -231,11 +234,11 @@
 	});
 
 	// Watch for BPM changes and update audio engine
-	let lastBpm = bpm;
-	$: if (bpm !== lastBpm && typeof window !== 'undefined') {
-		lastBpm = bpm;
-		audioEngine.setBPM(bpm);
-	}
+	$effect(() => {
+		if (typeof window !== 'undefined') {
+			audioEngine.setBPM(bpm);
+		}
+	});
 
 	onDestroy(() => {
 		window.removeEventListener('keydown', handleKeyDown);
@@ -246,35 +249,35 @@
 	});
 </script>
 
-<div class="timeline-editor bg-lime-lightest rounded-lg overflow-hidden shadow-2xl">
+<div class="timeline-editor bg-lime-lightest overflow-hidden rounded-lg shadow-2xl">
 	<!-- Timeline Header -->
-	<div class="timeline-header bg-lime-dark text-white p-4 flex items-center justify-between">
+	<div class="timeline-header bg-lime-dark flex items-center justify-between p-4 text-white">
 		<div class="flex items-center gap-4">
-			<h3 class="font-bold text-lg">Timeline Editor</h3>
+			<h3 class="text-lg font-bold">Timeline Editor</h3>
 
 			<!-- Playback Controls -->
 			<div class="flex items-center gap-2">
 				<button
-					class="w-10 h-10 rounded-full bg-lime-base hover:bg-lime-medium flex items-center justify-center transition-colors neon-glow"
+					class="bg-lime-base hover:bg-lime-medium neon-glow flex h-10 w-10 items-center justify-center rounded-full transition-colors"
 					on:click={togglePlay}
 				>
 					{#if isPlaying}
-						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+						<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
 						</svg>
 					{:else}
-						<svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+						<svg class="ml-0.5 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M6 4l10 6-10 6V4z" />
 						</svg>
 					{/if}
 				</button>
 
 				<button
-					class="w-8 h-8 rounded bg-lime-base/50 hover:bg-lime-base/70 flex items-center justify-center transition-colors"
+					class="bg-lime-base/50 hover:bg-lime-base/70 flex h-8 w-8 items-center justify-center rounded transition-colors"
 					on:click={stopPlayback}
 					title="Stop"
 				>
-					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+					<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
 						<path d="M5 5h10v10H5V5z" />
 					</svg>
 				</button>
@@ -292,15 +295,15 @@
 					bind:value={bpm}
 					min="60"
 					max="200"
-					class="w-16 px-2 py-1 bg-lime-base/20 border border-lime-light rounded text-white text-center"
+					class="bg-lime-base/20 border-lime-light w-16 rounded border px-2 py-1 text-center text-white"
 				/>
 			</div>
 
 			<!-- Grid Snap -->
 			<button
-				class="px-3 py-1 rounded {gridSnap
+				class="rounded px-3 py-1 {gridSnap
 					? 'bg-lime-base'
-					: 'bg-lime-base/20'} text-white text-sm transition-colors"
+					: 'bg-lime-base/20'} text-sm text-white transition-colors"
 				on:click={() => (gridSnap = !gridSnap)}
 			>
 				Snap: {gridSnap ? 'ON' : 'OFF'}
@@ -309,15 +312,15 @@
 			<!-- Zoom Controls -->
 			<div class="flex items-center gap-2">
 				<button
-					class="w-8 h-8 rounded bg-lime-base/50 hover:bg-lime-base/70 flex items-center justify-center transition-colors"
+					class="bg-lime-base/50 hover:bg-lime-base/70 flex h-8 w-8 items-center justify-center rounded transition-colors"
 					on:click={handleZoomOut}
 					title="Zoom Out"
 				>
 					<span class="text-lg">−</span>
 				</button>
-				<span class="text-sm w-12 text-center">{Math.round(zoom)}px/s</span>
+				<span class="w-12 text-center text-sm">{Math.round(zoom)}px/s</span>
 				<button
-					class="w-8 h-8 rounded bg-lime-base/50 hover:bg-lime-base/70 flex items-center justify-center transition-colors"
+					class="bg-lime-base/50 hover:bg-lime-base/70 flex h-8 w-8 items-center justify-center rounded transition-colors"
 					on:click={handleZoomIn}
 					title="Zoom In"
 				>
@@ -327,10 +330,10 @@
 
 			<!-- Metronome -->
 			<button
-				class="px-3 py-1 rounded bg-lime-base/20 hover:bg-lime-base/40 text-white text-sm transition-colors"
+				class="bg-lime-base/20 hover:bg-lime-base/40 rounded px-3 py-1 text-sm text-white transition-colors"
 				title="Metronome"
 			>
-				<svg class="w-4 h-4 inline" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="inline h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
 					<path
 						d="M10 2a1 1 0 011 1v1.323l3.954 1.582 1.599-.8a1 1 0 01.894 1.79l-1.233.616 1.738 5.42a1 1 0 01-.285 1.05A3.989 3.989 0 0115 15a3.989 3.989 0 01-2.667-1.019 1 1 0 01-.285-1.05l1.738-5.42-1.233-.617a1 1 0 01.894-1.788l1.599.799L11 4.323V3a1 1 0 011-1z"
 					/>
@@ -339,20 +342,29 @@
 
 			<!-- Export Button -->
 			<button
-				class="px-4 py-2 rounded bg-lime-base hover:bg-lime-medium text-white text-sm font-semibold transition-colors neon-glow flex items-center gap-2 {isExporting ? 'opacity-50 cursor-not-allowed' : ''}"
+				class="bg-lime-base hover:bg-lime-medium neon-glow flex items-center gap-2 rounded px-4 py-2 text-sm font-semibold text-white transition-colors {isExporting
+					? 'cursor-not-allowed opacity-50'
+					: ''}"
 				on:click={handleExport}
 				disabled={isExporting}
 				title="Export Mixdown"
 			>
 				{#if isExporting}
-					<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-						<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+					<svg class="h-4 w-4 animate-spin" fill="none" viewBox="0 0 24 24">
+						<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+						></circle>
+						<path
+							class="opacity-75"
+							fill="currentColor"
+							d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+						></path>
 					</svg>
 					Exporting...
 				{:else}
-					<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-						<path d="M10 3a1 1 0 00-1 1v5H6a1 1 0 100 2h3v5a1 1 0 102 0v-5h3a1 1 0 100-2h-3V4a1 1 0 00-1-1z" />
+					<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+						<path
+							d="M10 3a1 1 0 00-1 1v5H6a1 1 0 100 2h3v5a1 1 0 102 0v-5h3a1 1 0 100-2h-3V4a1 1 0 00-1-1z"
+						/>
 						<path d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" />
 					</svg>
 					Export
@@ -363,36 +375,39 @@
 
 	<!-- Timeline Ruler -->
 	<div
-		class="timeline-ruler h-10 bg-lime-medium/20 border-b-2 border-lime-light relative overflow-x-auto"
+		class="timeline-ruler bg-lime-medium/20 border-lime-light relative h-10 overflow-x-auto border-b-2"
 		on:dragover={handleDragOver}
 		on:dragleave={handleDragLeave}
 		on:drop={handleDrop}
 		role="region"
 		aria-label="Timeline ruler"
 	>
-		<div class="relative h-full {isDragOver ? 'bg-lime-base/20' : ''}" style="width: {duration * zoom}px">
+		<div
+			class="relative h-full {isDragOver ? 'bg-lime-base/20' : ''}"
+			style="width: {duration * zoom}px"
+		>
 			{#each ticks as second (second)}
 				<div
-					class="tick absolute top-0 h-full border-l border-lime-dark/30"
+					class="tick border-lime-dark/30 absolute top-0 h-full border-l"
 					style="left: {second * zoom}px"
 				>
-					<span class="text-xs text-lime-darkest ml-1 font-mono">{second}s</span>
+					<span class="text-lime-darkest ml-1 font-mono text-xs">{second}s</span>
 				</div>
 			{/each}
 
 			<!-- Playhead -->
 			<div
-				class="playhead absolute top-0 bottom-0 w-0.5 bg-red-500 z-10"
+				class="playhead absolute top-0 bottom-0 z-10 w-0.5 bg-red-500"
 				style="left: {playheadPosition * zoom}px"
 			>
-				<div class="playhead-handle w-3 h-3 bg-red-500 rounded-full -ml-1.5 -mt-1"></div>
+				<div class="playhead-handle -mt-1 -ml-1.5 h-3 w-3 rounded-full bg-red-500"></div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Timeline Canvas with Placed Clips -->
 	<div
-		class="timeline-canvas relative overflow-x-auto overflow-y-auto bg-lime-lightest border-b-2 border-lime-light"
+		class="timeline-canvas bg-lime-lightest border-lime-light relative overflow-x-auto overflow-y-auto border-b-2"
 		style="max-height: 400px;"
 		on:dragover={handleDragOver}
 		on:dragleave={handleDragLeave}
@@ -404,7 +419,7 @@
 			<!-- Grid lines -->
 			{#each ticks as second (second)}
 				<div
-					class="absolute top-0 bottom-0 border-l border-lime-dark/10"
+					class="border-lime-dark/10 absolute top-0 bottom-0 border-l"
 					style="left: {second * zoom}px"
 				></div>
 			{/each}
@@ -412,14 +427,16 @@
 			<!-- Track lanes -->
 			{#each clips as clip, i (clip._id)}
 				<div
-					class="absolute left-0 right-0 border-b border-lime-light/50 {selectedTrackIndex === i ? 'bg-lime-base/5' : 'bg-transparent'} hover:bg-lime-base/10 transition-colors cursor-pointer"
+					class="border-lime-light/50 absolute right-0 left-0 border-b {selectedTrackIndex === i
+						? 'bg-lime-base/5'
+						: 'bg-transparent'} hover:bg-lime-base/10 cursor-pointer transition-colors"
 					style="top: {i * 80}px; height: 80px;"
-					on:click={() => selectedTrackIndex = i}
+					on:click={() => (selectedTrackIndex = i)}
 					on:keydown={(e) => e.key === 'Enter' && (selectedTrackIndex = i)}
 					role="button"
 					tabindex="0"
 				>
-					<div class="absolute left-2 top-2 text-xs text-lime-darkest/50 font-mono">
+					<div class="text-lime-darkest/50 absolute top-2 left-2 font-mono text-xs">
 						Track {i + 1}: {clip.title}
 					</div>
 				</div>
@@ -428,31 +445,32 @@
 			<!-- Placed clips -->
 			{#each placedClips as placement, idx (idx)}
 				<div
-					class="absolute bg-lime-base/80 border-2 border-lime-dark rounded-lg shadow-lg overflow-hidden cursor-move hover:bg-lime-base transition-all"
-					style="left: {placement.startTime * zoom}px; top: {placement.trackIndex * 80 + 10}px; width: 150px; height: 60px;"
+					class="bg-lime-base/80 border-lime-dark hover:bg-lime-base absolute cursor-move overflow-hidden rounded-lg border-2 shadow-lg transition-all"
+					style="left: {placement.startTime * zoom}px; top: {placement.trackIndex * 80 +
+						10}px; width: 150px; height: 60px;"
 					draggable="true"
 					role="button"
 					tabindex="0"
 				>
-					<div class="p-2 h-full flex flex-col">
-						<p class="text-xs font-bold text-white truncate">{placement.clip.title}</p>
-						<div class="flex-1 flex items-center gap-px mt-1">
+					<div class="flex h-full flex-col p-2">
+						<p class="truncate text-xs font-bold text-white">{placement.clip.title}</p>
+						<div class="mt-1 flex flex-1 items-center gap-px">
 							<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 							{#each Array(15).fill(0) as _, waveIdx (waveIdx)}
 								<div class="w-1 bg-white/50" style="height: {Math.random() * 100}%"></div>
 							{/each}
 						</div>
-						<p class="text-xs text-white/70 font-mono">{placement.startTime.toFixed(2)}s</p>
+						<p class="font-mono text-xs text-white/70">{placement.startTime.toFixed(2)}s</p>
 					</div>
 				</div>
 			{/each}
 
 			<!-- Playhead on canvas -->
 			<div
-				class="absolute top-0 bottom-0 w-0.5 bg-red-500 z-20 pointer-events-none"
+				class="pointer-events-none absolute top-0 bottom-0 z-20 w-0.5 bg-red-500"
 				style="left: {playheadPosition * zoom}px"
 			>
-				<div class="w-3 h-3 bg-red-500 rounded-full -ml-1.5"></div>
+				<div class="-ml-1.5 h-3 w-3 rounded-full bg-red-500"></div>
 			</div>
 		</div>
 	</div>
@@ -473,15 +491,15 @@
 		{:else}
 			<div class="p-12 text-center text-gray-500">
 				<p class="text-lg">No clips in this jam yet.</p>
-				<p class="text-sm mt-2">Add clips to start building your track!</p>
+				<p class="mt-2 text-sm">Add clips to start building your track!</p>
 			</div>
 		{/if}
 	</div>
 
 	<!-- Add Track Button -->
-	<div class="p-4 bg-lime-lighter border-t border-lime-light">
+	<div class="bg-lime-lighter border-lime-light border-t p-4">
 		<button
-			class="w-full py-3 bg-lime-base hover:bg-lime-medium text-white font-semibold rounded-lg transition-colors neon-glow"
+			class="bg-lime-base hover:bg-lime-medium neon-glow w-full rounded-lg py-3 font-semibold text-white transition-colors"
 		>
 			+ Add Track
 		</button>
@@ -490,11 +508,15 @@
 
 <style>
 	.neon-glow {
-		box-shadow: 0 0 10px rgba(88, 175, 59, 0.3), 0 0 20px rgba(88, 175, 59, 0.2);
+		box-shadow:
+			0 0 10px rgba(88, 175, 59, 0.3),
+			0 0 20px rgba(88, 175, 59, 0.2);
 	}
 
 	.neon-glow:hover {
-		box-shadow: 0 0 15px rgba(88, 175, 59, 0.5), 0 0 30px rgba(88, 175, 59, 0.3);
+		box-shadow:
+			0 0 15px rgba(88, 175, 59, 0.5),
+			0 0 30px rgba(88, 175, 59, 0.3);
 	}
 
 	.playhead {

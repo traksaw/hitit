@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import WaveformCanvas from './WaveformCanvas.svelte';
 	import type { Jam } from '$lib/api';
 
@@ -42,32 +41,36 @@
 
 {#if currentJam && currentClipUrl}
 	<div
-		class="fixed bottom-0 left-0 right-0 bg-lime-dark border-t-2 border-lime-light h-28 flex items-center justify-between px-6 z-50 shadow-2xl"
+		class="bg-lime-dark border-lime-light fixed right-0 bottom-0 left-0 z-50 flex h-28 items-center justify-between border-t-2 px-6 shadow-2xl"
 		style="box-shadow: 0 -4px 20px rgba(88, 175, 59, 0.3);"
 	>
 		<!-- Left: Current Jam Info -->
-		<div class="flex items-center gap-4 w-1/4">
-			<img src={currentJam.image} alt={currentJam.title} class="w-16 h-16 rounded-lg object-cover shadow-lg" />
+		<div class="flex w-1/4 items-center gap-4">
+			<img
+				src={currentJam.image}
+				alt={currentJam.title}
+				class="h-16 w-16 rounded-lg object-cover shadow-lg"
+			/>
 			<div class="overflow-hidden">
-				<p class="text-white font-semibold truncate">{currentJam.title}</p>
+				<p class="truncate font-semibold text-white">{currentJam.title}</p>
 				<p class="text-lime-light text-sm">{currentJam.genre}</p>
 			</div>
 		</div>
 
 		<!-- Center: Playback Controls & Waveform -->
-		<div class="flex-1 max-w-3xl mx-8">
+		<div class="mx-8 max-w-3xl flex-1">
 			<!-- Play/Pause Controls -->
-			<div class="flex items-center justify-center gap-4 mb-2">
+			<div class="mb-2 flex items-center justify-center gap-4">
 				<button
-					class="w-10 h-10 rounded-full bg-lime-base hover:bg-lime-medium text-white flex items-center justify-center transition-all duration-200 hover:scale-110 neon-glow"
+					class="bg-lime-base hover:bg-lime-medium neon-glow flex h-10 w-10 items-center justify-center rounded-full text-white transition-all duration-200 hover:scale-110"
 					onclick={togglePlay}
 				>
 					{#if playing}
-						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+						<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M5 4h3v12H5V4zm7 0h3v12h-3V4z" />
 						</svg>
 					{:else}
-						<svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 20 20">
+						<svg class="ml-0.5 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 							<path d="M6 4l10 6-10 6V4z" />
 						</svg>
 					{/if}
@@ -76,7 +79,7 @@
 
 			<!-- Waveform -->
 			<div
-				class="waveform-container relative h-16 bg-lime-darkest/50 rounded-lg cursor-pointer"
+				class="waveform-container bg-lime-darkest/50 relative h-16 cursor-pointer rounded-lg"
 				onclick={handleSeek}
 				onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSeek(e)}
 				role="button"
@@ -93,17 +96,17 @@
 			</div>
 
 			<!-- Time Display -->
-			<div class="flex justify-between text-xs text-lime-lightest mt-1 px-1">
+			<div class="text-lime-lightest mt-1 flex justify-between px-1 text-xs">
 				<span>{formatTime(currentTime)}</span>
 				<span>{formatTime(duration)}</span>
 			</div>
 		</div>
 
 		<!-- Right: Volume & Controls -->
-		<div class="flex items-center gap-4 w-1/4 justify-end">
+		<div class="flex w-1/4 items-center justify-end gap-4">
 			<!-- Volume Control -->
 			<div class="flex items-center gap-2">
-				<svg class="w-5 h-5 text-lime-lightest" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="text-lime-lightest h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 					<path
 						d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM12.293 7.293a1 1 0 011.414 0L15 8.586l1.293-1.293a1 1 0 111.414 1.414L16.414 10l1.293 1.293a1 1 0 01-1.414 1.414L15 11.414l-1.293 1.293a1 1 0 01-1.414-1.414L13.586 10l-1.293-1.293a1 1 0 010-1.414z"
 					/>
@@ -114,16 +117,16 @@
 					max="1"
 					step="0.01"
 					bind:value={volume}
-					class="w-24 accent-lime-base"
+					class="accent-lime-base w-24"
 				/>
 			</div>
 
 			<!-- Queue/More -->
 			<button
-				class="w-8 h-8 rounded-full bg-lime-base/20 hover:bg-lime-base/40 text-lime-lightest flex items-center justify-center transition-colors"
+				class="bg-lime-base/20 hover:bg-lime-base/40 text-lime-lightest flex h-8 w-8 items-center justify-center rounded-full transition-colors"
 				title="Queue"
 			>
-				<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+				<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 					<path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
 					<path
 						fill-rule="evenodd"
@@ -138,10 +141,14 @@
 
 <style>
 	.neon-glow {
-		box-shadow: 0 0 10px rgba(88, 175, 59, 0.3), 0 0 20px rgba(88, 175, 59, 0.2);
+		box-shadow:
+			0 0 10px rgba(88, 175, 59, 0.3),
+			0 0 20px rgba(88, 175, 59, 0.2);
 	}
 
 	.neon-glow:hover {
-		box-shadow: 0 0 15px rgba(88, 175, 59, 0.5), 0 0 30px rgba(88, 175, 59, 0.3);
+		box-shadow:
+			0 0 15px rgba(88, 175, 59, 0.5),
+			0 0 30px rgba(88, 175, 59, 0.3);
 	}
 </style>
