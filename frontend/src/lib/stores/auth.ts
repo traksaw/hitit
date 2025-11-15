@@ -1,5 +1,4 @@
 import { writable } from 'svelte/store';
-import type { Writable } from 'svelte/store';
 import type { User as APIUser } from '$lib/api/types';
 
 // Re-export User type from API
