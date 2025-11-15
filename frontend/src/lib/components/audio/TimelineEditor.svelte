@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { untrack } from 'svelte';
 	import TrackRow from './TrackRow.svelte';
 	import type { Clip } from '$lib/api';
 	import { audioEngine } from '$lib/services/audioEngine';
@@ -232,7 +231,9 @@
 	});
 
 	// Watch for BPM changes and update audio engine
-	$: if (bpm && typeof window !== 'undefined') {
+	let lastBpm = bpm;
+	$: if (bpm !== lastBpm && typeof window !== 'undefined') {
+		lastBpm = bpm;
 		audioEngine.setBPM(bpm);
 	}
 
