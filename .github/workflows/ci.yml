@@ -28,7 +28,7 @@ jobs:
           cache-dependency-path: backend/package-lock.json
 
       - name: Install backend dependencies
-        run: npm ci
+        run: npm install
 
       - name: Lint backend code
         run: npm run lint --if-present
@@ -57,7 +57,8 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install frontend dependencies
-        run: npm ci
+        run: |
+          npm install
 
       - name: Type check (Svelte)
         run: npm run check
