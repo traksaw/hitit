@@ -98,14 +98,20 @@
 			case 'arrowleft':
 				event.preventDefault();
 				if (selectedTrackIndex >= 0 && selectedTrackIndex < clips.length) {
-					trackStates[selectedTrackIndex].volume = Math.max(0, trackStates[selectedTrackIndex].volume - 0.05);
+					trackStates[selectedTrackIndex].volume = Math.max(
+						0,
+						trackStates[selectedTrackIndex].volume - 0.05
+					);
 					handleVolumeChange(selectedTrackIndex);
 				}
 				break;
 			case 'arrowright':
 				event.preventDefault();
 				if (selectedTrackIndex >= 0 && selectedTrackIndex < clips.length) {
-					trackStates[selectedTrackIndex].volume = Math.min(1, trackStates[selectedTrackIndex].volume + 0.05);
+					trackStates[selectedTrackIndex].volume = Math.min(
+						1,
+						trackStates[selectedTrackIndex].volume + 0.05
+					);
 					handleVolumeChange(selectedTrackIndex);
 				}
 				break;
@@ -121,11 +127,11 @@
 	});
 </script>
 
-<div class="track-mixer bg-lime-lightest rounded-lg shadow-2xl overflow-hidden">
+<div class="track-mixer bg-lime-lightest overflow-hidden rounded-lg shadow-2xl">
 	<!-- Mixer Header -->
-	<div class="mixer-header bg-lime-dark text-white p-4">
-		<h3 class="font-bold text-lg flex items-center gap-2">
-			<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+	<div class="mixer-header bg-lime-dark p-4 text-white">
+		<h3 class="flex items-center gap-2 text-lg font-bold">
+			<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
 				<path
 					d="M5 3a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 2h10v7h-2l-1 2H8l-1-2H5V5z"
 				/>
@@ -135,27 +141,32 @@
 	</div>
 
 	<!-- Channel Strips -->
-	<div class="mixer-channels flex gap-4 p-4 overflow-x-auto bg-lime-lighter">
+	<div class="mixer-channels bg-lime-lighter flex gap-4 overflow-x-auto p-4">
 		{#if clips.length > 0}
 			{#each clips as clip, i (clip._id)}
 				<div
-					class="channel-strip flex-shrink-0 w-24 bg-lime-light rounded-lg p-3 border shadow-lg {selectedTrackIndex === i ? 'border-2 border-lime-base ring-2 ring-lime-base/50' : 'border border-lime-base/30'}"
-					on:click={() => selectedTrackIndex = i}
+					class="channel-strip bg-lime-light w-24 flex-shrink-0 rounded-lg border p-3 shadow-lg {selectedTrackIndex ===
+					i
+						? 'border-lime-base ring-lime-base/50 border-2 ring-2'
+						: 'border-lime-base/30 border'}"
+					on:click={() => (selectedTrackIndex = i)}
 					on:keydown={(e) => e.key === 'Enter' && (selectedTrackIndex = i)}
 					role="button"
 					tabindex="0"
 				>
 					<!-- Track Number -->
-					<div class="text-center mb-3">
-						<div class="w-8 h-8 mx-auto rounded-full bg-lime-base text-white flex items-center justify-center font-bold text-sm">
+					<div class="mb-3 text-center">
+						<div
+							class="bg-lime-base mx-auto flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white"
+						>
 							{i + 1}
 						</div>
 					</div>
 
 					<!-- Mute/Solo -->
-					<div class="flex gap-1 mb-3">
+					<div class="mb-3 flex gap-1">
 						<button
-							class="flex-1 py-1 rounded text-xs font-bold {trackStates[i].muted
+							class="flex-1 rounded py-1 text-xs font-bold {trackStates[i].muted
 								? 'bg-gray-500 text-white'
 								: 'bg-lime-base/20 text-lime-darkest hover:bg-lime-base/40'} transition-colors"
 							on:click={() => toggleMute(i)}
@@ -163,7 +174,7 @@
 							M
 						</button>
 						<button
-							class="flex-1 py-1 rounded text-xs font-bold {trackStates[i].solo
+							class="flex-1 rounded py-1 text-xs font-bold {trackStates[i].solo
 								? 'bg-yellow-500 text-white'
 								: 'bg-lime-base/20 text-lime-darkest hover:bg-lime-base/40'} transition-colors"
 							on:click={() => toggleSolo(i)}
@@ -173,7 +184,7 @@
 					</div>
 
 					<!-- Volume Fader (Vertical) -->
-					<div class="fader-container h-48 flex flex-col items-center mb-3">
+					<div class="fader-container mb-3 flex h-48 flex-col items-center">
 						<input
 							type="range"
 							min="0"
@@ -183,20 +194,25 @@
 							on:input={() => handleVolumeChange(i)}
 							class="volume-fader accent-lime-base"
 						/>
-						<div class="w-full h-2 bg-lime-base rounded mt-2" style="width: {trackStates[i].volume * 100}%"></div>
-						<span class="text-xs font-mono text-lime-darkest mt-1">
+						<div
+							class="bg-lime-base mt-2 h-2 w-full rounded"
+							style="width: {trackStates[i].volume * 100}%"
+						></div>
+						<span class="text-lime-darkest mt-1 font-mono text-xs">
 							{Math.round(trackStates[i].volume * 100)}
 						</span>
 					</div>
 
 					<!-- Pan Knob -->
 					<div class="pan-control mb-3">
-						<div class="relative w-16 h-16 mx-auto bg-lime-darkest/20 rounded-full border-2 border-lime-base/50">
+						<div
+							class="bg-lime-darkest/20 border-lime-base/50 relative mx-auto h-16 w-16 rounded-full border-2"
+						>
 							<div
 								class="pan-indicator absolute inset-0 flex items-center justify-center"
 								style="transform: rotate({trackStates[i].pan * 45}deg)"
 							>
-								<div class="w-1 h-6 bg-lime-base rounded"></div>
+								<div class="bg-lime-base h-6 w-1 rounded"></div>
 							</div>
 						</div>
 						<input
@@ -206,17 +222,21 @@
 							step="0.1"
 							bind:value={trackStates[i].pan}
 							on:input={() => handlePanChange(i)}
-							class="w-full mt-2 accent-lime-base"
+							class="accent-lime-base mt-2 w-full"
 						/>
-						<span class="text-xs text-center block text-lime-darkest font-mono">
-							{trackStates[i].pan === 0 ? 'C' : trackStates[i].pan > 0 ? `R${Math.abs(trackStates[i].pan).toFixed(1)}` : `L${Math.abs(trackStates[i].pan).toFixed(1)}`}
+						<span class="text-lime-darkest block text-center font-mono text-xs">
+							{trackStates[i].pan === 0
+								? 'C'
+								: trackStates[i].pan > 0
+									? `R${Math.abs(trackStates[i].pan).toFixed(1)}`
+									: `L${Math.abs(trackStates[i].pan).toFixed(1)}`}
 						</span>
 					</div>
 
 					<!-- Effects -->
 					<div class="effects-rack space-y-1">
 						<button
-							class="w-full py-1 rounded text-xs font-bold {trackStates[i].effects.eq
+							class="w-full rounded py-1 text-xs font-bold {trackStates[i].effects.eq
 								? 'bg-lime-base text-white'
 								: 'bg-lime-base/20 text-lime-darkest hover:bg-lime-base/40'} transition-colors"
 							on:click={() => toggleEffect(i, 'eq')}
@@ -224,7 +244,7 @@
 							EQ
 						</button>
 						<button
-							class="w-full py-1 rounded text-xs font-bold {trackStates[i].effects.reverb
+							class="w-full rounded py-1 text-xs font-bold {trackStates[i].effects.reverb
 								? 'bg-lime-base text-white'
 								: 'bg-lime-base/20 text-lime-darkest hover:bg-lime-base/40'} transition-colors"
 							on:click={() => toggleEffect(i, 'reverb')}
@@ -232,7 +252,7 @@
 							REV
 						</button>
 						<button
-							class="w-full py-1 rounded text-xs font-bold {trackStates[i].effects.delay
+							class="w-full rounded py-1 text-xs font-bold {trackStates[i].effects.delay
 								? 'bg-lime-base text-white'
 								: 'bg-lime-base/20 text-lime-darkest hover:bg-lime-base/40'} transition-colors"
 							on:click={() => toggleEffect(i, 'delay')}
@@ -242,8 +262,8 @@
 					</div>
 
 					<!-- Track Name -->
-					<div class="track-name mt-3 pt-3 border-t border-lime-base/30">
-						<p class="text-xs font-semibold text-lime-darkest truncate text-center">
+					<div class="track-name border-lime-base/30 mt-3 border-t pt-3">
+						<p class="text-lime-darkest truncate text-center text-xs font-semibold">
 							{clip.title}
 						</p>
 					</div>
@@ -251,14 +271,18 @@
 			{/each}
 
 			<!-- Master Channel -->
-			<div class="channel-strip flex-shrink-0 w-24 bg-lime-base rounded-lg p-3 border-2 border-lime-darkest shadow-xl">
-				<div class="text-center mb-3">
-					<div class="w-8 h-8 mx-auto rounded-full bg-lime-darkest text-white flex items-center justify-center font-bold text-sm">
+			<div
+				class="channel-strip bg-lime-base border-lime-darkest w-24 flex-shrink-0 rounded-lg border-2 p-3 shadow-xl"
+			>
+				<div class="mb-3 text-center">
+					<div
+						class="bg-lime-darkest mx-auto flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-white"
+					>
 						M
 					</div>
 				</div>
 
-				<div class="fader-container h-48 flex flex-col items-center mb-3">
+				<div class="fader-container mb-3 flex h-48 flex-col items-center">
 					<input
 						type="range"
 						min="0"
@@ -267,11 +291,11 @@
 						value="0.8"
 						class="volume-fader accent-lime-darkest"
 					/>
-					<div class="w-full h-2 bg-lime-darkest rounded mt-2" style="width: 80%"></div>
-					<span class="text-xs font-mono text-white mt-1">80</span>
+					<div class="bg-lime-darkest mt-2 h-2 w-full rounded" style="width: 80%"></div>
+					<span class="mt-1 font-mono text-xs text-white">80</span>
 				</div>
 
-				<p class="text-xs font-bold text-white text-center mt-3">MASTER</p>
+				<p class="mt-3 text-center text-xs font-bold text-white">MASTER</p>
 			</div>
 		{:else}
 			<div class="w-full p-8 text-center text-gray-500">

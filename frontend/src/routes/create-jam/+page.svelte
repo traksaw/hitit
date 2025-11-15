@@ -76,22 +76,30 @@
 	}
 </script>
 
-<SEO title="Create New Jam" description="Start a new collaborative music jam on Hit.it. Share your vision and invite other musicians to collaborate." />
+<SEO
+	title="Create New Jam"
+	description="Start a new collaborative music jam on Hit.it. Share your vision and invite other musicians to collaborate."
+/>
 
-<div class="min-h-screen p-4 md:p-8 bg-primary-light flex justify-center items-center">
-	<div class="bg-white rounded-2xl p-8 md:p-10 w-full max-w-2xl shadow-2xl">
-		<h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-2">Create a New Jam</h1>
-		<p class="text-gray-600 text-center mb-8 text-sm md:text-base">Start a collaborative music project</p>
+<div class="bg-primary-light flex min-h-screen items-center justify-center p-4 md:p-8">
+	<div class="w-full max-w-2xl rounded-2xl bg-white p-8 shadow-2xl md:p-10">
+		<h1 class="mb-2 text-center text-3xl font-bold text-gray-800 md:text-4xl">Create a New Jam</h1>
+		<p class="mb-8 text-center text-sm text-gray-600 md:text-base">
+			Start a collaborative music project
+		</p>
 
 		{#if error}
-			<div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm" role="alert">
+			<div
+				class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+				role="alert"
+			>
 				{error}
 			</div>
 		{/if}
 
 		<form on:submit={handleSubmit} enctype="multipart/form-data" class="space-y-6">
 			<div>
-				<label for="title" class="block mb-2 text-gray-700 font-medium text-sm">Jam Title *</label>
+				<label for="title" class="mb-2 block text-sm font-medium text-gray-700">Jam Title *</label>
 				<input
 					type="text"
 					id="title"
@@ -99,18 +107,18 @@
 					placeholder="Give your jam a catchy name"
 					required
 					disabled={isSubmitting}
-					class="input-field disabled:bg-gray-100 disabled:cursor-not-allowed"
+					class="input-field disabled:cursor-not-allowed disabled:bg-gray-100"
 				/>
 			</div>
 
 			<div>
-				<label for="genre" class="block mb-2 text-gray-700 font-medium text-sm">Genre *</label>
+				<label for="genre" class="mb-2 block text-sm font-medium text-gray-700">Genre *</label>
 				<select
 					id="genre"
 					bind:value={genre}
 					required
 					disabled={isSubmitting}
-					class="input-field disabled:bg-gray-100 disabled:cursor-not-allowed"
+					class="input-field disabled:cursor-not-allowed disabled:bg-gray-100"
 				>
 					<option value="">Select a genre</option>
 					{#each genres as genreOption}
@@ -120,19 +128,22 @@
 			</div>
 
 			<div>
-				<label for="description" class="block mb-2 text-gray-700 font-medium text-sm">Description</label>
+				<label for="description" class="mb-2 block text-sm font-medium text-gray-700"
+					>Description</label
+				>
 				<textarea
 					id="description"
 					bind:value={description}
 					placeholder="Describe your jam, the vibe, or what you're looking for..."
 					rows="4"
 					disabled={isSubmitting}
-					class="input-field resize-y disabled:bg-gray-100 disabled:cursor-not-allowed"
+					class="input-field resize-y disabled:cursor-not-allowed disabled:bg-gray-100"
 				></textarea>
 			</div>
 
 			<div>
-				<label for="image" class="block mb-2 text-gray-700 font-medium text-sm">Cover Image *</label>
+				<label for="image" class="mb-2 block text-sm font-medium text-gray-700">Cover Image *</label
+				>
 				<input
 					type="file"
 					id="image"
@@ -140,27 +151,27 @@
 					on:change={handleFileChange}
 					required
 					disabled={isSubmitting}
-					class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:bg-gray-100 disabled:cursor-not-allowed"
+					class="focus:border-primary focus:ring-primary/20 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm transition-colors focus:ring-2 focus:outline-none disabled:cursor-not-allowed disabled:bg-gray-100"
 				/>
 				{#if imagePreview}
-					<div class="mt-4 rounded-lg overflow-hidden shadow-md">
-						<img src={imagePreview} alt="Preview" class="w-full max-h-80 object-cover" />
+					<div class="mt-4 overflow-hidden rounded-lg shadow-md">
+						<img src={imagePreview} alt="Preview" class="max-h-80 w-full object-cover" />
 					</div>
 				{/if}
 			</div>
 
-			<div class="flex flex-col sm:flex-row gap-4 mt-8">
+			<div class="mt-8 flex flex-col gap-4 sm:flex-row">
 				<button
 					type="button"
 					on:click={() => goto('/profile')}
 					disabled={isSubmitting}
-					class="flex-1 py-3 px-4 border-2 border-gray-300 rounded-lg font-semibold text-gray-700 hover:bg-gray-50 transition-all duration-200 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+					class="flex-1 rounded-lg border-2 border-gray-300 px-4 py-3 font-semibold text-gray-700 transition-all duration-200 hover:-translate-y-0.5 hover:bg-gray-50 disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
 				>
 					Cancel
 				</button>
 				<button
 					type="submit"
-					class="btn-primary flex-1 py-3 px-4 disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+					class="btn-primary flex-1 px-4 py-3 disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
 					disabled={isSubmitting}
 				>
 					{#if isSubmitting}

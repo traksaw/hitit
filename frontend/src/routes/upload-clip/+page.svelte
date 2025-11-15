@@ -74,7 +74,10 @@
 	}
 </script>
 
-<SEO title="Upload Audio Clip" description="Upload your audio clips to Hit.it. Share your music with the community and use them in collaborative jams." />
+<SEO
+	title="Upload Audio Clip"
+	description="Upload your audio clips to Hit.it. Share your music with the community and use them in collaborative jams."
+/>
 
 <div class="upload-clip-page">
 	<div class="form-container">

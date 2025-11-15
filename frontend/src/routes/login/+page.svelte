@@ -45,22 +45,30 @@
 	}
 </script>
 
-<SEO title="Login" description="Log in to Hit.it to start collaborating on music jams and sharing your audio clips with the community." />
+<SEO
+	title="Login"
+	description="Log in to Hit.it to start collaborating on music jams and sharing your audio clips with the community."
+/>
 
-<div class="flex justify-center items-center min-h-screen p-4 md:p-8 bg-primary-light">
-	<div class="bg-white rounded-2xl p-8 md:p-10 w-full max-w-md shadow-2xl">
-		<h1 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-2">Login to Hit.it</h1>
-		<p class="text-gray-600 text-center mb-8 text-sm md:text-base">Welcome back! Sign in to start jamming.</p>
+<div class="bg-primary-light flex min-h-screen items-center justify-center p-4 md:p-8">
+	<div class="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl md:p-10">
+		<h1 class="mb-2 text-center text-3xl font-bold text-gray-800 md:text-4xl">Login to Hit.it</h1>
+		<p class="mb-8 text-center text-sm text-gray-600 md:text-base">
+			Welcome back! Sign in to start jamming.
+		</p>
 
 		{#if error}
-			<div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6 text-sm" role="alert">
+			<div
+				class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+				role="alert"
+			>
 				{error}
 			</div>
 		{/if}
 
 		<form on:submit={handleLogin} class="space-y-6">
 			<div>
-				<label for="email" class="block mb-2 text-gray-700 font-medium text-sm">Email</label>
+				<label for="email" class="mb-2 block text-sm font-medium text-gray-700">Email</label>
 				<input
 					type="email"
 					id="email"
@@ -68,12 +76,12 @@
 					required
 					placeholder="your@email.com"
 					disabled={isLoading}
-					class="input-field disabled:bg-gray-100 disabled:cursor-not-allowed"
+					class="input-field disabled:cursor-not-allowed disabled:bg-gray-100"
 				/>
 			</div>
 
 			<div>
-				<label for="password" class="block mb-2 text-gray-700 font-medium text-sm">Password</label>
+				<label for="password" class="mb-2 block text-sm font-medium text-gray-700">Password</label>
 				<input
 					type="password"
 					id="password"
@@ -81,11 +89,15 @@
 					required
 					placeholder="Enter your password"
 					disabled={isLoading}
-					class="input-field disabled:bg-gray-100 disabled:cursor-not-allowed"
+					class="input-field disabled:cursor-not-allowed disabled:bg-gray-100"
 				/>
 			</div>
 
-			<button type="submit" class="btn-primary w-full py-3.5 text-base disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none" disabled={isLoading}>
+			<button
+				type="submit"
+				class="btn-primary w-full py-3.5 text-base disabled:transform-none disabled:cursor-not-allowed disabled:opacity-60"
+				disabled={isLoading}
+			>
 				{#if isLoading}
 					Logging in...
 				{:else}
@@ -94,8 +106,10 @@
 			</button>
 		</form>
 
-		<p class="mt-6 text-center text-gray-600 text-sm">
-			Don't have an account? <a href="/signup" class="text-primary font-semibold hover:underline">Sign up</a>
+		<p class="mt-6 text-center text-sm text-gray-600">
+			Don't have an account? <a href="/signup" class="text-primary font-semibold hover:underline"
+				>Sign up</a
+			>
 		</p>
 	</div>
 </div>

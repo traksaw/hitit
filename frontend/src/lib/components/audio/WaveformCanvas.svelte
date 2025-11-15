@@ -71,4 +71,4 @@
 	});
 </script>
 
-<div bind:this={container} class="waveform-canvas w-full rounded-lg overflow-hidden"></div>
+<div bind:this={container} class="waveform-canvas w-full overflow-hidden rounded-lg"></div>

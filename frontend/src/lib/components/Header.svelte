@@ -22,38 +22,40 @@
 	}
 </script>
 
-<header class="sticky top-0 z-50 bg-primary-dark text-white shadow-lg">
-	<div class="max-w-7xl mx-auto px-4 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
-		<a href="/feed" class="no-underline text-white hover:opacity-90 transition-opacity">
-			<h1 class="text-2xl md:text-3xl font-bold m-0">Hit.it</h1>
+<header class="bg-primary-dark sticky top-0 z-50 text-white shadow-lg">
+	<div
+		class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-4 md:flex-row"
+	>
+		<a href="/feed" class="text-white no-underline transition-opacity hover:opacity-90">
+			<h1 class="m-0 text-2xl font-bold md:text-3xl">Hit.it</h1>
 		</a>
 
-		<nav class="flex items-center gap-4 md:gap-6 flex-wrap justify-center">
+		<nav class="flex flex-wrap items-center justify-center gap-4 md:gap-6">
 			{#if $authStore.isAuthenticated && $authStore.user}
 				<a
 					href="/feed"
-					class="text-white no-underline font-medium px-4 py-2 rounded-lg transition-colors hover:bg-white/10"
+					class="rounded-lg px-4 py-2 font-medium text-white no-underline transition-colors hover:bg-white/10"
 				>
 					Feed
 				</a>
 				<a
 					href="/profile"
-					class="text-white no-underline font-medium px-4 py-2 rounded-lg transition-colors hover:bg-white/10"
+					class="rounded-lg px-4 py-2 font-medium text-white no-underline transition-colors hover:bg-white/10"
 				>
 					Profile
 				</a>
 
-				<div class="flex items-center gap-3 pl-0 md:pl-4 md:border-l md:border-white/30">
+				<div class="flex items-center gap-3 pl-0 md:border-l md:border-white/30 md:pl-4">
 					<img
 						src={$authStore.user.image}
 						alt={$authStore.user.userName}
-						class="w-9 h-9 rounded-full object-cover border-2 border-white"
+						class="h-9 w-9 rounded-full border-2 border-white object-cover"
 					/>
-					<span class="font-medium text-sm hidden md:inline">{$authStore.user.userName}</span>
+					<span class="hidden text-sm font-medium md:inline">{$authStore.user.userName}</span>
 					<button
 						on:click={handleLogout}
 						disabled={isLoggingOut}
-						class="bg-white/20 text-white border border-white px-4 py-2 rounded-lg font-medium cursor-pointer transition-colors hover:bg-white/30 disabled:opacity-60 disabled:cursor-not-allowed"
+						class="cursor-pointer rounded-lg border border-white bg-white/20 px-4 py-2 font-medium text-white transition-colors hover:bg-white/30 disabled:cursor-not-allowed disabled:opacity-60"
 					>
 						{isLoggingOut ? 'Logging out...' : 'Logout'}
 					</button>
@@ -61,13 +63,13 @@
 			{:else}
 				<a
 					href="/login"
-					class="text-white no-underline font-medium px-4 py-2 rounded-lg transition-colors hover:bg-white/10"
+					class="rounded-lg px-4 py-2 font-medium text-white no-underline transition-colors hover:bg-white/10"
 				>
 					Login
 				</a>
 				<a
 					href="/signup"
-					class="bg-white/20 border border-white text-white no-underline font-medium px-4 py-2 rounded-lg transition-colors hover:bg-white/30"
+					class="rounded-lg border border-white bg-white/20 px-4 py-2 font-medium text-white no-underline transition-colors hover:bg-white/30"
 				>
 					Sign Up
 				</a>

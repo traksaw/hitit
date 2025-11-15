@@ -44,7 +44,10 @@
 	<!-- Additional Meta Tags -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="theme-color" content="#667eea" />
-	<meta name="keywords" content="music collaboration, audio sharing, jam sessions, music creation, collaborative music, audio clips" />
+	<meta
+		name="keywords"
+		content="music collaboration, audio sharing, jam sessions, music creation, collaborative music, audio clips"
+	/>
 	<meta name="author" content="Hit.it" />
 
 	<!-- Canonical URL -->

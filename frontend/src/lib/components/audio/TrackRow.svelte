@@ -37,10 +37,13 @@
 		isDragging = true;
 		if (event.dataTransfer) {
 			event.dataTransfer.effectAllowed = 'move';
-			event.dataTransfer.setData('application/json', JSON.stringify({
-				clip,
-				trackNumber
-			}));
+			event.dataTransfer.setData(
+				'application/json',
+				JSON.stringify({
+					clip,
+					trackNumber
+				})
+			);
 		}
 	}
 
@@ -50,7 +53,9 @@
 </script>
 
 <div
-	class="track-row flex items-center h-24 border-b border-lime-light transition-colors group {isDragging ? 'opacity-50 bg-lime-medium' : 'bg-lime-lighter hover:bg-lime-light/50'}"
+	class="track-row border-lime-light group flex h-24 items-center border-b transition-colors {isDragging
+		? 'bg-lime-medium opacity-50'
+		: 'bg-lime-lighter hover:bg-lime-light/50'}"
 	draggable="true"
 	on:dragstart={handleDragStart}
 	on:dragend={handleDragEnd}
@@ -58,17 +63,17 @@
 	tabindex="0"
 >
 	<!-- Track Number & Color -->
-	<div class="w-12 h-full flex items-center justify-center bg-lime-base text-white font-bold">
+	<div class="bg-lime-base flex h-full w-12 items-center justify-center font-bold text-white">
 		{trackNumber}
 	</div>
 
 	<!-- Track Controls -->
-	<div class="track-controls flex items-center gap-2 w-64 px-4 bg-lime-lighter/80">
+	<div class="track-controls bg-lime-lighter/80 flex w-64 items-center gap-2 px-4">
 		<!-- Mute -->
 		<button
-			class="w-8 h-8 rounded {isMuted
+			class="h-8 w-8 rounded {isMuted
 				? 'bg-gray-500'
-				: 'bg-lime-base hover:bg-lime-medium'} text-white text-xs font-bold transition-colors"
+				: 'bg-lime-base hover:bg-lime-medium'} text-xs font-bold text-white transition-colors"
 			on:click={toggleMute}
 			title="Mute"
 		>
@@ -77,9 +82,9 @@
 
 		<!-- Solo -->
 		<button
-			class="w-8 h-8 rounded {isSolo
+			class="h-8 w-8 rounded {isSolo
 				? 'bg-yellow-500'
-				: 'bg-lime-base hover:bg-lime-medium'} text-white text-xs font-bold transition-colors"
+				: 'bg-lime-base hover:bg-lime-medium'} text-xs font-bold text-white transition-colors"
 			on:click={toggleSolo}
 			title="Solo"
 		>
@@ -87,7 +92,7 @@
 		</button>
 
 		<!-- Volume Fader -->
-		<div class="flex flex-col items-center flex-1">
+		<div class="flex flex-1 flex-col items-center">
 			<input
 				type="range"
 				min="0"
@@ -95,7 +100,7 @@
 				step="0.01"
 				bind:value={volume}
 				on:input={handleVolumeChange}
-				class="w-full accent-lime-base"
+				class="accent-lime-base w-full"
 				title="Volume"
 			/>
 			<span class="text-xs text-gray-600">{Math.round(volume * 100)}%</span>
@@ -110,52 +115,55 @@
 				step="0.1"
 				bind:value={pan}
 				on:input={handlePanChange}
-				class="w-16 accent-lime-base"
+				class="accent-lime-base w-16"
 				title="Pan"
 			/>
-			<span class="text-xs text-gray-600">{pan === 0 ? 'C' : pan > 0 ? `R${Math.abs(pan).toFixed(1)}` : `L${Math.abs(pan).toFixed(1)}`}</span>
+			<span class="text-xs text-gray-600"
+				>{pan === 0
+					? 'C'
+					: pan > 0
+						? `R${Math.abs(pan).toFixed(1)}`
+						: `L${Math.abs(pan).toFixed(1)}`}</span
+			>
 		</div>
 	</div>
 
 	<!-- Clip Info & Waveform Preview -->
-	<div class="flex-1 px-4 flex items-center gap-3">
+	<div class="flex flex-1 items-center gap-3 px-4">
 		<div class="flex-1">
-			<p class="font-semibold text-gray-800 text-sm">{clip.title}</p>
+			<p class="text-sm font-semibold text-gray-800">{clip.title}</p>
 			{#if clip.description}
-				<p class="text-xs text-gray-600 truncate">{clip.description}</p>
+				<p class="truncate text-xs text-gray-600">{clip.description}</p>
 			{/if}
 		</div>
 
 		<!-- Mini Waveform Visualization -->
-		<div class="w-32 h-12 bg-lime-darkest/20 rounded relative overflow-hidden">
+		<div class="bg-lime-darkest/20 relative h-12 w-32 overflow-hidden rounded">
 			<div class="absolute inset-0 flex items-center justify-center">
 				<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 				{#each Array(20).fill(0) as _, waveIdx (waveIdx)}
-					<div
-						class="w-1 bg-lime-base mx-px"
-						style="height: {Math.random() * 100}%"
-					></div>
+					<div class="bg-lime-base mx-px w-1" style="height: {Math.random() * 100}%"></div>
 				{/each}
 			</div>
 		</div>
 	</div>
 
 	<!-- Effects Chain (Hidden, shown on hover) -->
-	<div class="effects-chain opacity-0 group-hover:opacity-100 transition-opacity px-4 flex gap-2">
+	<div class="effects-chain flex gap-2 px-4 opacity-0 transition-opacity group-hover:opacity-100">
 		<button
-			class="px-3 py-1 bg-lime-dark text-white text-xs rounded hover:bg-lime-medium transition-colors"
+			class="bg-lime-dark hover:bg-lime-medium rounded px-3 py-1 text-xs text-white transition-colors"
 			title="EQ"
 		>
 			EQ
 		</button>
 		<button
-			class="px-3 py-1 bg-lime-dark text-white text-xs rounded hover:bg-lime-medium transition-colors"
+			class="bg-lime-dark hover:bg-lime-medium rounded px-3 py-1 text-xs text-white transition-colors"
 			title="Reverb"
 		>
 			REV
 		</button>
 		<button
-			class="px-3 py-1 bg-lime-dark text-white text-xs rounded hover:bg-lime-medium transition-colors"
+			class="bg-lime-dark hover:bg-lime-medium rounded px-3 py-1 text-xs text-white transition-colors"
 			title="Delay"
 		>
 			DLY

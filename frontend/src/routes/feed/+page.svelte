@@ -53,15 +53,15 @@
 	description="Discover amazing music jams from talented creators. Explore Hip-Hop, Pop, Jazz, and more collaborative music projects on Hit.it."
 />
 
-<div class="min-h-screen py-8 px-4 md:py-12 md:px-6 max-w-7xl mx-auto">
+<div class="mx-auto min-h-screen max-w-7xl px-4 py-8 md:px-6 md:py-12">
 	{#if loading}
 		<LoadingSpinner />
 	{:else if error}
-		<div class="text-center py-12 px-4">
-			<p class="text-red-500 mb-4 text-lg font-medium">{error}</p>
+		<div class="px-4 py-12 text-center">
+			<p class="mb-4 text-lg font-medium text-red-500">{error}</p>
 			<button
 				on:click={() => loadFeed(currentPage)}
-				class="bg-accent hover:bg-accent-600 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:shadow-lg"
+				class="bg-accent hover:bg-accent-600 rounded-lg px-6 py-3 font-semibold text-gray-900 transition-all duration-200 hover:shadow-lg"
 			>
 				Try Again
 			</button>
@@ -70,11 +70,11 @@
 		<!-- Favorite Genres Section -->
 		{#if Object.keys(genreFavJams).length > 0}
 			<section class="mb-16">
-				<div class="text-center mb-8">
-					<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">My Favorite Genres</h2>
-					<p class="text-gray-600 text-base md:text-lg">Discover jams from your favorite genres</p>
+				<div class="mb-8 text-center">
+					<h2 class="text-primary-deep mb-2 text-3xl font-bold md:text-4xl">My Favorite Genres</h2>
+					<p class="text-base text-gray-600 md:text-lg">Discover jams from your favorite genres</p>
 				</div>
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
 					{#each Object.entries(genreFavJams) as [genre, genreJams] (genre)}
 						{#each genreJams as jam (jam._id)}
 							<JamCard {jam} />
@@ -87,11 +87,11 @@
 		<!-- Hip-Hop Section -->
 		{#if hipHopJams.length > 0}
 			<section class="mb-16">
-				<div class="text-center mb-8">
-					<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">Hip-Hop Jams</h2>
-					<p class="text-gray-600 text-base md:text-lg">Hip-Hop Bangers For You To Check Out!</p>
+				<div class="mb-8 text-center">
+					<h2 class="text-primary-deep mb-2 text-3xl font-bold md:text-4xl">Hip-Hop Jams</h2>
+					<p class="text-base text-gray-600 md:text-lg">Hip-Hop Bangers For You To Check Out!</p>
 				</div>
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
 					{#each hipHopJams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
@@ -102,11 +102,11 @@
 		<!-- Pop Section -->
 		{#if popJams.length > 0}
 			<section class="mb-16">
-				<div class="text-center mb-8">
-					<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">Pop Jams</h2>
-					<p class="text-gray-600 text-base md:text-lg">Pop Hits For You To Check Out!</p>
+				<div class="mb-8 text-center">
+					<h2 class="text-primary-deep mb-2 text-3xl font-bold md:text-4xl">Pop Jams</h2>
+					<p class="text-base text-gray-600 md:text-lg">Pop Hits For You To Check Out!</p>
 				</div>
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
 					{#each popJams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
@@ -116,13 +116,13 @@
 
 		<!-- All Jams Section -->
 		<section class="mb-16">
-			<div class="text-center mb-8">
-				<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">Explore All Jams</h2>
-				<p class="text-gray-600 text-base md:text-lg">Recently Created Jams</p>
+			<div class="mb-8 text-center">
+				<h2 class="text-primary-deep mb-2 text-3xl font-bold md:text-4xl">Explore All Jams</h2>
+				<p class="text-base text-gray-600 md:text-lg">Recently Created Jams</p>
 			</div>
 
 			{#if jams.length > 0}
-				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+				<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:grid-cols-4">
 					{#each jams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
@@ -131,7 +131,7 @@
 				<!-- Pagination -->
 				<Pagination {currentPage} {totalPages} onPageChange={handlePageChange} />
 			{:else}
-				<div class="text-center py-12 text-gray-600">
+				<div class="py-12 text-center text-gray-600">
 					<p>No jams yet. Be the first to create one!</p>
 				</div>
 			{/if}
