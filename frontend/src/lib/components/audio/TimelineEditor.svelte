@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
+	import { untrack } from 'svelte';
 	import TrackRow from './TrackRow.svelte';
 	import type { Clip } from '$lib/api';
 	import { audioEngine } from '$lib/services/audioEngine';
@@ -28,9 +29,7 @@
 	$: ticks = Array.from({ length: Math.ceil(duration) }, (_, i) => i);
 
 	// Update BPM in audio engine when it changes
-	$: {
-		audioEngine.setBPM(bpm);
-	}
+	$: untrack(() => audioEngine.setBPM(bpm));
 
 	let playheadInterval: number | null = null;
 
@@ -433,7 +432,7 @@
 					<div class="p-2 h-full flex flex-col">
 						<p class="text-xs font-bold text-white truncate">{placement.clip.title}</p>
 						<div class="flex-1 flex items-center gap-px mt-1">
-							{#each Array(15).fill(0) as value, waveIdx (waveIdx)}
+							{#each Array(15).fill(0) as _, waveIdx (waveIdx)}
 								<div class="w-1 bg-white/50" style="height: {Math.random() * 100}%"></div>
 							{/each}
 						</div>
