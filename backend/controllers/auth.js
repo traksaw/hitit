@@ -136,3 +136,161 @@ exports.postSignup = async (req, res, next) => {
     }
   );
 };
+
+// ==================== API ENDPOINTS FOR SVELTE FRONTEND ====================
+
+// POST /api/auth/login - Authenticate user and return JSON
+exports.apiLogin = (req, res, next) => {
+  const validationErrors = [];
+  if (!validator.isEmail(req.body.email))
+    validationErrors.push({ msg: 'Please enter a valid email address.' });
+  if (validator.isEmpty(req.body.password))
+    validationErrors.push({ msg: 'Password cannot be blank.' });
+
+  if (validationErrors.length) {
+    return res.status(400).json({ success: false, errors: validationErrors });
+  }
+
+  req.body.email = validator.normalizeEmail(req.body.email, {
+    gmail_remove_dots: false,
+  });
+
+  passport.authenticate('local', (err, user, info) => {
+    if (err) {
+      return res.status(500).json({ success: false, error: 'Authentication error' });
+    }
+    if (!user) {
+      return res.status(401).json({ success: false, error: info.message || 'Invalid credentials' });
+    }
+    req.logIn(user, (err) => {
+      if (err) {
+        return res.status(500).json({ success: false, error: 'Login error' });
+      }
+      res.json({
+        success: true,
+        user: {
+          id: user._id,
+          userName: user.userName,
+          email: user.email,
+          image: user.image,
+          favoriteGenres: user.favoriteGenres,
+        },
+      });
+    });
+  })(req, res, next);
+};
+
+// POST /api/auth/signup - Register new user and return JSON
+exports.apiSignup = async (req, res, next) => {
+  try {
+    const validationErrors = [];
+    if (!validator.isEmail(req.body.email))
+      validationErrors.push({ msg: 'Please enter a valid email address.' });
+    if (!validator.isLength(req.body.password, { min: 8 }))
+      validationErrors.push({
+        msg: 'Password must be at least 8 characters long',
+      });
+    if (req.body.password !== req.body.confirmPassword)
+      validationErrors.push({ msg: 'Passwords do not match' });
+
+    if (validationErrors.length) {
+      return res.status(400).json({ success: false, errors: validationErrors });
+    }
+
+    req.body.email = validator.normalizeEmail(req.body.email, {
+      gmail_remove_dots: false,
+    });
+
+    // Check if file was uploaded
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: 'Profile image is required' });
+    }
+
+    const result = await cloudinary.uploader.upload(req.file.path, { resource_type: 'auto' });
+
+    const { userName, email, password, favoriteGenres } = req.body;
+
+    // Check if user already exists
+    const existingUser = await User.findOne({
+      $or: [{ email: req.body.email }, { userName: req.body.userName }],
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        success: false,
+        error: 'Account with that email address or username already exists.',
+      });
+    }
+
+    const user = new User({
+      userName,
+      email,
+      password,
+      image: result.secure_url,
+      favoriteGenres: Array.isArray(favoriteGenres) ? favoriteGenres : [favoriteGenres],
+      cloudinaryImageId: result.public_id,
+      fileName: req.file.path,
+    });
+
+    await user.save();
+
+    req.logIn(user, (err) => {
+      if (err) {
+        return res.status(500).json({ success: false, error: 'Login error after signup' });
+      }
+      res.status(201).json({
+        success: true,
+        user: {
+          id: user._id,
+          userName: user.userName,
+          email: user.email,
+          image: user.image,
+          favoriteGenres: user.favoriteGenres,
+        },
+      });
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// POST /api/auth/logout - Destroy session and return JSON
+exports.apiLogout = (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      console.error('Logout Error:', err);
+      return res.status(500).json({ success: false, error: 'Logout error' });
+    }
+
+    if (req.session) {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+          return res.status(500).json({ success: false, error: 'Session destroy error' });
+        }
+        req.user = null;
+        res.json({ success: true, message: 'Logged out successfully' });
+      });
+    } else {
+      res.json({ success: true, message: 'Logged out successfully' });
+    }
+  });
+};
+
+// GET /api/auth/me - Get current authenticated user
+exports.apiGetCurrentUser = (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ success: false, error: 'Not authenticated' });
+  }
+
+  res.json({
+    success: true,
+    user: {
+      id: req.user._id,
+      userName: req.user.userName,
+      email: req.user.email,
+      image: req.user.image,
+      favoriteGenres: req.user.favoriteGenres,
+    },
+  });
+};

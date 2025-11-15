@@ -61,6 +61,47 @@ module.exports = {
       console.log(err);
     }
   },
+
+  // NEW: JSON API endpoint for Svelte profile page
+  getProfileAPI: async (req, res) => {
+    try {
+      // Get user ID from params (for viewing other profiles) or current user
+      const userId = req.params.userId || req.user.id;
+
+      // Fetch user data
+      const user = await User.findById(userId).lean();
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      // Fetch user's clips, jams, and collaboration jams
+      const [clips, myJams, collabJams] = await Promise.all([
+        Clip.find({ user: userId }).sort({ createdAt: 'desc' }).lean(),
+        Jam.find({ user: userId }).sort({ createdAt: 'desc' }).lean(),
+        Jam.find({ collaborators: userId }).sort({ createdAt: 'desc' }).lean(),
+      ]);
+
+      // Return JSON response
+      res.json({
+        success: true,
+        user: {
+          id: user._id,
+          userName: user.userName,
+          email: user.email,
+          image: user.image,
+          favoriteGenres: user.favoriteGenres,
+        },
+        clips,
+        jams: myJams,
+        collabJams,
+        isOwnProfile: req.user ? user._id.toString() === req.user._id.toString() : false,
+      });
+    } catch (err) {
+      console.error('Error fetching profile:', err);
+      res.status(500).json({ error: 'Error loading profile' });
+    }
+  },
   getJamFeed: async (req, res) => {
     try {
       // Pagination settings
@@ -267,6 +308,73 @@ module.exports = {
     } catch (error) {
       console.error('Error fetching Jam with audio details:', error);
       res.status(500).send('Error loading jam');
+    }
+  },
+
+  // NEW: JSON API endpoint for Svelte jam detail page
+  getJamAPI: async (req, res) => {
+    try {
+      // Find the Jam by its ID with populated references
+      const jam = await Jam.findById(req.params.id)
+        .populate('audioElements')
+        .populate('collaborators')
+        .populate('user') // Also populate jam owner
+        .lean();
+
+      if (!jam) {
+        return res.status(404).json({ error: 'Jam not found' });
+      }
+
+      // Filter out any null audio elements
+      const validAudioDetails = (jam.audioElements || []).filter((audio) => audio !== null);
+      const collaboratorDetails = jam.collaborators || [];
+
+      // Fetch comments with populated user data
+      const commentsOfJam = await Comment.find({ jam: req.params.id })
+        .populate('user')
+        .sort({ createdAt: -1 })
+        .lean();
+
+      // If user is authenticated, get their clips and available users
+      let myAudioClips = [];
+      let availableUsers = [];
+      let availableClips = [];
+
+      if (req.user) {
+        const [allUsers, userClips] = await Promise.all([
+          User.find().lean(),
+          Clip.find({ user: req.user.id }).sort({ createdAt: 'desc' }).lean(),
+        ]);
+
+        myAudioClips = userClips;
+
+        // Filter out current user and existing collaborators
+        const collaboratorIds = new Set(jam.collaborators.map((c) => c._id.toString()));
+        availableUsers = allUsers.filter(
+          (user) =>
+            user._id.toString() !== req.user._id.toString() &&
+            !collaboratorIds.has(user._id.toString())
+        );
+
+        // Filter out clips already in jam
+        const audioElementIds = new Set(jam.audioElements.map((a) => a._id.toString()));
+        availableClips = myAudioClips.filter((clip) => !audioElementIds.has(clip._id.toString()));
+      }
+
+      // Return JSON response
+      res.json({
+        success: true,
+        jam,
+        audioClips: validAudioDetails,
+        collaborators: collaboratorDetails,
+        comments: commentsOfJam,
+        myAvailableClips: availableClips,
+        availableUsers,
+        isOwner: req.user ? jam.user._id.toString() === req.user._id.toString() : false,
+      });
+    } catch (error) {
+      console.error('Error fetching Jam:', error);
+      res.status(500).json({ error: 'Error loading jam' });
     }
   },
   addClipToJam: async (req, res) => {

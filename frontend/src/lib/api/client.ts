@@ -25,10 +25,19 @@ export const jamAPI = {
 	},
 
 	/**
-	 * Get a single jam by ID
+	 * Get a single jam by ID (API endpoint with full details)
 	 */
 	getById: async (id: string) => {
-		const response = await apiClient.get<Jam>(`/clips/jam/${id}`);
+		const response = await apiClient.get<{
+			success: boolean;
+			jam: Jam;
+			audioClips: Clip[];
+			collaborators: User[];
+			comments: Comment[];
+			myAvailableClips: Clip[];
+			availableUsers: User[];
+			isOwner: boolean;
+		}>(`/clips/api/jam/${id}`);
 		return response.data;
 	},
 
@@ -145,31 +154,54 @@ export const commentAPI = {
 
 export const authAPI = {
 	/**
-	 * Login user
+	 * Login user - Uses new API endpoint
 	 */
 	login: async (credentials: { email: string; password: string }) => {
-		const response = await apiClient.post<{ user: User }>('/login', credentials);
+		const response = await apiClient.post<{ success: boolean; user: User; error?: string }>(
+			'/api/auth/login',
+			credentials
+		);
 		return response.data;
 	},
 
 	/**
-	 * Signup new user
+	 * Signup new user - Uses new API endpoint with FormData for file upload
 	 */
-	signup: async (data: { userName: string; email: string; password: string }) => {
-		const response = await apiClient.post<{ user: User }>('/signup', data);
+	signup: async (formData: FormData) => {
+		const response = await apiClient.post<{ success: boolean; user: User; error?: string }>(
+			'/api/auth/signup',
+			formData,
+			{
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+			}
+		);
 		return response.data;
 	},
 
 	/**
-	 * Logout current user
+	 * Logout current user - Uses new API endpoint
 	 */
 	logout: async () => {
-		const response = await apiClient.get('/logout');
+		const response = await apiClient.post<{ success: boolean; message: string }>(
+			'/api/auth/logout'
+		);
 		return response.data;
 	},
 
 	/**
-	 * Get current user profile
+	 * Get current authenticated user - Uses new API endpoint
+	 */
+	getCurrentUser: async () => {
+		const response = await apiClient.get<{ success: boolean; user: User; error?: string }>(
+			'/api/auth/me'
+		);
+		return response.data;
+	},
+
+	/**
+	 * Get current user profile (old endpoint - keep for backward compatibility)
 	 */
 	getProfile: async () => {
 		const response = await apiClient.get<{
@@ -178,6 +210,22 @@ export const authAPI = {
 			jams: Jam[];
 			collabJams: Jam[];
 		}>('/profile');
+		return response.data;
+	},
+
+	/**
+	 * Get user profile by ID (or current user if no ID provided) - Uses new API endpoint
+	 */
+	getProfileData: async (userId?: string) => {
+		const endpoint = userId ? `/api/profile/${userId}` : '/api/profile';
+		const response = await apiClient.get<{
+			success: boolean;
+			user: User;
+			clips: Clip[];
+			jams: Jam[];
+			collabJams: Jam[];
+			isOwnProfile: boolean;
+		}>(endpoint);
 		return response.data;
 	}
 };

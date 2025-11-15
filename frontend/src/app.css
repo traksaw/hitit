@@ -1,3 +1,78 @@
 @import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+
+/* Custom base styles */
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-family: 'Poppins', system-ui, -apple-system, sans-serif;
+}
+
+body {
+	background-color: #deefd8; /* Limewire light green */
+	color: #1c1c1c;
+	margin: 0;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom component styles - Limewire green theme */
+.btn-primary {
+	background-color: #79bf62; /* dark-green */
+	color: white;
+	font-weight: 600;
+	padding: 0.75rem 1.5rem;
+	border-radius: 0.5rem;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	transition: all 0.2s;
+}
+
+.btn-primary:hover {
+	background-color: #58af3b; /* deep-green */
+	box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+	transform: translateY(-2px);
+}
+
+.btn-secondary {
+	background: white;
+	color: #79bf62;
+	font-weight: 600;
+	padding: 0.75rem 1.5rem;
+	border-radius: 0.5rem;
+	border: 2px solid #79bf62;
+	transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+	background: #deefd8;
+	transform: translateY(-2px);
+}
+
+.card {
+	background: #bcdfb1; /* medium-green */
+	border-radius: 1.25rem;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+	overflow: hidden;
+	transition: all 0.2s;
+}
+
+.card:hover {
+	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.input-field {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	border: 1px solid #9bcf89; /* green */
+	border-radius: 0.5rem;
+	transition: all 0.2s;
+	background-color: white;
+}
+
+.input-field:focus {
+	outline: none;
+	border-color: #79bf62; /* dark-green */
+	box-shadow: 0 0 0 3px rgba(121, 191, 98, 0.1);
+}

@@ -37,6 +37,7 @@
 		"@tailwindcss/vite": "^4.1.14",
 		"@types/node": "^22",
 		"@vitest/browser-playwright": "^4.0.5",
+		"autoprefixer": "^10.4.22",
 		"eslint": "^9.38.0",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.12.4",
@@ -44,12 +45,13 @@
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.6",
 		"playwright": "^1.56.1",
+		"postcss": "^8.5.6",
 		"prettier": "^3.6.2",
 		"prettier-plugin-svelte": "^3.4.0",
 		"prettier-plugin-tailwindcss": "^0.7.1",
 		"svelte": "^5.41.0",
 		"svelte-check": "^4.3.3",
-		"tailwindcss": "^4.1.14",
+		"tailwindcss": "^4.1.17",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.46.1",
 		"vite": "^7.1.10",
@@ -59,6 +61,7 @@
 	"dependencies": {
 		"axios": "^1.13.2",
 		"socket.io-client": "^4.8.1",
+		"tone": "^15.1.22",
 		"wavesurfer.js": "^7.11.1"
 	}
 }

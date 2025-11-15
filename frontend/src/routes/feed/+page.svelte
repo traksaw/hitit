@@ -4,6 +4,7 @@
 	import JamCard from '$lib/components/JamCard.svelte';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import Pagination from '$lib/components/Pagination.svelte';
+	import SEO from '$lib/components/SEO.svelte';
 
 	let loading = true;
 	let error: string | null = null;
@@ -47,27 +48,33 @@
 	});
 </script>
 
-<svelte:head>
-	<title>Feed - hit.it</title>
-</svelte:head>
+<SEO
+	title="Feed"
+	description="Discover amazing music jams from talented creators. Explore Hip-Hop, Pop, Jazz, and more collaborative music projects on Hit.it."
+/>
 
-<div class="feed-page">
+<div class="min-h-screen py-8 px-4 md:py-12 md:px-6 max-w-7xl mx-auto">
 	{#if loading}
 		<LoadingSpinner />
 	{:else if error}
-		<div class="error-message">
-			<p>{error}</p>
-			<button on:click={() => loadFeed(currentPage)}>Try Again</button>
+		<div class="text-center py-12 px-4">
+			<p class="text-red-500 mb-4 text-lg font-medium">{error}</p>
+			<button
+				on:click={() => loadFeed(currentPage)}
+				class="bg-accent hover:bg-accent-600 text-gray-900 font-semibold py-3 px-6 rounded-lg transition-all duration-200 hover:shadow-lg"
+			>
+				Try Again
+			</button>
 		</div>
 	{:else}
 		<!-- Favorite Genres Section -->
 		{#if Object.keys(genreFavJams).length > 0}
-			<section class="genre-section">
-				<div class="section-header">
-					<h2 class="section-title">My Favorite Genres</h2>
-					<p class="section-subtitle">Discover jams from your favorite genres</p>
+			<section class="mb-16">
+				<div class="text-center mb-8">
+					<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">My Favorite Genres</h2>
+					<p class="text-gray-600 text-base md:text-lg">Discover jams from your favorite genres</p>
 				</div>
-				<div class="jam-grid">
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
 					{#each Object.entries(genreFavJams) as [genre, genreJams] (genre)}
 						{#each genreJams as jam (jam._id)}
 							<JamCard {jam} />
@@ -79,12 +86,12 @@
 
 		<!-- Hip-Hop Section -->
 		{#if hipHopJams.length > 0}
-			<section class="genre-section">
-				<div class="section-header">
-					<h2 class="section-title">Hip-Hop Jams</h2>
-					<p class="section-subtitle">Hip-Hop Bangers For You To Check Out!</p>
+			<section class="mb-16">
+				<div class="text-center mb-8">
+					<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">Hip-Hop Jams</h2>
+					<p class="text-gray-600 text-base md:text-lg">Hip-Hop Bangers For You To Check Out!</p>
 				</div>
-				<div class="jam-grid">
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
 					{#each hipHopJams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
@@ -94,12 +101,12 @@
 
 		<!-- Pop Section -->
 		{#if popJams.length > 0}
-			<section class="genre-section">
-				<div class="section-header">
-					<h2 class="section-title">Pop Jams</h2>
-					<p class="section-subtitle">Pop Hits For You To Check Out!</p>
+			<section class="mb-16">
+				<div class="text-center mb-8">
+					<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">Pop Jams</h2>
+					<p class="text-gray-600 text-base md:text-lg">Pop Hits For You To Check Out!</p>
 				</div>
-				<div class="jam-grid">
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
 					{#each popJams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
@@ -108,14 +115,14 @@
 		{/if}
 
 		<!-- All Jams Section -->
-		<section class="genre-section">
-			<div class="section-header">
-				<h2 class="section-title">Explore All Jams</h2>
-				<p class="section-subtitle">Recently Created Jams</p>
+		<section class="mb-16">
+			<div class="text-center mb-8">
+				<h2 class="text-3xl md:text-4xl font-bold text-primary-deep mb-2">Explore All Jams</h2>
+				<p class="text-gray-600 text-base md:text-lg">Recently Created Jams</p>
 			</div>
 
 			{#if jams.length > 0}
-				<div class="jam-grid">
+				<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
 					{#each jams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
@@ -124,90 +131,10 @@
 				<!-- Pagination -->
 				<Pagination {currentPage} {totalPages} onPageChange={handlePageChange} />
 			{:else}
-				<div class="empty-state">
+				<div class="text-center py-12 text-gray-600">
 					<p>No jams yet. Be the first to create one!</p>
 				</div>
 			{/if}
 		</section>
 	{/if}
 </div>
-
-<style>
-	.feed-page {
-		min-height: 100vh;
-		padding: 2rem 1rem;
-		max-width: 1400px;
-		margin: 0 auto;
-	}
-
-	.genre-section {
-		margin-bottom: 4rem;
-	}
-
-	.section-header {
-		text-align: center;
-		margin-bottom: 2rem;
-	}
-
-	.section-title {
-		font-size: 2rem;
-		font-weight: 700;
-		color: #00ff88;
-		margin: 0 0 0.5rem 0;
-	}
-
-	.section-subtitle {
-		font-size: 1rem;
-		color: #666;
-		margin: 0;
-	}
-
-	.jam-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-		gap: 1.5rem;
-	}
-
-	@media (max-width: 768px) {
-		.jam-grid {
-			grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-			gap: 1rem;
-		}
-
-		.section-title {
-			font-size: 1.5rem;
-		}
-	}
-
-	.error-message {
-		text-align: center;
-		padding: 3rem;
-	}
-
-	.error-message p {
-		color: #dc3545;
-		margin-bottom: 1rem;
-		font-size: 1.1rem;
-	}
-
-	.error-message button {
-		background: #00ff88;
-		color: #000;
-		border: none;
-		padding: 0.75rem 1.5rem;
-		border-radius: 4px;
-		font-weight: 600;
-		cursor: pointer;
-		transition: opacity 0.2s;
-	}
-
-	.error-message button:hover {
-		opacity: 0.8;
-	}
-
-	.empty-state {
-		text-align: center;
-		padding: 3rem;
-		color: #666;
-	}
-</style>

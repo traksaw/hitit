@@ -16,6 +16,8 @@ const { uploadLimiter, actionLimiter } = require('../middleware/rateLimiter');
 router.get('/jamFeed', ensureAuth, clipsController.getJamFeed);
 
 router.get('/jam/:id', clipsController.getJam);
+// API endpoint for Svelte frontend
+router.get('/api/jam/:id', clipsController.getJamAPI);
 router.post(
   '/createClip',
   ensureAuth,
