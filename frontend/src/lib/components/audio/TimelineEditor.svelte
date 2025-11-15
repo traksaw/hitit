@@ -29,6 +29,7 @@
 	$: ticks = Array.from({ length: Math.ceil(duration) }, (_, i) => i);
 
 	// Update BPM in audio engine when it changes
+	// eslint-disable-next-line svelte/no-immutable-reactive-statements
 	$: untrack(() => audioEngine.setBPM(bpm));
 
 	let playheadInterval: number | null = null;
@@ -432,6 +433,7 @@
 					<div class="p-2 h-full flex flex-col">
 						<p class="text-xs font-bold text-white truncate">{placement.clip.title}</p>
 						<div class="flex-1 flex items-center gap-px mt-1">
+							<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 							{#each Array(15).fill(0) as _, waveIdx (waveIdx)}
 								<div class="w-1 bg-white/50" style="height: {Math.random() * 100}%"></div>
 							{/each}

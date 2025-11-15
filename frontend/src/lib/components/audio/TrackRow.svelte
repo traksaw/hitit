@@ -129,6 +129,7 @@
 		<!-- Mini Waveform Visualization -->
 		<div class="w-32 h-12 bg-lime-darkest/20 rounded relative overflow-hidden">
 			<div class="absolute inset-0 flex items-center justify-center">
+				<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 				{#each Array(20).fill(0) as _, waveIdx (waveIdx)}
 					<div
 						class="w-1 bg-lime-base mx-px"
