@@ -28,10 +28,6 @@
 	// Generate time ruler ticks
 	$: ticks = Array.from({ length: Math.ceil(duration) }, (_, i) => i);
 
-	// Update BPM in audio engine when it changes
-	// eslint-disable-next-line svelte/no-immutable-reactive-statements
-	$: untrack(() => audioEngine.setBPM(bpm));
-
 	let playheadInterval: number | null = null;
 
 	async function togglePlay() {
@@ -232,7 +228,13 @@
 	onMount(() => {
 		window.addEventListener('keydown', handleKeyDown);
 		audioEngine.init();
+		audioEngine.setBPM(bpm);
 	});
+
+	// Watch for BPM changes and update audio engine
+	$: if (bpm && typeof window !== 'undefined') {
+		audioEngine.setBPM(bpm);
+	}
 
 	onDestroy(() => {
 		window.removeEventListener('keydown', handleKeyDown);
