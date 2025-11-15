@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { jamAPI, type Jam, type FeedData } from '$lib/api';
+	import { jamAPI, type Jam } from '$lib/api';
 	import JamCard from '$lib/components/JamCard.svelte';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import Pagination from '$lib/components/Pagination.svelte';
@@ -68,8 +68,8 @@
 					<p class="section-subtitle">Discover jams from your favorite genres</p>
 				</div>
 				<div class="jam-grid">
-					{#each Object.entries(genreFavJams) as [genre, genreJams]}
-						{#each genreJams as jam}
+					{#each Object.entries(genreFavJams) as [genre, genreJams] (genre)}
+						{#each genreJams as jam (jam._id)}
 							<JamCard {jam} />
 						{/each}
 					{/each}
@@ -85,7 +85,7 @@
 					<p class="section-subtitle">Hip-Hop Bangers For You To Check Out!</p>
 				</div>
 				<div class="jam-grid">
-					{#each hipHopJams as jam}
+					{#each hipHopJams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
 				</div>
@@ -100,7 +100,7 @@
 					<p class="section-subtitle">Pop Hits For You To Check Out!</p>
 				</div>
 				<div class="jam-grid">
-					{#each popJams as jam}
+					{#each popJams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
 				</div>
@@ -116,7 +116,7 @@
 
 			{#if jams.length > 0}
 				<div class="jam-grid">
-					{#each jams as jam}
+					{#each jams as jam (jam._id)}
 						<JamCard {jam} />
 					{/each}
 				</div>

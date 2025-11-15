@@ -44,7 +44,7 @@
 				{/if}
 
 				<!-- Page Numbers -->
-				{#each pages as page}
+				{#each pages as page (page)}
 					<li class="page-item" class:active={page === currentPage}>
 						<button class="page-link" on:click={() => onPageChange(page)}>{page}</button>
 					</li>

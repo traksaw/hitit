@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Jam } from '$lib/api';
+	import { base } from '$app/paths';
 
 	export let jam: Jam;
 </script>
 
-<a href="/jam/{jam._id}" class="jam-card">
+<a href="{base}/jam/{jam._id}" class="jam-card">
 	<div class="card">
 		<div class="card-img">
 			<img src={jam.image} alt={jam.title} class="img-fluid" />
