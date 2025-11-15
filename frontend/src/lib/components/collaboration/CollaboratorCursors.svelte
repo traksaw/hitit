@@ -46,7 +46,7 @@
 				JSON.stringify({
 					type: 'cursor_move',
 					jamId,
-					userId: $authStore.user.id,
+					userId: $authStore.user._id,
 					userName: $authStore.user.userName,
 					x: mouseX,
 					y: mouseY,
@@ -70,7 +70,7 @@
 					JSON.stringify({
 						type: 'join_jam',
 						jamId,
-						userId: $authStore.user.id,
+						userId: $authStore.user._id,
 						userName: $authStore.user.userName
 					})
 				);
@@ -80,7 +80,7 @@
 		ws.onmessage = (event) => {
 			const data = JSON.parse(event.data);
 
-			if (data.type === 'cursor_move' && data.userId !== $authStore.user?.id) {
+			if (data.type === 'cursor_move' && data.userId !== $authStore.user?._id) {
 				// Update collaborator cursor position
 				collaborators.set(data.userId, {
 					id: data.userId,

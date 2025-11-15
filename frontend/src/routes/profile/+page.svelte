@@ -4,6 +4,7 @@
 	import { authAPI, jamAPI, clipAPI, type User, type Jam, type Clip } from '$lib/api';
 	import { authStore } from '$lib/stores/auth';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+	import JamCard from '$lib/components/JamCard.svelte';
 	import SEO from '$lib/components/SEO.svelte';
 
 	let loading = true;

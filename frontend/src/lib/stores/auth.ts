@@ -1,13 +1,9 @@
 import { writable } from 'svelte/store';
 import type { Writable } from 'svelte/store';
+import type { User as APIUser } from '$lib/api/types';
 
-export interface User {
-	id: string;
-	userName: string;
-	email: string;
-	image: string;
-	favoriteGenres: string[];
-}
+// Re-export User type from API
+export type User = APIUser;
 
 interface AuthState {
 	user: User | null;
