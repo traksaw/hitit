@@ -17,15 +17,13 @@ const initialState: AuthState = {
 	isLoading: true // Start as loading to check session on app load
 };
 
-function createAuthStore(): Writable<AuthState> & {
-	setUser: (user: User) => void;
-	clearUser: () => void;
-	setLoading: (loading: boolean) => void;
-} {
+function createAuthStore() {
 	const { subscribe, set, update } = writable<AuthState>(initialState);
 
 	return {
 		subscribe,
+		set,
+		update,
 		setUser: (user: User) => {
 			update((state) => ({
 				...state,

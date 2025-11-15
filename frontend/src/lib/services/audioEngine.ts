@@ -242,7 +242,7 @@ class AudioEngine {
 		}
 
 		// Create offline context for rendering
-		const renderer = new Tone.Offline(async () => {
+		const renderer = Tone.Offline(async () => {
 			// All audio processing happens here during the offline render
 			// The tracks are already connected to the master channel
 		}, duration);
