@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ClipSchema = new mongoose.Schema({
   title: {
@@ -20,7 +20,7 @@ const ClipSchema = new mongoose.Schema({
   description: {
     type: String,
     required: true,
-  }, 
+  },
   genre: {
     type: String, //this is gonna be a genre selection for the jam
     required: false,
@@ -35,7 +35,7 @@ const ClipSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   createdAt: {
     type: Date,
@@ -47,4 +47,4 @@ const ClipSchema = new mongoose.Schema({
 ClipSchema.index({ user: 1, createdAt: -1 }); // For finding user's clips sorted by date
 ClipSchema.index({ genre: 1 }); // For genre filtering
 
-module.exports = mongoose.model("Clip", ClipSchema); 
+module.exports = mongoose.model('Clip', ClipSchema);

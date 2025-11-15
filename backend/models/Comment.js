@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const CommentSchema = new mongoose.Schema({
   commentText: {
@@ -11,11 +11,11 @@ const CommentSchema = new mongoose.Schema({
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: 'User',
   },
   jam: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Jam",
+    ref: 'Jam',
   },
   createdAt: {
     type: Date,
@@ -27,4 +27,4 @@ const CommentSchema = new mongoose.Schema({
 CommentSchema.index({ jam: 1, createdAt: -1 }); // For finding jam comments sorted by date
 CommentSchema.index({ user: 1 }); // For finding user's comments
 
-module.exports = mongoose.model("Comment", CommentSchema);
+module.exports = mongoose.model('Comment', CommentSchema);

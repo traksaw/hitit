@@ -1,14 +1,16 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const JamSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
-  audioElements: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Clip"
-  }],
+  audioElements: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Clip',
+    },
+  ],
   fileName: {
     type: String,
     required: true,
@@ -34,10 +36,12 @@ const JamSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-  collaborators: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User"
-  }],
+  collaborators: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
   genre: {
     type: String,
     required: true,
@@ -45,12 +49,12 @@ const JamSchema = new mongoose.Schema({
   comments: {
     type: Array,
     required: false,
-    default: []
+    default: [],
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true
+    ref: 'User',
+    required: true,
   },
   createdAt: {
     type: Date,
@@ -64,4 +68,4 @@ JamSchema.index({ genre: 1, createdAt: -1 }); // For genre filtering
 JamSchema.index({ user: 1 }); // For finding user's jams
 JamSchema.index({ collaborators: 1 }); // For finding collab jams
 
-module.exports = mongoose.model("Jam", JamSchema);
+module.exports = mongoose.model('Jam', JamSchema);

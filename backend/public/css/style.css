@@ -1,75 +1,75 @@
 /* Define the custom color palette */
-  :root {
-    --light-green: #deefd8;
-    --medium-green: #bcdfb1;
-    --green: #9bcf89;
-    --dark-green: #79bf62;
-    --deep-green: #58af3b;
-    --light-text: #ffffff;
-  }
-  .form-section {
-    background-color: var(--medium-green);
-    border: 1px solid var(--green);
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+:root {
+  --light-green: #deefd8;
+  --medium-green: #bcdfb1;
+  --green: #9bcf89;
+  --dark-green: #79bf62;
+  --deep-green: #58af3b;
+  --light-text: #ffffff;
+}
+.form-section {
+  background-color: var(--medium-green);
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
-  .form-section h2 {
-    color: var(--deep-green);
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+.form-section h2 {
+  color: var(--deep-green);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
-  .form-section label {
-    color: var(--dark-green);
-    font-weight: 600;
-  }
+.form-section label {
+  color: var(--dark-green);
+  font-weight: 600;
+}
 
-  .form-control {
-    border: 1px solid var(--green);
-    border-radius: 5px;
-  }
+.form-control {
+  border: 1px solid var(--green);
+  border-radius: 5px;
+}
 
-  .btn-custom {
-    background-color: var(--dark-green);
-    color: var(--light-text); /* Text is explicitly set to white */
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-weight: bold;
-    width: 100%;
-  }
+.btn-custom {
+  background-color: var(--dark-green);
+  color: var(--light-text); /* Text is explicitly set to white */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-weight: bold;
+  width: 100%;
+}
 
-  .btn-custom:hover {
-    background-color: var(--deep-green);
-  }
+.btn-custom:hover {
+  background-color: var(--deep-green);
+}
 
-  .alert {
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 0.9rem;
-  }
+.alert {
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+}
 
-  .alert-danger {
-    background-color: #f8d7da;
-    color: #842029;
-  }
+.alert-danger {
+  background-color: #f8d7da;
+  color: #842029;
+}
 
-  .alert-info {
-    background-color: #cff4fc;
-    color: #055160;
-  }
+.alert-info {
+  background-color: #cff4fc;
+  color: #055160;
+}
 
-  .form-text {
-    color: var(--dark-green);
-  }
+.form-text {
+  color: var(--dark-green);
+}
 
-  body {
+body {
   background-color: var(--light-green);
   color: #1c1c1c;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .bg-header {
@@ -217,8 +217,6 @@
   color: #054a29 !important;
 }
 
-
-
 .bg-header {
   background-color: var(--medium-green) !important;
   color: var(--light-text);
@@ -334,7 +332,6 @@ a {
 
 /* Additional Styling */
 
-
 .userAudioClips {
   height: fit-content;
 }
@@ -396,8 +393,6 @@ body {
   padding: 10px;
   border-radius: 10px;
 }
-
-
 
 .form-section {
   background-color: var(--medium-green);
@@ -657,7 +652,6 @@ body {
   font-weight: 600;
 }
 
-
 .card {
   border: none;
   border-radius: 10px;
@@ -760,8 +754,8 @@ body {
   margin-top: 10px;
 }
 
- /* Section Title */
- .section-title {
+/* Section Title */
+.section-title {
   font-size: 2rem;
   font-weight: bold;
   color: #58af3b;
@@ -785,7 +779,9 @@ body {
   border: none;
   border-radius: 15px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   height: 100%; /* Ensures consistent height for cards */
 }
 
@@ -845,7 +841,6 @@ body {
 .btn-custom:hover {
   background-color: var(--deep-green);
 }
-
 
 .header-container {
   background-color: transparent;
@@ -1071,416 +1066,416 @@ body {
 
 .text-muted {
   color: var(--muted-text);
-  font-size: 1rem; }
+  font-size: 1rem;
+}
+
+.likes-section {
+  background-color: var(--light-green);
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.likes-section span {
+  font-size: 1.2rem;
+  color: var(--deep-green);
+  font-weight: bold;
+}
+
+.btn-like {
+  background-color: transparent;
+  color: var(--deep-green);
+  border: 1px solid var(--deep-green);
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-like:hover {
+  background-color: var(--deep-green);
+  color: var(--light-text);
+}
+
+.btn-like i {
+  font-size: 1.2rem;
+}
+
+.card-custom {
+  background-color: var(--medium-green);
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.list-item {
+  background-color: var(--light-green);
+  border: 1px solid var(--green);
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-item h5 {
+  font-size: 1.2rem;
+  color: var(--deep-green);
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.audio-player {
+  width: 100%;
+  height: 35px;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.btn-custom {
+  background-color: transparent;
+  color: var(--deep-green);
+  border: 1px solid var(--deep-green);
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+  color: var(--light-text);
+}
+
+.text-muted {
+  color: var(--muted-text);
+  font-size: 1rem;
+}
+
+.card-custom {
+  background-color: var(--medium-green);
+  border: 1px solid var(--green);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.list-item {
+  background-color: var(--light-green);
+  border: 1px solid var(--green);
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.list-item p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--deep-green);
+  font-weight: bold;
+}
+
+.btn-custom {
+  background-color: transparent;
+  color: var(--deep-green);
+  border: 1px solid var(--deep-green);
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+  color: var(--light-text);
+}
+.card-custom {
+  background-color: var(--medium-green);
+  border: 1px solid var(--dark-green);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: var(--dark-green);
+  color: var(--light-text);
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px 10px 0 0;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.list-item {
+  background-color: var(--light-green);
+  border: 1px solid var(--dark-green);
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.list-item h5 {
+  font-size: 1.2rem;
+  color: var(--deep-green);
+  font-weight: bold;
+  margin: 0;
+}
+
+.audio-player {
+  width: 100%;
+  height: 50px; /* Increased height for better controls */
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.btn-custom {
+  background-color: transparent;
+  color: var(--deep-green);
+  border: 1px solid var(--deep-green);
+  border-radius: 5px;
+  padding: 8px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: var(--deep-green);
+  color: var(--light-text);
+}
+
+.btn-like {
+  background-color: transparent;
+  color: var(--deep-green);
+  border: 1px solid var(--deep-green);
+  border-radius: 5px;
+  padding: 5px 15px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.3s ease;
+}
+
+.btn-like:hover {
+  background-color: var(--deep-green);
+  color: var(--light-text);
+}
+
+.likes-section {
+  background-color: var(--light-green);
+  border: 1px solid var(--dark-green);
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.comment-section h5 {
+  font-size: 1.5rem;
+  color: var(--deep-green);
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.comment-box {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.comment-box img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment-content {
+  background-color: var(--light-green);
+  border: 1px solid var(--dark-green);
+  border-radius: 8px;
+  padding: 10px;
+  flex: 1;
+}
+
+.comment-content .username {
+  font-weight: bold;
+  color: var(--deep-green);
+}
+
+.comment-content p {
+  margin: 5px 0;
+  color: var(--muted-text);
+}
+
+@media (max-width: 575.98px) {
+  .container {
+    padding: 10px;
+  }
+
+  .jam {
+    width: 100%;
+  }
 
   .likes-section {
-    background-color: var(--light-green);
-    border: 1px solid var(--green);
-    border-radius: 10px;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-top: 20px;
-  }
-
-  .likes-section span {
-    font-size: 1.2rem;
-    color: var(--deep-green);
-    font-weight: bold;
-  }
-
-  .btn-like {
-    background-color: transparent;
-    color: var(--deep-green);
-    border: 1px solid var(--deep-green);
-    border-radius: 5px;
-    padding: 5px 15px;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.3s ease;
-  }
-
-  .btn-like:hover {
-    background-color: var(--deep-green);
-    color: var(--light-text);
-  }
-
-  .btn-like i {
-    font-size: 1.2rem;
-  }
-
-  .card-custom {
-    background-color: var(--medium-green);
-    border: 1px solid var(--green);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .card-header {
-    background-color: var(--dark-green);
-    color: var(--light-text);
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px 10px 0 0;
-  }
-
-  .card-body {
-    padding: 20px;
-  }
-
-  .list-item {
-    background-color: var(--light-green);
-    border: 1px solid var(--green);
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .list-item h5 {
-    font-size: 1.2rem;
-    color: var(--deep-green);
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .audio-player {
+  .btn-custom {
     width: 100%;
-    height: 35px;
-    margin-top: 10px;
-    border-radius: 5px;
   }
 
-  .btn-custom {
-    background-color: transparent;
-    color: var(--deep-green);
-    border: 1px solid var(--deep-green);
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-    align-self: flex-start;
-  }
-
-  .btn-custom:hover {
-    background-color: var(--deep-green);
-    color: var(--light-text);
-  }
-
-  .text-muted {
-    color: var(--muted-text);
-    font-size: 1rem;
-  }
-
-  .card-custom {
-    background-color: var(--medium-green);
-    border: 1px solid var(--green);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .card-header {
-    background-color: var(--dark-green);
-    color: var(--light-text);
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px 10px 0 0;
-  }
-
-  .card-body {
-    padding: 20px;
-  }
-
-  .list-item {
-    background-color: var(--light-green);
-    border: 1px solid var(--green);
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .list-item p {
-    margin: 0;
-    font-size: 1rem;
-    color: var(--deep-green);
-    font-weight: bold;
-  }
-
-  .btn-custom {
-    background-color: transparent;
-    color: var(--deep-green);
-    border: 1px solid var(--deep-green);
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-
-  .btn-custom:hover {
-    background-color: var(--deep-green);
-    color: var(--light-text);
-  }
-  .card-custom {
-    background-color: var(--medium-green);
-    border: 1px solid var(--dark-green);
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .card-header {
-    background-color: var(--dark-green);
-    color: var(--light-text);
-    font-weight: bold;
-    text-align: center;
-    padding: 10px;
-    border-radius: 10px 10px 0 0;
-  }
-
-  .card-body {
-    padding: 20px;
-  }
-
-  .list-item {
-    background-color: var(--light-green);
-    border: 1px solid var(--dark-green);
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .list-item h5 {
-    font-size: 1.2rem;
-    color: var(--deep-green);
-    font-weight: bold;
-    margin: 0;
-  }
-
-  .audio-player {
-    width: 100%;
-    height: 50px; /* Increased height for better controls */
-    margin-top: 10px;
-    border-radius: 5px;
-  }
-
-  .btn-custom {
-    background-color: transparent;
-    color: var(--deep-green);
-    border: 1px solid var(--deep-green);
-    border-radius: 5px;
-    padding: 8px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    transition: all 0.3s ease;
-  }
-
-  .btn-custom:hover {
-    background-color: var(--deep-green);
-    color: var(--light-text);
-  }
-
-  .btn-like {
-    background-color: transparent;
-    color: var(--deep-green);
-    border: 1px solid var(--deep-green);
-    border-radius: 5px;
-    padding: 5px 15px;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.3s ease;
-  }
-
-  .btn-like:hover {
-    background-color: var(--deep-green);
-    color: var(--light-text);
-  }
-
-  .likes-section {
-    background-color: var(--light-green);
-    border: 1px solid var(--dark-green);
-    border-radius: 10px;
-    padding: 15px;
-    margin-top: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .comment-section h5 {
-    font-size: 1.5rem;
-    color: var(--deep-green);
-    font-weight: bold;
-    margin-bottom: 20px;
-  }
-
-  .comment-box {
-    display: flex;
-    align-items: flex-start;
-    gap: 15px;
+  .card {
     margin-bottom: 15px;
   }
 
-  .comment-box img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
+  .section-title {
+    font-size: 1.5rem;
   }
 
-  .comment-content {
-    background-color: var(--light-green);
-    border: 1px solid var(--dark-green);
-    border-radius: 8px;
-    padding: 10px;
-    flex: 1;
+  .header-container h1 {
+    font-size: 2rem;
+  }
+}
+
+/* Small Devices (Tablets, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .container {
+    padding: 15px;
   }
 
-  .comment-content .username {
-    font-weight: bold;
-    color: var(--deep-green);
+  .jam {
+    width: 90%;
   }
 
-  .comment-content p {
-    margin: 5px 0;
-    color: var(--muted-text);
+  .likes-section {
+    flex-direction: column;
+    gap: 15px;
   }
 
-  @media (max-width: 575.98px) {
-    .container {
-      padding: 10px;
-    }
-  
-    .jam {
-      width: 100%;
-    }
-  
-    .likes-section {
-      flex-direction: column;
-      gap: 10px;
-    }
-  
-    .btn-custom {
-      width: 100%;
-    }
-  
-    .card {
-      margin-bottom: 15px;
-    }
-  
-    .section-title {
-      font-size: 1.5rem;
-    }
-  
-    .header-container h1 {
-      font-size: 2rem;
-    }
+  .btn-custom {
+    width: auto;
   }
-  
-  /* Small Devices (Tablets, 576px and up) */
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    .container {
-      padding: 15px;
-    }
-  
-    .jam {
-      width: 90%;
-    }
-  
-    .likes-section {
-      flex-direction: column;
-      gap: 15px;
-    }
-  
-    .btn-custom {
-      width: auto;
-    }
-  
-    .card {
-      margin-bottom: 20px;
-    }
-  
-    .section-title {
-      font-size: 1.75rem;
-    }
-  
-    .header-container h1 {
-      font-size: 2.25rem;
-    }
+
+  .card {
+    margin-bottom: 20px;
   }
-  
-  /* Medium Devices (Desktops, 768px and up) */
-  @media (min-width: 768px) and (max-width: 991.98px) {
-    .container {
-      padding: 20px;
-    }
-  
-    .jam {
-      width: 80%;
-    }
-  
-    .likes-section {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  
-    .card {
-      margin-bottom: 25px;
-    }
-  
-    .section-title {
-      font-size: 2rem;
-    }
-  
-    .header-container h1 {
-      font-size: 2.5rem;
-    }
+
+  .section-title {
+    font-size: 1.75rem;
   }
-  
-  /* Large Devices (Large Desktops, 992px and up) */
-  @media (min-width: 992px) {
-    .container {
-      padding: 30px;
-    }
-  
-    .jam {
-      width: 60%;
-    }
-  
-    .likes-section {
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  
-    .card {
-      margin-bottom: 30px;
-    }
-  
-    .section-title {
-      font-size: 2.5rem;
-    }
-  
-    .header-container h1 {
-      font-size: 3rem;
-    }
+
+  .header-container h1 {
+    font-size: 2.25rem;
   }
-  
+}
+
+/* Medium Devices (Desktops, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .container {
+    padding: 20px;
+  }
+
+  .jam {
+    width: 80%;
+  }
+
+  .likes-section {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .card {
+    margin-bottom: 25px;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .header-container h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Large Devices (Large Desktops, 992px and up) */
+@media (min-width: 992px) {
+  .container {
+    padding: 30px;
+  }
+
+  .jam {
+    width: 60%;
+  }
+
+  .likes-section {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .card {
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+
+  .header-container h1 {
+    font-size: 3rem;
+  }
+}

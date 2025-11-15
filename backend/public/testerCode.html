@@ -1,38 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Multipart Form</title>
-</head>
-<body>
+  </head>
+  <body>
     <form id="myForm" enctype="multipart/form-data">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required><br><br>
-        
-        <label for="profilePic">Profile Picture:</label>
-        <input type="file" id="profilePic" name="profilePic" required><br><br>
-        
-        <label for="bio">Bio:</label>
-        <textarea id="bio" name="bio"></textarea><br><br>
-        
-        <button type="submit">Submit</button>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" required /><br /><br />
+
+      <label for="profilePic">Profile Picture:</label>
+      <input type="file" id="profilePic" name="profilePic" required /><br /><br />
+
+      <label for="bio">Bio:</label>
+      <textarea id="bio" name="bio"></textarea><br /><br />
+
+      <button type="submit">Submit</button>
     </form>
 
     <script>
-        // JavaScript to handle the form submission
-        const form = document.getElementById('myForm');
+      // JavaScript to handle the form submission
+      const form = document.getElementById('myForm');
 
-        form.addEventListener('submit', function (event) {
-            event.preventDefault(); // Prevent the default form submission
+      form.addEventListener('submit', function (event) {
+        event.preventDefault(); // Prevent the default form submission
 
-            const formData = new FormData(form); // Create FormData object from the form
+        const formData = new FormData(form); // Create FormData object from the form
 
-            // Log each key-value pair in the FormData object
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}:`, value);
-            }
-        });
+        // Log each key-value pair in the FormData object
+        for (let [key, value] of formData.entries()) {
+          console.log(`${key}:`, value);
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

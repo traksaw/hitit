@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
 
+# Run frontend checks
 cd frontend && npm run prepush
+
+# Run backend checks
+cd ../backend && npm run lint && npm test

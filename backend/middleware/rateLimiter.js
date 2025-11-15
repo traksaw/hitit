@@ -41,5 +41,5 @@ module.exports = {
   apiLimiter,
   authLimiter,
   uploadLimiter,
-  actionLimiter
+  actionLimiter,
 };
