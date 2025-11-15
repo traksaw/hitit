@@ -30,6 +30,12 @@
 		loading = true;
 		error = null;
 
+		if (!jamId) {
+			error = 'Jam ID is required';
+			loading = false;
+			return;
+		}
+
 		try {
 			const data = await jamAPI.getById(jamId);
 
@@ -200,7 +206,7 @@
 				</button>
 			</div>
 
-			{#if isOwner || collaborators.some((c) => c._id === $authStore.user?.id)}
+			{#if isOwner || collaborators.some((c) => c._id === $authStore.user?._id)}
 				<button class="btn-primary flex items-center gap-2">
 					<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 						<path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
@@ -221,7 +227,7 @@
 		{/if}
 
 		<!-- Add Clip Section (Owner or Collaborator only) -->
-		{#if (isOwner || collaborators.some((c) => c._id === $authStore.user?.id)) && myAvailableClips.length > 0}
+		{#if (isOwner || collaborators.some((c) => c._id === $authStore.user?._id)) && myAvailableClips.length > 0}
 			<div class="mt-6 p-6 bg-lime-lighter rounded-xl border-2 border-lime-light">
 				<h3 class="font-bold text-lime-darkest mb-3">Add Your Clips</h3>
 				<div class="space-y-2">

@@ -182,7 +182,6 @@
 							bind:value={trackStates[i].volume}
 							on:input={() => handleVolumeChange(i)}
 							class="volume-fader accent-lime-base"
-							orient="vertical"
 						/>
 						<div class="w-full h-2 bg-lime-base rounded mt-2" style="width: {trackStates[i].volume * 100}%"></div>
 						<span class="text-xs font-mono text-lime-darkest mt-1">
@@ -267,7 +266,6 @@
 						step="0.01"
 						value="0.8"
 						class="volume-fader accent-lime-darkest"
-						orient="vertical"
 					/>
 					<div class="w-full h-2 bg-lime-darkest rounded mt-2" style="width: 80%"></div>
 					<span class="text-xs font-mono text-white mt-1">80</span>
