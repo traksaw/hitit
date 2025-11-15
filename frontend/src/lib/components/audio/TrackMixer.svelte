@@ -285,6 +285,7 @@
 	.volume-fader {
 		writing-mode: bt-lr; /* For vertical orientation */
 		-webkit-appearance: slider-vertical;
+		appearance: slider-vertical;
 		width: 8px;
 		height: 160px;
 	}

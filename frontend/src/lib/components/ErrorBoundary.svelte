@@ -34,7 +34,7 @@
 			<div class="error-icon">⚠️</div>
 			<h2>Something went wrong</h2>
 			<p class="error-text">{errorMessage}</p>
-			<button on:click={retry} class="retry-btn">Reload Page</button>
+			<button onclick={retry} class="retry-btn">Reload Page</button>
 		</div>
 	</div>
 {:else}

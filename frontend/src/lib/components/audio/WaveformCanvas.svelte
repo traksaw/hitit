@@ -37,7 +37,7 @@
 			if (onTimeUpdate) onTimeUpdate(wavesurfer!.getCurrentTime());
 		});
 
-		wavesurfer.on('seek', () => {
+		wavesurfer.on('interaction', () => {
 			if (onTimeUpdate) onTimeUpdate(wavesurfer!.getCurrentTime());
 		});
 	});

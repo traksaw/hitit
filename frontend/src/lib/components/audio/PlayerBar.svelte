@@ -60,7 +60,7 @@
 			<div class="flex items-center justify-center gap-4 mb-2">
 				<button
 					class="w-10 h-10 rounded-full bg-lime-base hover:bg-lime-medium text-white flex items-center justify-center transition-all duration-200 hover:scale-110 neon-glow"
-					on:click={togglePlay}
+					onclick={togglePlay}
 				>
 					{#if playing}
 						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -77,7 +77,8 @@
 			<!-- Waveform -->
 			<div
 				class="waveform-container relative h-16 bg-lime-darkest/50 rounded-lg cursor-pointer"
-				on:click={handleSeek}
+				onclick={handleSeek}
+				onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSeek(e)}
 				role="button"
 				tabindex="0"
 			>

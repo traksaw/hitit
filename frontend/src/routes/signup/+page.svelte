@@ -190,7 +190,7 @@
 			</div>
 
 			<div class="border border-gray-300 rounded-lg p-4">
-				<label class="block mb-3 text-gray-700 font-medium text-sm">Choose your favorite genres:</label>
+				<div class="block mb-3 text-gray-700 font-medium text-sm">Choose your favorite genres:</div>
 				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
 					{#each availableGenres as genre}
 						<label class="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">

@@ -145,7 +145,7 @@
 	<title>{jam ? jam.title : 'Loading...'} - Hit.it</title>
 </svelte:head>
 
-{#if jam}
+{#if jam && jamId}
 	<!-- Collaboration Cursors -->
 	<CollaboratorCursors {jamId} />
 {/if}
@@ -358,11 +358,21 @@
 					{#each comments as comment (comment._id)}
 						<div class="p-4 bg-white rounded-lg border border-lime-base">
 							<div class="flex items-center gap-3 mb-3">
-								<img src={comment.user.image} alt={comment.user.userName} class="w-12 h-12 rounded-full object-cover border-2 border-lime-base" />
-								<div>
-									<span class="font-semibold text-lime-darkest block">{comment.user.userName}</span>
-									<span class="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleDateString()}</span>
-								</div>
+								{#if typeof comment.user === 'object' && comment.user !== null}
+									<img src={comment.user.image} alt={comment.user.userName} class="w-12 h-12 rounded-full object-cover border-2 border-lime-base" />
+									<div>
+										<span class="font-semibold text-lime-darkest block">{comment.user.userName}</span>
+										<span class="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleDateString()}</span>
+									</div>
+								{:else}
+									<div class="w-12 h-12 rounded-full bg-lime-base/20 border-2 border-lime-base flex items-center justify-center">
+										<span class="text-lime-darkest font-bold">?</span>
+									</div>
+									<div>
+										<span class="font-semibold text-lime-darkest block">User</span>
+										<span class="text-sm text-gray-500">{new Date(comment.createdAt).toLocaleDateString()}</span>
+									</div>
+								{/if}
 							</div>
 							<p class="text-gray-700 mb-3">{comment.commentText}</p>
 							<button class="text-sm text-gray-600 hover:text-red-500 transition-colors">

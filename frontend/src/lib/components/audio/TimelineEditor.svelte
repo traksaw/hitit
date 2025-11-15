@@ -285,8 +285,9 @@
 		<div class="flex items-center gap-4">
 			<!-- BPM -->
 			<div class="flex items-center gap-2">
-				<label class="text-sm">BPM:</label>
+				<label for="bpm-input" class="text-sm">BPM:</label>
 				<input
+					id="bpm-input"
 					type="number"
 					bind:value={bpm}
 					min="60"
