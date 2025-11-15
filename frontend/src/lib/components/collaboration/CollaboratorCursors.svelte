@@ -56,8 +56,9 @@
 	}
 
 	onMount(() => {
-		// Connect to WebSocket server (adjust URL as needed)
-		const wsUrl = `ws://localhost:3000/collaboration`;
+		// Connect to WebSocket server
+		const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+		const wsUrl = `${protocol}//localhost:3000/collaboration`;
 		ws = new WebSocket(wsUrl);
 
 		ws.onopen = () => {

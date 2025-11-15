@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const http = require('http');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const session = require('express-session');
@@ -15,6 +16,7 @@ const connectDB = require('./config/database');
 const mainRoutes = require('./routes/main');
 const clipRoutes = require('./routes/clips');
 const bodyParser = require('body-parser');
+const collaborationService = require('./services/collaboration');
 
 //Use .env file in config folder
 require('dotenv').config({ path: './config/.env' });
@@ -27,8 +29,16 @@ console.log('connecting to database');
 connectDB().then(() => {
   console.log('✅ Database connected, starting server...');
 
-  app.listen(process.env.PORT, () => {
+  // Create HTTP server
+  const server = http.createServer(app);
+
+  // Initialize WebSocket collaboration service
+  collaborationService.initialize(server);
+
+  server.listen(process.env.PORT, () => {
     console.log('🚀 Server is running, you better catch it!');
+    console.log(`🌐 HTTP Server on port ${process.env.PORT}`);
+    console.log('🔌 WebSocket Server ready for collabor ation');
   });
 });
 
