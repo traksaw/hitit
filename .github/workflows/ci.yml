@@ -39,10 +39,6 @@ jobs:
     name: Frontend CI
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: ./frontend
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -53,20 +49,25 @@ jobs:
           node-version: '20'
 
       - name: Install frontend dependencies
+        working-directory: ./frontend
         run: |
           rm -rf node_modules package-lock.json
-          npm install --force
+          npm install --legacy-peer-deps
 
       - name: Type check (Svelte)
+        working-directory: ./frontend
         run: npm run check
 
       - name: Lint frontend code
+        working-directory: ./frontend
         run: npm run lint --if-present
 
       - name: Run frontend tests
+        working-directory: ./frontend
         run: npm test --if-present
 
       - name: Build frontend
+        working-directory: ./frontend
         run: npm run build
 
       - name: Upload build artifacts
