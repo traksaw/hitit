@@ -16,6 +16,20 @@
 	let collabJams: Jam[] = [];
 	let isOwnProfile = false;
 
+	// Helper function to extract error message
+	function getErrorMessage(err: unknown, defaultMessage: string): string {
+		if (err && typeof err === 'object' && 'response' in err) {
+			const response = (err as Record<string, unknown>).response;
+			if (response && typeof response === 'object' && 'data' in response) {
+				const data = (response as Record<string, unknown>).data;
+				if (data && typeof data === 'object' && 'error' in data) {
+					return String((data as Record<string, unknown>).error);
+				}
+			}
+		}
+		return defaultMessage;
+	}
+
 	async function loadProfile() {
 		// Check if user is authenticated first
 		if (!$authStore.isAuthenticated) {
@@ -36,9 +50,7 @@
 			isOwnProfile = data.isOwnProfile;
 		} catch (err: unknown) {
 			console.error('Failed to load profile:', err);
-			const errorMessage = err && typeof err === 'object' && 'response' in err ?
-				(err.response as any)?.data?.error : 'Failed to load profile. Please try again.';
-			error = errorMessage || 'Failed to load profile. Please try again.';
+			error = getErrorMessage(err, 'Failed to load profile. Please try again.');
 		} finally {
 			loading = false;
 		}
@@ -55,9 +67,7 @@
 			await loadProfile();
 		} catch (err: unknown) {
 			console.error('Failed to delete jam:', err);
-			const errorMessage = err && typeof err === 'object' && 'response' in err ?
-				(err.response as any)?.data?.error : 'Failed to delete jam. Please try again.';
-			alert(errorMessage || 'Failed to delete jam. Please try again.');
+			alert(getErrorMessage(err, 'Failed to delete jam. Please try again.'));
 		}
 	}
 
@@ -72,9 +82,7 @@
 			await loadProfile();
 		} catch (err: unknown) {
 			console.error('Failed to delete clip:', err);
-			const errorMessage = err && typeof err === 'object' && 'response' in err ?
-				(err.response as any)?.data?.error : 'Failed to delete clip. Please try again.';
-			alert(errorMessage || 'Failed to delete clip. Please try again.');
+			alert(getErrorMessage(err, 'Failed to delete clip. Please try again.'));
 		}
 	}
 
@@ -85,7 +93,9 @@
 
 <SEO
 	title={user ? `${user.userName}'s Profile` : 'Profile'}
-	description={user ? `View ${user.userName}'s music jams, audio clips, and collaborations on Hit.it.` : 'View your profile on Hit.it.'}
+	description={user
+		? `View ${user.userName}'s music jams, audio clips, and collaborations on Hit.it.`
+		: 'View your profile on Hit.it.'}
 />
 
 <div class="profile-page">
