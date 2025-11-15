@@ -1,118 +1,117 @@
- hit.it 🎵
+# 🎵 hit.it - Music Collaboration Platform
 
-**hit.it** is a collaborative web application designed for musicians, producers, and sound enthusiasts. This project demonstrates the development of a dynamic, full-stack application that emphasizes collaboration, creativity, and community. It reflects a commitment to building user-centric tools that prioritize functionality and scalability.
+A full-stack web application for musicians to collaborate, remix, and share multi-track audio projects.
 
----
+## 🏗️ Monorepo Structure
 
-## Table of Contents
-- [Features](#features)
-- [Core Competencies](#core-competencies)
-- [Technologies](#technologies)
-- [Setup](#setup)
-- [Usage](#usage)
+```
+hit-it/
+├── frontend/          SvelteKit + TypeScript
+├── backend/           Express.js + MongoDB
+└── package.json       Root scripts to run both
+```
 
----
-
-## Features
-
-- **File Uploads:** Seamlessly upload your audio files to the platform.
-- **BPM Detection:** Automatically detects the beats per minute (BPM) of uploaded audio files.
-- **Jam Creation:** Create and layer tracks to build unique musical compositions.
-- **Collaboration:** Collaborate with other users in real-time to enhance and refine jams.
-- **Responsive Design:** A user-friendly interface built for accessibility across devices.
-- **Secure Authentication:** Robust login and session handling with Passport.js.
-
----
-
-## Core Competencies
-
-This project highlights advanced software engineering competencies:
-
-### Backend Engineering
-- Developed a RESTful API using **Node.js** and **Express.js**, ensuring performance and scalability.
-- Implemented **MongoDB** with **Mongoose** for efficient database operations.
-- Designed robust CRUD workflows for user and application data management.
-
-### Authentication & Security
-- Integrated **Passport.js** for secure, session-based user authentication.
-- Enhanced session management with **express-session** and **connect-mongo** for persistent logins.
-
-### Frontend Development
-- Built responsive, server-rendered views using **EJS**, with intuitive design powered by **Bootstrap**.
-- Styled the frontend using **Bootstrap** for a clean and modern design language.
-- Leveraged **vanilla JavaScript** for interactive and dynamic user experiences.
-
-### Data Storage
-- Used **MongoDB** as the primary database to store user and application content.
-- Integrated **Cloudinary** to store and manage audio files and images efficiently.
-
-### Full-Stack Workflow & Best Practices
-- Delivered seamless integration between frontend and backend components.
-- Applied modular design principles and organized code architecture for maintainability.
-- Debugged and optimized across client, server, and database layers using tools like **Morgan** for logging.
-
----
-
-## Technologies
-
-- **Backend**: Node.js, Express.js, MongoDB, Mongoose
-- **Frontend**: EJS, Bootstrap, JavaScript
-- **Authentication**: Passport.js
-- **Utilities**: Morgan, Connect-Flash, Body-Parser
-- **Cloud Storage**: Cloudinary
-
----
-
-## Setup
+## 🚀 Quick Start
 
 ### Prerequisites
-Ensure you have the following installed:
-- [Node.js](https://nodejs.org/)
-- [MongoDB](https://www.mongodb.com/)
+- Node.js 18+
+- MongoDB
+- npm or yarn
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/hit.it.git
-   cd hit.it
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Create a `.env` file in the `config` folder and add the following variables:
-   ```env
-   PORT=3005
-   DB_STRING=your_mongodb_connection_string
-   SESSION_SECRET=your_session_secret
-   CLOUD_NAME=your_cloudinary_cloud_name
-   API_KEY=your_cloudinary_api_key
-   API_SECRET=your_cloudinary_api_secret
-   ```
-4. Start the MongoDB server:
-   ```bash
-   mongod
-   ```
-5. Start the application:
-   ```bash
-   npm start
-   ```
-6. Open your browser and navigate to `http://localhost:3005`.
 
----
+```bash
+# Install all dependencies (root + frontend + backend)
+npm run install:all
 
-## Usage
+# Or install manually
+npm install
+cd backend && npm install
+cd ../frontend && npm install
+```
 
-- **Upload:** Add your audio files to analyze BPM and create jams.
-- **Jam:** Layer multiple tracks to build collaborative compositions.
-- **Collaborate:** Work in real-time with other users on shared tracks.
+### Development
 
----
+```bash
+# Run both frontend and backend simultaneously
+npm run dev
 
-## License
+# Or run separately:
+npm run dev:backend    # Express API on port 3000
+npm run dev:frontend   # SvelteKit on port 5173
+```
 
-This project is licensed under the [MIT License](LICENSE).
+### Environment Variables
 
----
+#### Backend (`backend/config/.env`):
+```env
+PORT=3000
+DB_STRING=your_mongodb_connection_string
+MONGODB_STRING=your_mongodb_connection_string
+CLOUD_NAME=your_cloudinary_cloud_name
+API_KEY=your_cloudinary_api_key
+API_SECRET=your_cloudinary_api_secret
+SESSION_SECRET=your_session_secret
+```
 
-Feel free to reach out for any questions, suggestions, or issues!
+#### Frontend (`frontend/.env`):
+```env
+VITE_API_URL=http://localhost:3000
+```
+
+## 📦 Tech Stack
+
+### Frontend
+- **Framework:** SvelteKit + TypeScript
+- **Audio:** WaveSurfer.js
+- **HTTP Client:** Axios
+- **Real-time:** Socket.IO Client
+- **Build:** Vite
+
+### Backend
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB + Mongoose
+- **Auth:** Passport.js
+- **File Storage:** Cloudinary
+- **Security:** Helmet, express-rate-limit, express-validator
+
+## 🎯 Features
+
+- ✅ Audio file uploads with waveform visualization
+- ✅ Multi-track jam creation
+- ✅ Real-time collaboration
+- ✅ User authentication
+- ✅ Comment system
+- ✅ Genre-based discovery
+- ✅ Responsive design
+
+## 📝 Available Scripts
+
+```bash
+npm run dev              # Run both frontend & backend
+npm run dev:backend      # Run backend only
+npm run dev:frontend     # Run frontend only
+npm run install:all      # Install all dependencies
+npm run build            # Build frontend for production
+npm start                # Start backend in production
+```
+
+## 🌐 URLs
+
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:3000
+- MongoDB: mongodb://localhost:27017 (or your MongoDB Atlas URL)
+
+## 📖 Documentation
+
+- [Frontend README](./frontend/README.md)
+- [Backend API Docs](./backend/README.md) (coming soon)
+
+## 🤝 Contributing
+
+This is a learning project. Feel free to fork and experiment!
+
+## 📄 License
+
+ISC

@@ -1,4 +1,38 @@
-node_modules
+# Dependencies
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Environment variables
 .env
-.vscode
+.env.local
+backend/config/.env
+frontend/.env
+
+# Build outputs
+frontend/.svelte-kit/
+frontend/build/
+backend/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
 .claude
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.cache/
+temp/
