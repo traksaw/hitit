@@ -53,8 +53,10 @@ jobs:
         run: |
           rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps
-          # Explicitly install the platform-specific rollup package
+          # Explicitly install platform-specific native binaries
           npm install --save-optional @rollup/rollup-linux-x64-gnu
+          # Rebuild lightningcss to ensure native bindings are correct
+          npm rebuild lightningcss
 
       - name: Type check (Svelte)
         working-directory: ./frontend
