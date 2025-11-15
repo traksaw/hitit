@@ -34,9 +34,11 @@
 			jams = data.jams;
 			collabJams = data.collabJams;
 			isOwnProfile = data.isOwnProfile;
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Failed to load profile:', err);
-			error = err.response?.data?.error || 'Failed to load profile. Please try again.';
+			const errorMessage = err && typeof err === 'object' && 'response' in err ?
+				(err.response as any)?.data?.error : 'Failed to load profile. Please try again.';
+			error = errorMessage || 'Failed to load profile. Please try again.';
 		} finally {
 			loading = false;
 		}
@@ -51,9 +53,11 @@
 			await jamAPI.delete(jamId);
 			// Reload profile to reflect the deletion
 			await loadProfile();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Failed to delete jam:', err);
-			alert(err.response?.data?.error || 'Failed to delete jam. Please try again.');
+			const errorMessage = err && typeof err === 'object' && 'response' in err ?
+				(err.response as any)?.data?.error : 'Failed to delete jam. Please try again.';
+			alert(errorMessage || 'Failed to delete jam. Please try again.');
 		}
 	}
 
@@ -66,9 +70,11 @@
 			await clipAPI.delete(clipId);
 			// Reload profile to reflect the deletion
 			await loadProfile();
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Failed to delete clip:', err);
-			alert(err.response?.data?.error || 'Failed to delete clip. Please try again.');
+			const errorMessage = err && typeof err === 'object' && 'response' in err ?
+				(err.response as any)?.data?.error : 'Failed to delete clip. Please try again.';
+			alert(errorMessage || 'Failed to delete clip. Please try again.');
 		}
 	}
 
@@ -101,7 +107,7 @@
 				<p class="profile-email">{user.email}</p>
 				<div class="profile-genres">
 					<span class="label">Favorite Genres:</span>
-					{#each user.favoriteGenres as genre}
+					{#each user.favoriteGenres || [] as genre (genre)}
 						<span class="genre-badge">{genre}</span>
 					{/each}
 				</div>
