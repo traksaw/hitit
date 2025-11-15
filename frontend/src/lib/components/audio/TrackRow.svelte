@@ -129,7 +129,7 @@
 		<!-- Mini Waveform Visualization -->
 		<div class="w-32 h-12 bg-lime-darkest/20 rounded relative overflow-hidden">
 			<div class="absolute inset-0 flex items-center justify-center">
-				{#each Array(20) as _, i}
+				{#each Array(20) as _}
 					<div
 						class="w-1 bg-lime-base mx-px"
 						style="height: {Math.random() * 100}%"

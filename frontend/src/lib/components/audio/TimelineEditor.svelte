@@ -28,9 +28,7 @@
 	$: ticks = Array.from({ length: Math.ceil(duration) }, (_, i) => i);
 
 	// Update BPM in audio engine when it changes
-	$: if (bpm) {
-		audioEngine.setBPM(bpm);
-	}
+	$: audioEngine.setBPM(bpm);
 
 	let playheadInterval: number | null = null;
 
@@ -367,7 +365,7 @@
 		aria-label="Timeline ruler"
 	>
 		<div class="relative h-full {isDragOver ? 'bg-lime-base/20' : ''}" style="width: {duration * zoom}px">
-			{#each ticks as second}
+			{#each ticks as second (second)}
 				<div
 					class="tick absolute top-0 h-full border-l border-lime-dark/30"
 					style="left: {second * zoom}px"
@@ -398,7 +396,7 @@
 	>
 		<div class="relative" style="width: {duration * zoom}px; height: {clips.length * 80}px;">
 			<!-- Grid lines -->
-			{#each ticks as second}
+			{#each ticks as second (second)}
 				<div
 					class="absolute top-0 bottom-0 border-l border-lime-dark/10"
 					style="left: {second * zoom}px"
@@ -406,7 +404,7 @@
 			{/each}
 
 			<!-- Track lanes -->
-			{#each clips as clip, i}
+			{#each clips as clip, i (clip._id)}
 				<div
 					class="absolute left-0 right-0 border-b border-lime-light/50 {selectedTrackIndex === i ? 'bg-lime-base/5' : 'bg-transparent'} hover:bg-lime-base/10 transition-colors cursor-pointer"
 					style="top: {i * 80}px; height: 80px;"
@@ -422,7 +420,7 @@
 			{/each}
 
 			<!-- Placed clips -->
-			{#each placedClips as placement, idx}
+			{#each placedClips as placement, idx (idx)}
 				<div
 					class="absolute bg-lime-base/80 border-2 border-lime-dark rounded-lg shadow-lg overflow-hidden cursor-move hover:bg-lime-base transition-all"
 					style="left: {placement.startTime * zoom}px; top: {placement.trackIndex * 80 + 10}px; width: 150px; height: 60px;"
@@ -433,7 +431,7 @@
 					<div class="p-2 h-full flex flex-col">
 						<p class="text-xs font-bold text-white truncate">{placement.clip.title}</p>
 						<div class="flex-1 flex items-center gap-px mt-1">
-							{#each Array(15) as _, i}
+							{#each Array(15) as _, waveIdx (waveIdx)}
 								<div class="w-1 bg-white/50" style="height: {Math.random() * 100}%"></div>
 							{/each}
 						</div>
@@ -455,7 +453,7 @@
 	<!-- Track List -->
 	<div class="track-list overflow-y-auto" style="max-height: 200px;">
 		{#if clips.length > 0}
-			{#each clips as clip, i}
+			{#each clips as clip, i (clip._id)}
 				<TrackRow
 					{clip}
 					trackNumber={i + 1}

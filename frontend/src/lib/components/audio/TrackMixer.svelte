@@ -137,7 +137,7 @@
 	<!-- Channel Strips -->
 	<div class="mixer-channels flex gap-4 p-4 overflow-x-auto bg-lime-lighter">
 		{#if clips.length > 0}
-			{#each clips as clip, i}
+			{#each clips as clip, i (clip._id)}
 				<div
 					class="channel-strip flex-shrink-0 w-24 bg-lime-light rounded-lg p-3 border shadow-lg {selectedTrackIndex === i ? 'border-2 border-lime-base ring-2 ring-lime-base/50' : 'border border-lime-base/30'}"
 					on:click={() => selectedTrackIndex = i}

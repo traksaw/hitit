@@ -1,5 +1,4 @@
 import * as Tone from 'tone';
-import type { Clip } from '$lib/api';
 
 interface TrackChannel {
 	player: Tone.Player | null;
@@ -136,7 +135,7 @@ class AudioEngine {
 		// Update mute state for all tracks based on solo
 		const hasSolo = Array.from(this.tracks.values()).some((t) => t.solo);
 
-		for (const [id, t] of this.tracks.entries()) {
+		for (const t of this.tracks.values()) {
 			if (hasSolo) {
 				// If any track is solo, mute all non-solo tracks
 				t.volume.mute = !t.solo;
