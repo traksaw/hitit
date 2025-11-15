@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
+	import { SvelteMap } from 'svelte/reactivity';
 	import { authStore } from '$lib/stores/auth';
 
 	export let jamId: string;
@@ -13,7 +14,7 @@
 		lastSeen: number;
 	}
 
-	let collaborators: Map<string, Collaborator> = new Map();
+	let collaborators = new SvelteMap<string, Collaborator>();
 	let ws: WebSocket | null = null;
 	let mouseX = 0;
 	let mouseY = 0;
@@ -89,12 +90,10 @@
 					y: data.y,
 					lastSeen: Date.now()
 				});
-				collaborators = collaborators; // Trigger reactivity
 			} else if (data.type === 'user_joined') {
 				console.log(`${data.userName} joined the jam`);
 			} else if (data.type === 'user_left') {
 				collaborators.delete(data.userId);
-				collaborators = collaborators;
 			}
 		};
 
@@ -119,7 +118,6 @@
 					collaborators.delete(userId);
 				}
 			}
-			collaborators = collaborators;
 		}, 5000);
 
 		return () => {
@@ -136,7 +134,7 @@
 </script>
 
 <!-- Render collaborator cursors -->
-<div class="collaborator-cursors fixed inset-0 pointer-events-none z-50">
+<div class="collaborator-cursors pointer-events-none fixed inset-0 z-50">
 	{#each Array.from(collaborators.values()) as collaborator (collaborator.id)}
 		<div
 			class="cursor-wrapper absolute transition-all duration-100"
@@ -154,7 +152,7 @@
 
 			<!-- User name label -->
 			<div
-				class="cursor-label ml-6 -mt-2 px-2 py-1 rounded text-white text-xs font-semibold whitespace-nowrap shadow-lg"
+				class="cursor-label -mt-2 ml-6 rounded px-2 py-1 text-xs font-semibold whitespace-nowrap text-white shadow-lg"
 				style="background-color: {collaborator.color};"
 			>
 				{collaborator.userName}
