@@ -29,10 +29,33 @@
 	function handlePanChange() {
 		dispatch('panChange', { trackNumber, pan });
 	}
+
+	// Drag and drop handlers
+	let isDragging = false;
+
+	function handleDragStart(event: DragEvent) {
+		isDragging = true;
+		if (event.dataTransfer) {
+			event.dataTransfer.effectAllowed = 'move';
+			event.dataTransfer.setData('application/json', JSON.stringify({
+				clip,
+				trackNumber
+			}));
+		}
+	}
+
+	function handleDragEnd() {
+		isDragging = false;
+	}
 </script>
 
 <div
-	class="track-row flex items-center h-24 border-b border-lime-light bg-lime-lighter hover:bg-lime-light/50 transition-colors group"
+	class="track-row flex items-center h-24 border-b border-lime-light transition-colors group {isDragging ? 'opacity-50 bg-lime-medium' : 'bg-lime-lighter hover:bg-lime-light/50'}"
+	draggable="true"
+	on:dragstart={handleDragStart}
+	on:dragend={handleDragEnd}
+	role="button"
+	tabindex="0"
 >
 	<!-- Track Number & Color -->
 	<div class="w-12 h-full flex items-center justify-center bg-lime-base text-white font-bold">

@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
 	import type { Clip } from '$lib/api';
+	import { audioEngine } from '$lib/services/audioEngine';
 
 	export let clips: Clip[] = [];
 
@@ -26,28 +27,98 @@
 		effects: { eq: false, reverb: false, delay: false }
 	}));
 
+	let selectedTrackIndex = 0;
+
 	function handleVolumeChange(index: number) {
+		if (clips[index]) {
+			audioEngine.setVolume(clips[index]._id, trackStates[index].volume);
+		}
 		dispatch('volumeChange', { index, volume: trackStates[index].volume });
 	}
 
 	function handlePanChange(index: number) {
+		if (clips[index]) {
+			audioEngine.setPan(clips[index]._id, trackStates[index].pan);
+		}
 		dispatch('panChange', { index, pan: trackStates[index].pan });
 	}
 
 	function toggleMute(index: number) {
 		trackStates[index].muted = !trackStates[index].muted;
+		if (clips[index]) {
+			audioEngine.setMute(clips[index]._id, trackStates[index].muted);
+		}
 		dispatch('mute', { index, muted: trackStates[index].muted });
 	}
 
 	function toggleSolo(index: number) {
 		trackStates[index].solo = !trackStates[index].solo;
+		if (clips[index]) {
+			audioEngine.setSolo(clips[index]._id, trackStates[index].solo);
+		}
 		dispatch('solo', { index, solo: trackStates[index].solo });
 	}
 
 	function toggleEffect(index: number, effect: 'eq' | 'reverb' | 'delay') {
 		trackStates[index].effects[effect] = !trackStates[index].effects[effect];
+		if (clips[index]) {
+			audioEngine.toggleEffect(clips[index]._id, effect, trackStates[index].effects[effect]);
+		}
 		dispatch('effectToggle', { index, effect, enabled: trackStates[index].effects[effect] });
 	}
+
+	// Keyboard shortcuts handler
+	function handleKeyDown(event: KeyboardEvent) {
+		// Ignore if typing in an input field
+		if (event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement) {
+			return;
+		}
+
+		switch (event.key.toLowerCase()) {
+			case 'm':
+				event.preventDefault();
+				if (selectedTrackIndex >= 0 && selectedTrackIndex < clips.length) {
+					toggleMute(selectedTrackIndex);
+				}
+				break;
+			case 's':
+				event.preventDefault();
+				if (selectedTrackIndex >= 0 && selectedTrackIndex < clips.length) {
+					toggleSolo(selectedTrackIndex);
+				}
+				break;
+			case 'arrowup':
+				event.preventDefault();
+				selectedTrackIndex = Math.max(0, selectedTrackIndex - 1);
+				break;
+			case 'arrowdown':
+				event.preventDefault();
+				selectedTrackIndex = Math.min(clips.length - 1, selectedTrackIndex + 1);
+				break;
+			case 'arrowleft':
+				event.preventDefault();
+				if (selectedTrackIndex >= 0 && selectedTrackIndex < clips.length) {
+					trackStates[selectedTrackIndex].volume = Math.max(0, trackStates[selectedTrackIndex].volume - 0.05);
+					handleVolumeChange(selectedTrackIndex);
+				}
+				break;
+			case 'arrowright':
+				event.preventDefault();
+				if (selectedTrackIndex >= 0 && selectedTrackIndex < clips.length) {
+					trackStates[selectedTrackIndex].volume = Math.min(1, trackStates[selectedTrackIndex].volume + 0.05);
+					handleVolumeChange(selectedTrackIndex);
+				}
+				break;
+		}
+	}
+
+	onMount(() => {
+		window.addEventListener('keydown', handleKeyDown);
+	});
+
+	onDestroy(() => {
+		window.removeEventListener('keydown', handleKeyDown);
+	});
 </script>
 
 <div class="track-mixer bg-lime-lightest rounded-lg shadow-2xl overflow-hidden">
@@ -67,7 +138,13 @@
 	<div class="mixer-channels flex gap-4 p-4 overflow-x-auto bg-lime-lighter">
 		{#if clips.length > 0}
 			{#each clips as clip, i}
-				<div class="channel-strip flex-shrink-0 w-24 bg-lime-light rounded-lg p-3 border border-lime-base/30 shadow-lg">
+				<div
+					class="channel-strip flex-shrink-0 w-24 bg-lime-light rounded-lg p-3 border shadow-lg {selectedTrackIndex === i ? 'border-2 border-lime-base ring-2 ring-lime-base/50' : 'border border-lime-base/30'}"
+					on:click={() => selectedTrackIndex = i}
+					on:keydown={(e) => e.key === 'Enter' && (selectedTrackIndex = i)}
+					role="button"
+					tabindex="0"
+				>
 					<!-- Track Number -->
 					<div class="text-center mb-3">
 						<div class="w-8 h-8 mx-auto rounded-full bg-lime-base text-white flex items-center justify-center font-bold text-sm">
