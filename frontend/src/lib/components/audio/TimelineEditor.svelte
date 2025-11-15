@@ -4,17 +4,22 @@
 	import type { Clip } from '$lib/api';
 	import { audioEngine } from '$lib/services/audioEngine';
 
-	export let clips: Clip[] = [];
-	export let bpm = 120;
-	export let gridSnap = true;
-	export let snapValue = 0.25; // Quarter note
+	interface Props {
+		clips?: Clip[];
+	}
 
-	let zoom = 50; // pixels per second
-	let playheadPosition = 0;
-	let isPlaying = false;
-	let duration = 60; // Total timeline duration in seconds
-	let selectedTrackIndex = 0;
-	let isDragOver = false;
+	let { clips = [] }: Props = $props();
+
+	let bpm = $state(120);
+	let gridSnap = $state(true);
+	let snapValue = $state(0.25); // Quarter note
+
+	let zoom = $state(50); // pixels per second
+	let playheadPosition = $state(0);
+	let isPlaying = $state(false);
+	let duration = $state(60); // Total timeline duration in seconds
+	let selectedTrackIndex = $state(0);
+	let isDragOver = $state(false);
 
 	interface ClipPlacement {
 		clip: Clip;
@@ -22,10 +27,10 @@
 		trackIndex: number;
 	}
 
-	let placedClips: ClipPlacement[] = [];
+	let placedClips = $state<ClipPlacement[]>([]);
 
 	// Generate time ruler ticks
-	$: ticks = Array.from({ length: Math.ceil(duration) }, (_, i) => i);
+	let ticks = $derived(Array.from({ length: Math.ceil(duration) }, (_, i) => i));
 
 	let playheadInterval: number | null = null;
 
@@ -67,7 +72,7 @@
 		}
 	}
 
-	let isExporting = false;
+	let isExporting = $state(false);
 
 	async function handleExport() {
 		try {

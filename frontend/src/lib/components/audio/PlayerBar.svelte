@@ -81,7 +81,7 @@
 			<div
 				class="waveform-container bg-lime-darkest/50 relative h-16 cursor-pointer rounded-lg"
 				onclick={handleSeek}
-				onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && handleSeek(e)}
+				onkeydown={(e) => (e.key === 'Enter' || e.key === ' ') && togglePlay()}
 				role="button"
 				tabindex="0"
 			>
