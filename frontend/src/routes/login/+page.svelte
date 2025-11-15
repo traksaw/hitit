@@ -30,11 +30,14 @@
 			} else {
 				error = response.error || 'Login failed';
 			}
-		} catch (err: any) {
-			if (err.response?.data?.error) {
-				error = err.response.data.error;
-			} else if (err.response?.data?.errors) {
-				error = err.response.data.errors.map((e: any) => e.msg).join(', ');
+		} catch (err: unknown) {
+			const apiError = err as {
+				response?: { data?: { error?: string; errors?: Array<{ msg: string }> } };
+			};
+			if (apiError.response?.data?.error) {
+				error = apiError.response.data.error;
+			} else if (apiError.response?.data?.errors) {
+				error = apiError.response.data.errors.map((e) => e.msg).join(', ');
 			} else {
 				error = 'An error occurred during login';
 			}

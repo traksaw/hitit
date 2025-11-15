@@ -65,9 +65,11 @@
 
 			// Redirect to profile after successful upload
 			goto('/profile');
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Failed to upload clip:', err);
-			error = err.response?.data?.error || 'Failed to upload clip. Please try again.';
+			error =
+				(err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
+				'Failed to upload clip. Please try again.';
 		} finally {
 			isSubmitting = false;
 		}

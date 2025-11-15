@@ -26,7 +26,7 @@
 			} else {
 				authStore.clearUser();
 			}
-		} catch (error) {
+		} catch {
 			// User is not authenticated, which is fine
 			authStore.clearUser();
 		}

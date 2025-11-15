@@ -67,9 +67,11 @@
 
 			// Redirect to profile after successful creation
 			goto('/profile');
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Failed to create jam:', err);
-			error = err.response?.data?.error || 'Failed to create jam. Please try again.';
+			error =
+				(err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
+				'Failed to create jam. Please try again.';
 		} finally {
 			isSubmitting = false;
 		}
@@ -121,7 +123,7 @@
 					class="input-field disabled:cursor-not-allowed disabled:bg-gray-100"
 				>
 					<option value="">Select a genre</option>
-					{#each genres as genreOption}
+					{#each genres as genreOption (genreOption)}
 						<option value={genreOption}>{genreOption}</option>
 					{/each}
 				</select>
