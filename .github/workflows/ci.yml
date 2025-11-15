@@ -53,6 +53,7 @@ jobs:
         run: |
           rm -rf node_modules package-lock.json
           npm install --legacy-peer-deps
+          npm rebuild rollup
 
       - name: Type check (Svelte)
         working-directory: ./frontend
