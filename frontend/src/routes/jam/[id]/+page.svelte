@@ -415,8 +415,8 @@
 							</div>
 							<p class="mb-3 text-gray-700">{comment.commentText}</p>
 							<button class="text-sm text-gray-600 transition-colors hover:text-red-500">
-						{comment.likes}
-					</button>
+								{comment.likes}
+							</button>
 						</div>
 					{/each}
 				</div>

@@ -51,7 +51,10 @@
 
 		// Validate image file type
 		const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
-		if (!validImageTypes.includes(imageFile.type) && !imageFile.name.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+		if (
+			!validImageTypes.includes(imageFile.type) &&
+			!imageFile.name.match(/\.(jpg|jpeg|png|webp|gif)$/i)
+		) {
 			error = 'Please upload a valid image file (JPEG, PNG, WebP, or GIF)';
 			return;
 		}
@@ -91,7 +94,8 @@
 
 			if (backendError) {
 				// Use the detailed message from backend
-				error = backendError.message || backendError.error || 'Failed to create jam. Please try again.';
+				error =
+					backendError.message || backendError.error || 'Failed to create jam. Please try again.';
 
 				// Add additional context if available
 				if (backendError.receivedType) {
@@ -196,11 +200,11 @@
 						</div>
 						<p class="mt-1 text-xs leading-relaxed text-gray-600">
 							{#if isPrivate}
-								This jam will <strong>only be visible to you and collaborators</strong>. It won't appear
-								in public feeds or search results.
+								This jam will <strong>only be visible to you and collaborators</strong>. It won't
+								appear in public feeds or search results.
 							{:else}
-								This jam will be <strong>public and visible to everyone</strong>. Anyone can discover it
-								in feeds and search results.
+								This jam will be <strong>public and visible to everyone</strong>. Anyone can
+								discover it in feeds and search results.
 							{/if}
 						</p>
 					</div>

@@ -57,7 +57,10 @@
 				body: JSON.stringify({
 					versionName: versionName.trim() || `Version ${versions.length + 1}`,
 					description: versionDescription.trim(),
-					tags: versionTags.split(',').map((t) => t.trim()).filter(Boolean),
+					tags: versionTags
+						.split(',')
+						.map((t) => t.trim())
+						.filter(Boolean),
 					isPinned
 				})
 			});

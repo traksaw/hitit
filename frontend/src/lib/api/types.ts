@@ -90,10 +90,21 @@ export interface JamActivity {
 	_id: string;
 	jam: string | Jam;
 	user: User;
-	actionType: 'jam_created' | 'clip_added' | 'clip_removed' | 'mix_updated' |
-		'collaborator_added' | 'collaborator_removed' | 'role_changed' |
-		'invite_sent' | 'invite_accepted' | 'request_sent' | 'request_approved' |
-		'comment_added' | 'jam_updated' | 'jam_published';
+	actionType:
+		| 'jam_created'
+		| 'clip_added'
+		| 'clip_removed'
+		| 'mix_updated'
+		| 'collaborator_added'
+		| 'collaborator_removed'
+		| 'role_changed'
+		| 'invite_sent'
+		| 'invite_accepted'
+		| 'request_sent'
+		| 'request_approved'
+		| 'comment_added'
+		| 'jam_updated'
+		| 'jam_published';
 	targetUser?: User;
 	targetClip?: Clip;
 	metadata?: Record<string, unknown>;

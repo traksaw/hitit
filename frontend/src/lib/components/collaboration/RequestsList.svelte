@@ -127,7 +127,12 @@
 						{/if}
 
 						{#if request.portfolio}
-							<a href={request.portfolio} target="_blank" rel="noopener noreferrer" class="portfolio-link">
+							<a
+								href={request.portfolio}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="portfolio-link"
+							>
 								View Portfolio ↗
 							</a>
 						{/if}
@@ -138,15 +143,15 @@
 							</time>
 							{#if request.respondedAt}
 								<time class="response-time">
-									Responded {formatDistanceToNow(new Date(request.respondedAt), { addSuffix: true })}
+									Responded {formatDistanceToNow(new Date(request.respondedAt), {
+										addSuffix: true
+									})}
 								</time>
 							{/if}
 						</div>
 
 						{#if request.status === 'approved'}
-							<a href="/jam/{request.jam._id}" class="view-jam-button">
-								View Jam
-							</a>
+							<a href="/jam/{request.jam._id}" class="view-jam-button"> View Jam </a>
 						{/if}
 					</div>
 				</div>
@@ -239,7 +244,9 @@
 		background: #f9fafb;
 		border-radius: 8px;
 		overflow: hidden;
-		transition: transform 0.2s, box-shadow 0.2s;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
 	}
 
 	:global(.dark) .request-card {

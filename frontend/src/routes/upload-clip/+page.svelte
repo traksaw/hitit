@@ -35,8 +35,18 @@
 		}
 
 		// Validate file type
-		const validTypes = ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/ogg', 'audio/webm', 'audio/x-m4a'];
-		if (!validTypes.includes(audioFile.type) && !audioFile.name.match(/\.(mp3|wav|ogg|webm|m4a)$/i)) {
+		const validTypes = [
+			'audio/mpeg',
+			'audio/wav',
+			'audio/mp3',
+			'audio/ogg',
+			'audio/webm',
+			'audio/x-m4a'
+		];
+		if (
+			!validTypes.includes(audioFile.type) &&
+			!audioFile.name.match(/\.(mp3|wav|ogg|webm|m4a)$/i)
+		) {
 			error = 'Please upload a valid audio file (MP3, WAV, OGG, WebM, or M4A)';
 			return;
 		}
@@ -74,7 +84,8 @@
 
 			if (backendError) {
 				// Use the detailed message from backend
-				error = backendError.message || backendError.error || 'Failed to upload clip. Please try again.';
+				error =
+					backendError.message || backendError.error || 'Failed to upload clip. Please try again.';
 
 				// Add additional context if available
 				if (backendError.receivedType) {

@@ -121,12 +121,7 @@
 		<div class="max-w-md rounded-lg bg-red-50 p-6 text-center">
 			<h2 class="mb-2 text-xl font-bold text-red-800">Error</h2>
 			<p class="text-red-600">{error}</p>
-			<a
-				href="/feed"
-				class="btn-primary mt-4 inline-block"
-			>
-				Back to Feed
-			</a>
+			<a href="/feed" class="btn-primary mt-4 inline-block"> Back to Feed </a>
 		</div>
 	</div>
 {:else if user}
@@ -161,7 +156,9 @@
 								</div>
 							</div>
 						{/if}
-						<div class="flex flex-wrap justify-center gap-6 text-center md:justify-start md:text-left">
+						<div
+							class="flex flex-wrap justify-center gap-6 text-center md:justify-start md:text-left"
+						>
 							<div>
 								<p class="text-2xl font-bold text-gray-800">{jams.length}</p>
 								<p class="text-sm text-gray-600">Jams</p>
@@ -219,7 +216,7 @@
 								{#if isOwnProfile}
 									<button
 										on:click={() => handleDeleteJam(jam._id)}
-										class="absolute right-2 top-2 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-red-600"
+										class="absolute top-2 right-2 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-red-600"
 										title="Delete jam"
 									>
 										Delete

@@ -61,10 +61,7 @@
 			}
 		} catch (err) {
 			console.error(`Error ${action}ing invite:`, err);
-			toast.show(
-				err instanceof Error ? err.message : `Failed to ${action} invite`,
-				'error'
-			);
+			toast.show(err instanceof Error ? err.message : `Failed to ${action} invite`, 'error');
 		} finally {
 			processingInvite = null;
 		}
@@ -255,7 +252,9 @@
 		background: #f9fafb;
 		border-radius: 8px;
 		overflow: hidden;
-		transition: transform 0.2s, box-shadow 0.2s;
+		transition:
+			transform 0.2s,
+			box-shadow 0.2s;
 	}
 
 	:global(.dark) .invite-card {

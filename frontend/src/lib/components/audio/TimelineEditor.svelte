@@ -35,7 +35,7 @@
 	let clipWaveforms = $state<Map<string, WaveformData>>(new Map());
 
 	// Generate time ruler ticks
-	 
+
 	let ticks = $derived(Array.from({ length: Math.ceil(duration) }, (_item, i) => i));
 
 	let playheadInterval: number | null = null;

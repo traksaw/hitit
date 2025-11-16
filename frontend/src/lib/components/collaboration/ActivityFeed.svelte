@@ -144,11 +144,7 @@
 					<div class="activity-content">
 						<div class="activity-user">
 							{#if activity.user.image}
-								<img
-									src={activity.user.image}
-									alt={activity.user.userName}
-									class="user-avatar"
-								/>
+								<img src={activity.user.image} alt={activity.user.userName} class="user-avatar" />
 							{:else}
 								<div class="user-avatar-placeholder">
 									{activity.user.userName.charAt(0).toUpperCase()}
