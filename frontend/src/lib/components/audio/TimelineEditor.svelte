@@ -35,6 +35,7 @@
 	let clipWaveforms = $state<Map<string, WaveformData>>(new Map());
 
 	// Generate time ruler ticks
+	 
 	let ticks = $derived(Array.from({ length: Math.ceil(duration) }, (_item, i) => i));
 
 	let playheadInterval: number | null = null;
@@ -177,9 +178,7 @@
 			}
 
 			// Check if clip exists in the timeline already
-			const existingPlacementIndex = placedClips.findIndex(
-				(p) => p.clip._id === data.clip._id
-			);
+			const existingPlacementIndex = placedClips.findIndex((p) => p.clip._id === data.clip._id);
 
 			if (existingPlacementIndex >= 0) {
 				// Update existing placement
@@ -545,13 +544,11 @@
 							{#if placement.waveform}
 								<!-- Real waveform visualization -->
 								{#each placement.waveform.peaks as peak, waveIdx (waveIdx)}
-									<div
-										class="flex-1 bg-white/70"
-										style="height: {Math.max(peak * 100, 5)}%"
-									></div>
+									<div class="flex-1 bg-white/70" style="height: {Math.max(peak * 100, 5)}%"></div>
 								{/each}
 							{:else}
 								<!-- Fallback placeholder -->
+								<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
 								{#each Array(15).fill(0) as _item, waveIdx (waveIdx)}
 									<div class="w-1 bg-white/50" style="height: {Math.random() * 100}%"></div>
 								{/each}
