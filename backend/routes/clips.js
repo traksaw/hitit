@@ -10,6 +10,12 @@ const {
   validateFileUpload,
 } = require('../middleware/validation');
 const { uploadLimiter, actionLimiter } = require('../middleware/rateLimiter');
+const {
+  ensureOwner,
+  ensureCanEdit,
+  ensureCanContribute,
+  ensureCanView,
+} = require('../middleware/jamPermissions');
 
 //Post Routes - simplified for now
 // router.get("/:id", ensureAuth, clipsController.getPost);
@@ -49,20 +55,38 @@ router.put(
   '/addClipToJam/:jamid/:myaudioclipid',
   ensureAuth,
   actionLimiter,
+  ensureCanContribute, // Requires contributor role or higher
   clipsController.addClipToJam
 );
-router.put('/addUserToJam/:jamid/:userid', ensureAuth, actionLimiter, clipsController.addUserToJam);
+router.put(
+  '/addUserToJam/:jamid/:userid',
+  ensureAuth,
+  actionLimiter,
+  ensureOwner, // Only owner can add collaborators
+  clipsController.addUserToJam
+);
 
 router.put('/likeCommentToJam/:jamid/', ensureAuth, actionLimiter, clipsController.likeComment);
 
 router.delete(
   '/deleteClipFromJam/:jamid/:myaudioclipid',
   ensureAuth,
+  ensureCanEdit, // Requires producer role or owner
   clipsController.removeClipFromJam
 );
-router.delete('/deleteUserFromJam/:jamid/:userid', ensureAuth, clipsController.removeUserFromJam);
+router.delete(
+  '/deleteUserFromJam/:jamid/:userid',
+  ensureAuth,
+  ensureOwner, // Only owner can remove collaborators
+  clipsController.removeUserFromJam
+);
 
 router.delete('/deleteClip/:id', ensureAuth, clipsController.deleteClip);
-router.delete('/deleteJam/:id', ensureAuth, clipsController.deleteJam);
+router.delete(
+  '/deleteJam/:id',
+  ensureAuth,
+  ensureOwner, // Only owner can delete jam
+  clipsController.deleteJam
+);
 
 module.exports = router;

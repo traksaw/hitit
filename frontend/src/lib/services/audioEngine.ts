@@ -11,6 +11,8 @@ interface TrackChannel {
 	};
 	muted: boolean;
 	solo: boolean;
+	startTime: number; // When this clip should start playing (in seconds)
+	scheduledId: number | null; // ID for the scheduled event
 }
 
 class AudioEngine {
@@ -31,7 +33,7 @@ class AudioEngine {
 
 		try {
 			await Tone.start();
-			console.log('🎵 Tone.js Audio Engine initialized');
+			console.log('Tone.js Audio Engine initialized');
 			this.isInitialized = true;
 		} catch (error) {
 			console.error('Failed to initialize audio engine:', error);
@@ -43,7 +45,7 @@ class AudioEngine {
 		this.transport.bpm.value = bpm;
 	}
 
-	async loadClip(clipId: string, audioUrl: string): Promise<void> {
+	async loadClip(clipId: string, audioUrl: string, startTime: number = 0): Promise<void> {
 		await this.init();
 
 		// Create track channel if it doesn't exist
@@ -61,11 +63,14 @@ class AudioEngine {
 					delay: null
 				},
 				muted: false,
-				solo: false
+				solo: false,
+				startTime: startTime,
+				scheduledId: null
 			});
 		}
 
 		const track = this.tracks.get(clipId)!;
+		track.startTime = startTime;
 
 		try {
 			// Dispose of existing player if any
@@ -73,32 +78,94 @@ class AudioEngine {
 				track.player.dispose();
 			}
 
-			// Create new player
-			const player = new Tone.Player(audioUrl).connect(track.panner);
+			// Create new player with sync to transport
+			const player = new Tone.Player({
+				url: audioUrl,
+				loop: false,
+				autostart: false
+			}).connect(track.panner);
+
+			// Sync player to transport for scheduled playback
+			player.sync().start(startTime);
+
 			track.player = player;
 
 			await Tone.loaded();
-			console.log(`✅ Loaded clip: ${clipId}`);
+			console.log(`Loaded clip: ${clipId} at ${startTime}s`);
 		} catch (error) {
 			console.error(`Failed to load clip ${clipId}:`, error);
 			throw error;
 		}
 	}
 
+	// Update the start time of a clip without reloading
+	updateClipStartTime(clipId: string, startTime: number): void {
+		const track = this.tracks.get(clipId);
+		if (!track || !track.player) return;
+
+		track.startTime = startTime;
+
+		// Re-sync the player with new start time
+		track.player.unsync();
+		track.player.sync().start(startTime);
+
+		console.log(`🔄 Updated clip ${clipId} start time to ${startTime}s`);
+	}
+
+	// Get clip duration
+	getClipDuration(clipId: string): number {
+		const track = this.tracks.get(clipId);
+		return track?.player?.buffer.duration || 0;
+	}
+
+	// Get all loaded clips info
+	getLoadedClips(): { clipId: string; startTime: number; duration: number }[] {
+		const clips: { clipId: string; startTime: number; duration: number }[] = [];
+
+		this.tracks.forEach((track, clipId) => {
+			if (track.player) {
+				clips.push({
+					clipId,
+					startTime: track.startTime,
+					duration: track.player.buffer.duration
+				});
+			}
+		});
+
+		return clips;
+	}
+
 	play(): void {
 		if (!this.isInitialized) return;
 		this.transport.start();
+		console.log('Playback started');
 	}
 
 	pause(): void {
 		if (!this.isInitialized) return;
 		this.transport.pause();
+		console.log('Playback paused');
 	}
 
 	stop(): void {
 		if (!this.isInitialized) return;
+
+		// Stop all players
+		this.tracks.forEach((track) => {
+			if (track.player) {
+				track.player.stop();
+			}
+		});
+
 		this.transport.stop();
 		this.transport.position = 0;
+		console.log('Playback stopped');
+	}
+
+	// Seek to a specific time in the timeline
+	seek(seconds: number): void {
+		this.transport.seconds = seconds;
+		console.log(`Seeked to ${seconds.toFixed(2)}s`);
 	}
 
 	setVolume(clipId: string, volume: number): void {

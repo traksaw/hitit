@@ -10,7 +10,7 @@ class CollaborationService {
     this.wss = new WebSocket.Server({ server, path: '/collaboration' });
 
     this.wss.on('connection', (ws) => {
-      console.log('🔌 New WebSocket connection established');
+      console.log('New WebSocket connection established');
 
       ws.jamId = null;
       ws.userId = null;
@@ -27,17 +27,17 @@ class CollaborationService {
           const data = JSON.parse(message);
           this.handleMessage(ws, data);
         } catch (error) {
-          console.error('❌ WebSocket message parse error:', error);
+          console.error('WebSocket message parse error:', error);
         }
       });
 
       ws.on('close', () => {
-        console.log('🔌 WebSocket connection closed');
+        console.log('WebSocket connection closed');
         this.handleUserLeave(ws);
       });
 
       ws.on('error', (error) => {
-        console.error('❌ WebSocket error:', error);
+        console.error('WebSocket error:', error);
       });
     });
 
@@ -56,7 +56,7 @@ class CollaborationService {
       clearInterval(keepAliveInterval);
     });
 
-    console.log('✅ WebSocket collaboration service initialized');
+    console.log('WebSocket collaboration service initialized');
   }
 
   handleMessage(ws, data) {
@@ -76,7 +76,7 @@ class CollaborationService {
         this.handlePlaybackSync(ws, data);
         break;
       default:
-        console.warn('⚠️ Unknown message type:', type);
+        console.warn('Unknown message type:', type);
     }
   }
 
@@ -99,7 +99,7 @@ class CollaborationService {
 
     this.jamRooms.get(jamId).add(ws);
 
-    console.log(`👤 ${userName} joined jam ${jamId}`);
+    console.log(`${userName} joined jam ${jamId}`);
 
     // Notify other users in the jam
     this.broadcastToJam(
@@ -218,7 +218,7 @@ class CollaborationService {
         timestamp: Date.now(),
       });
 
-      console.log(`👤 ${userName} left jam ${jamId}`);
+      console.log(`${userName} left jam ${jamId}`);
     }
 
     ws.jamId = null;

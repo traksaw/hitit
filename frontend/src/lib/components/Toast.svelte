@@ -4,14 +4,14 @@
 	function getIcon(type: string) {
 		switch (type) {
 			case 'success':
-				return '✓';
+				return 'OK';
 			case 'error':
-				return '✕';
+				return 'ERR';
 			case 'warning':
-				return '⚠';
+				return 'WARN';
 			case 'info':
 			default:
-				return 'ℹ';
+				return 'INFO';
 		}
 	}
 </script>

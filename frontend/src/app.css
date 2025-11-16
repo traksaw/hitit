@@ -5,6 +5,41 @@
 	box-sizing: border-box;
 }
 
+/* CSS Variables for theme */
+:root {
+	/* Light mode (default) - Limewire green theme */
+	--bg-primary: #deefd8; /* Light green background */
+	--bg-secondary: #bcdfb1; /* Medium green */
+	--bg-tertiary: #ffffff; /* White */
+	--text-primary: #1c1c1c; /* Dark text */
+	--text-secondary: #4a5568; /* Gray text */
+	--text-tertiary: #718096; /* Light gray text */
+	--border-color: #9bcf89; /* Green border */
+	--accent-primary: #79bf62; /* Dark green */
+	--accent-secondary: #58af3b; /* Deep green */
+	--accent-hover: #deefd8; /* Light green hover */
+	--shadow: rgba(0, 0, 0, 0.1);
+	--shadow-md: rgba(0, 0, 0, 0.15);
+	--shadow-lg: rgba(0, 0, 0, 0.2);
+}
+
+.dark {
+	/* Dark mode - Green theme adapted for dark */
+	--bg-primary: #1a1f1a; /* Very dark green-tinted */
+	--bg-secondary: #2d3a2d; /* Dark green-gray */
+	--bg-tertiary: #374237; /* Medium dark green */
+	--text-primary: #e8f5e8; /* Light greenish white */
+	--text-secondary: #b8d4b8; /* Light green-gray */
+	--text-tertiary: #8ca88c; /* Medium green-gray */
+	--border-color: #4a5a4a; /* Dark green border */
+	--accent-primary: #79bf62; /* Keep green accent */
+	--accent-secondary: #9bcf89; /* Lighter green for contrast */
+	--accent-hover: #2d3a2d; /* Dark hover */
+	--shadow: rgba(0, 0, 0, 0.3);
+	--shadow-md: rgba(0, 0, 0, 0.4);
+	--shadow-lg: rgba(0, 0, 0, 0.5);
+}
+
 html {
 	font-family:
 		'Poppins',
@@ -14,69 +49,71 @@ html {
 }
 
 body {
-	background-color: #deefd8; /* Limewire light green */
-	color: #1c1c1c;
+	background-color: var(--bg-primary);
+	color: var(--text-primary);
 	margin: 0;
 	min-height: 100vh;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Custom component styles - Limewire green theme */
 .btn-primary {
-	background-color: #79bf62; /* dark-green */
+	background-color: var(--accent-primary);
 	color: white;
 	font-weight: 600;
 	padding: 0.75rem 1.5rem;
 	border-radius: 0.5rem;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 6px var(--shadow);
 	transition: all 0.2s;
 }
 
 .btn-primary:hover {
-	background-color: #58af3b; /* deep-green */
-	box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+	background-color: var(--accent-secondary);
+	box-shadow: 0 10px 15px var(--shadow);
 	transform: translateY(-2px);
 }
 
 .btn-secondary {
-	background: white;
-	color: #79bf62;
+	background: var(--bg-tertiary);
+	color: var(--accent-primary);
 	font-weight: 600;
 	padding: 0.75rem 1.5rem;
 	border-radius: 0.5rem;
-	border: 2px solid #79bf62;
+	border: 2px solid var(--accent-primary);
 	transition: all 0.2s;
 }
 
 .btn-secondary:hover {
-	background: #deefd8;
+	background: var(--accent-hover);
 	transform: translateY(-2px);
 }
 
 .card {
-	background: #bcdfb1; /* medium-green */
+	background: var(--bg-secondary);
 	border-radius: 1.25rem;
-	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 6px 12px var(--shadow-md);
 	overflow: hidden;
 	transition: all 0.2s;
 }
 
 .card:hover {
-	box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 10px 25px -5px var(--shadow-lg);
 }
 
 .input-field {
 	width: 100%;
 	padding: 0.75rem 1rem;
-	border: 1px solid #9bcf89; /* green */
+	border: 1px solid var(--border-color);
 	border-radius: 0.5rem;
 	transition: all 0.2s;
-	background-color: white;
+	background-color: var(--bg-tertiary);
+	color: var(--text-primary);
 }
 
 .input-field:focus {
 	outline: none;
-	border-color: #79bf62; /* dark-green */
+	border-color: var(--accent-primary);
 	box-shadow: 0 0 0 3px rgba(121, 191, 98, 0.1);
 }

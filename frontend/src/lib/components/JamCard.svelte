@@ -18,7 +18,12 @@
 			/>
 		</div>
 		<div class="flex flex-1 flex-col p-4">
-			<h5 class="text-primary-deep mb-2 line-clamp-1 text-lg font-semibold">{jam.title}</h5>
+			<div class="mb-2 flex items-center gap-2">
+				<h5 class="text-primary-deep line-clamp-1 flex-1 text-lg font-semibold">{jam.title}</h5>
+				{#if jam.isPrivate}
+					<span class="text-gray-500" title="Private jam">[Private]</span>
+				{/if}
+			</div>
 			<p class="mb-4 line-clamp-2 flex-1 text-sm text-gray-700">{jam.description || ''}</p>
 			<div class="mt-auto flex items-center justify-between text-sm">
 				<span
@@ -27,8 +32,7 @@
 					{jam.genre}
 				</span>
 				<span class="flex items-center gap-1 text-gray-600">
-					<span class="text-red-500">❤️</span>
-					{jam.likes}
+					{jam.likes} likes
 				</span>
 			</div>
 		</div>

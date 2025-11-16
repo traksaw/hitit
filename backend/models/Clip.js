@@ -19,7 +19,8 @@ const ClipSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
+    default: '',
   },
   genre: {
     type: String, //this is gonna be a genre selection for the jam

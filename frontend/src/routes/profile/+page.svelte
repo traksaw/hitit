@@ -168,7 +168,7 @@
 										<p class="card-description">{jam.description || ''}</p>
 										<div class="card-meta">
 											<span class="genre">{jam.genre}</span>
-											<span class="likes">❤️ {jam.likes}</span>
+											<span class="likes">{jam.likes} likes</span>
 										</div>
 									</div>
 								</div>
@@ -179,7 +179,7 @@
 									on:click={() => handleDeleteJam(jam._id)}
 									title="Delete this jam"
 								>
-									🗑️ Delete
+									Delete
 								</button>
 							{/if}
 						</div>
@@ -238,7 +238,7 @@
 										on:click={() => handleDeleteClip(clip._id)}
 										title="Delete this clip"
 									>
-										🗑️ Delete
+										Delete
 									</button>
 								{/if}
 							</div>

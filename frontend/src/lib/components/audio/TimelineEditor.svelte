@@ -3,6 +3,7 @@
 	import TrackRow from './TrackRow.svelte';
 	import type { Clip } from '$lib/api';
 	import { audioEngine } from '$lib/services/audioEngine';
+	import { getCachedWaveform, type WaveformData } from '$lib/utils/waveform';
 
 	interface Props {
 		clips?: Clip[];
@@ -25,9 +26,13 @@
 		clip: Clip;
 		startTime: number;
 		trackIndex: number;
+		waveform: WaveformData | null;
 	}
 
 	let placedClips = $state<ClipPlacement[]>([]);
+
+	// Store waveforms for each clip
+	let clipWaveforms = $state<Map<string, WaveformData>>(new Map());
 
 	// Generate time ruler ticks
 	let ticks = $derived(Array.from({ length: Math.ceil(duration) }, (_, i) => i));
@@ -88,7 +93,7 @@
 			// Download the file
 			audioEngine.downloadMixdown(blob, filename);
 
-			console.log(`✅ Exported mixdown: ${filename}`);
+			console.log(`Exported mixdown: ${filename}`);
 		} catch (error) {
 			console.error('Failed to export mixdown:', error);
 			alert('Failed to export mixdown. Please try again.');
@@ -171,17 +176,35 @@
 				dropTime = Math.round(dropTime / snapInterval) * snapInterval;
 			}
 
-			// Add clip to placed clips
-			placedClips = [
-				...placedClips,
-				{
-					clip: data.clip,
-					startTime: dropTime,
-					trackIndex: selectedTrackIndex
-				}
-			];
+			// Check if clip exists in the timeline already
+			const existingPlacementIndex = placedClips.findIndex(
+				(p) => p.clip._id === data.clip._id
+			);
 
-			console.log('Clip placed at', dropTime, 'seconds on track', selectedTrackIndex);
+			if (existingPlacementIndex >= 0) {
+				// Update existing placement
+				placedClips[existingPlacementIndex].startTime = dropTime;
+				placedClips[existingPlacementIndex].trackIndex = selectedTrackIndex;
+				placedClips = [...placedClips]; // Trigger reactivity
+			} else {
+				// Add new clip placement
+				placedClips = [
+					...placedClips,
+					{
+						clip: data.clip,
+						startTime: dropTime,
+						trackIndex: selectedTrackIndex,
+						waveform: clipWaveforms.get(data.clip._id) || null
+					}
+				];
+			}
+
+			// Update the audio engine with the new start time
+			audioEngine.updateClipStartTime(data.clip._id, dropTime);
+
+			console.log(
+				`🎯 Clip "${data.clip.title}" placed at ${dropTime.toFixed(2)}s on track ${selectedTrackIndex}`
+			);
 		} catch (error) {
 			console.error('Error handling drop:', error);
 		}
@@ -232,10 +255,41 @@
 		}
 	}
 
-	onMount(() => {
+	let isLoadingClips = $state(false);
+
+	onMount(async () => {
 		window.addEventListener('keydown', handleKeyDown);
-		audioEngine.init();
+
+		// Initialize audio engine
+		await audioEngine.init();
 		audioEngine.setBPM(bpm);
+
+		// Load all clips into the audio engine and extract waveforms
+		if (clips.length > 0) {
+			isLoadingClips = true;
+			try {
+				console.log(`Loading ${clips.length} clips into audio engine...`);
+
+				// Load clips in parallel for faster loading
+				await Promise.all(
+					clips.map(async (clip) => {
+						// Load audio into engine
+						await audioEngine.loadClip(clip._id, clip.audio, 0);
+
+						// Extract waveform data
+						const waveform = await getCachedWaveform(clip.audio, 20);
+						clipWaveforms.set(clip._id, waveform);
+					})
+				);
+
+				console.log('All clips loaded successfully');
+			} catch (error) {
+				console.error('Failed to load clips:', error);
+				alert('Failed to load some audio clips. Please refresh and try again.');
+			} finally {
+				isLoadingClips = false;
+			}
+		}
 	});
 
 	// Watch for BPM changes and update audio engine
@@ -255,10 +309,36 @@
 </script>
 
 <div class="timeline-editor bg-lime-lightest overflow-hidden rounded-lg shadow-2xl">
+	<!-- Loading Indicator -->
+	{#if isLoadingClips}
+		<div class="bg-lime-base/90 absolute inset-0 z-50 flex items-center justify-center">
+			<div class="rounded-lg bg-white p-8 text-center shadow-2xl">
+				<svg
+					class="text-lime-base mx-auto mb-4 h-12 w-12 animate-spin"
+					fill="none"
+					viewBox="0 0 24 24"
+				>
+					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"
+					></circle>
+					<path
+						class="opacity-75"
+						fill="currentColor"
+						d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+					></path>
+				</svg>
+				<p class="text-lime-dark text-lg font-semibold">Loading audio clips...</p>
+				<p class="text-lime-dark/70 mt-2 text-sm">This may take a moment</p>
+			</div>
+		</div>
+	{/if}
+
 	<!-- Timeline Header -->
 	<div class="timeline-header bg-lime-dark flex items-center justify-between p-4 text-white">
 		<div class="flex items-center gap-4">
 			<h3 class="text-lg font-bold">Timeline Editor</h3>
+			<span class="text-lime-lightest/70 hidden text-sm md:inline"
+				>Tip: Drag clips from below onto the timeline</span
+			>
 
 			<!-- Playback Controls -->
 			<div class="flex items-center gap-2">
@@ -449,23 +529,37 @@
 
 			<!-- Placed clips -->
 			{#each placedClips as placement, idx (idx)}
+				{@const clipDuration = audioEngine.getClipDuration(placement.clip._id)}
+				{@const clipWidth = Math.max(clipDuration * zoom, 100)}
 				<div
 					class="bg-lime-base/80 border-lime-dark hover:bg-lime-base absolute cursor-move overflow-hidden rounded-lg border-2 shadow-lg transition-all"
 					style="left: {placement.startTime * zoom}px; top: {placement.trackIndex * 80 +
-						10}px; width: 150px; height: 60px;"
+						10}px; width: {clipWidth}px; height: 60px;"
 					draggable="true"
 					role="button"
 					tabindex="0"
 				>
 					<div class="flex h-full flex-col p-2">
 						<p class="truncate text-xs font-bold text-white">{placement.clip.title}</p>
-						<div class="mt-1 flex flex-1 items-center gap-px">
-							<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-							{#each Array(15).fill(0) as _, waveIdx (waveIdx)}
-								<div class="w-1 bg-white/50" style="height: {Math.random() * 100}%"></div>
-							{/each}
+						<div class="mt-1 flex flex-1 items-end gap-px">
+							{#if placement.waveform}
+								<!-- Real waveform visualization -->
+								{#each placement.waveform.peaks as peak, waveIdx (waveIdx)}
+									<div
+										class="flex-1 bg-white/70"
+										style="height: {Math.max(peak * 100, 5)}%"
+									></div>
+								{/each}
+							{:else}
+								<!-- Fallback placeholder -->
+								{#each Array(15).fill(0) as _, waveIdx (waveIdx)}
+									<div class="w-1 bg-white/50" style="height: {Math.random() * 100}%"></div>
+								{/each}
+							{/if}
 						</div>
-						<p class="font-mono text-xs text-white/70">{placement.startTime.toFixed(2)}s</p>
+						<p class="font-mono text-xs text-white/70">
+							{placement.startTime.toFixed(2)}s - {(placement.startTime + clipDuration).toFixed(2)}s
+						</p>
 					</div>
 				</div>
 			{/each}

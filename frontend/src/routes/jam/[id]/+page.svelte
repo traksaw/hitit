@@ -176,13 +176,13 @@
 					>
 						{jam.genre}
 					</span>
-					<span class="text-gray-600">❤️ {jam.likes} likes</span>
-					<span class="text-gray-600">🎵 {audioClips.length} clips</span>
-					<span class="text-gray-600">👥 {collaborators.length} collaborators</span>
+					<span class="text-gray-600">{jam.likes} likes</span>
+					<span class="text-gray-600">{audioClips.length} clips</span>
+					<span class="text-gray-600">{collaborators.length} collaborators</span>
 				</div>
 				{#if $authStore.isAuthenticated}
 					<button on:click={handleLike} class="btn-primary mt-4 flex items-center gap-2">
-						❤️ Like this Jam
+						Like this Jam
 					</button>
 				{/if}
 			</div>
@@ -197,7 +197,7 @@
 						: 'text-lime-darkest hover:bg-lime-light'}"
 					on:click={() => switchView('timeline')}
 				>
-					📊 Timeline
+					Timeline
 				</button>
 				<button
 					class="rounded-lg px-6 py-2 font-semibold transition-all {activeView === 'mixer'
@@ -205,7 +205,7 @@
 						: 'text-lime-darkest hover:bg-lime-light'}"
 					on:click={() => switchView('mixer')}
 				>
-					🎚️ Mixer
+					Mixer
 				</button>
 			</div>
 
@@ -415,8 +415,8 @@
 							</div>
 							<p class="mb-3 text-gray-700">{comment.commentText}</p>
 							<button class="text-sm text-gray-600 transition-colors hover:text-red-500">
-								❤️ {comment.likes}
-							</button>
+						{comment.likes}
+					</button>
 						</div>
 					{/each}
 				</div>

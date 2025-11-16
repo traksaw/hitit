@@ -8,11 +8,11 @@ module.exports = function (passport) {
       { usernameField: 'email', passReqToCallback: true }, // Ensure req is passed
       async (req, email, password, done) => {
         try {
-          console.log('✅ Passport LocalStrategy: Checking req.session...');
+          console.log('Passport LocalStrategy: Checking req.session...');
           console.log('req.session:', req.session); // Should NOT be undefined here
 
           if (!req.session) {
-            console.error('🚨 ERROR: req.session is undefined in Passport!');
+            console.error('ERROR: req.session is undefined in Passport!');
             return done(null, false, { msg: 'Session is not initialized.' });
           }
 

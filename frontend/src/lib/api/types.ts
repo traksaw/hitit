@@ -38,6 +38,7 @@ export interface Jam {
 	genre: string;
 	comments: Comment[];
 	user: string | User;
+	isPrivate?: boolean;
 	createdAt: Date;
 }
 
@@ -72,4 +73,112 @@ export interface FeedData {
 export interface ApiError {
 	message: string;
 	status?: number;
+}
+
+// Phase 3: Collaboration Types
+
+export type CollaboratorRole = 'producer' | 'contributor' | 'viewer';
+
+export interface Collaborator {
+	user: User;
+	role: CollaboratorRole;
+	addedAt: Date;
+	addedBy: string | User;
+}
+
+export interface JamActivity {
+	_id: string;
+	jam: string | Jam;
+	user: User;
+	actionType: 'jam_created' | 'clip_added' | 'clip_removed' | 'mix_updated' |
+		'collaborator_added' | 'collaborator_removed' | 'role_changed' |
+		'invite_sent' | 'invite_accepted' | 'request_sent' | 'request_approved' |
+		'comment_added' | 'jam_updated' | 'jam_published';
+	targetUser?: User;
+	targetClip?: Clip;
+	metadata?: Record<string, any>;
+	description: string;
+	createdAt: Date;
+}
+
+export interface JamInvite {
+	_id: string;
+	jam: Jam;
+	invitedUser: User;
+	invitedBy: User;
+	role: CollaboratorRole;
+	status: 'pending' | 'accepted' | 'declined' | 'expired';
+	message?: string;
+	expiresAt: Date;
+	respondedAt?: Date;
+	createdAt: Date;
+}
+
+export interface JamRequest {
+	_id: string;
+	jam: Jam;
+	requestedBy: User;
+	requestedRole: CollaboratorRole;
+	status: 'pending' | 'approved' | 'denied';
+	message?: string;
+	skills?: string[];
+	portfolio?: string;
+	respondedAt?: Date;
+	respondedBy?: User;
+	createdAt: Date;
+}
+
+export interface JamVersion {
+	_id: string;
+	jam: string | Jam;
+	versionNumber: number;
+	versionName: string;
+	description?: string;
+	createdBy: User;
+	createdAt: Date;
+	snapshot: {
+		title: string;
+		description?: string;
+		genre: string;
+		image?: string;
+		isPrivate: boolean;
+		audioElements: Clip[];
+		collaborators: Collaborator[];
+		clipCount: number;
+		collaboratorCount: number;
+	};
+	tags: string[];
+	isPinned: boolean;
+}
+
+export interface ActivityFeedResponse {
+	success: boolean;
+	activities: JamActivity[];
+	pagination: {
+		total: number;
+		limit: number;
+		skip: number;
+		hasMore: boolean;
+	};
+}
+
+export interface VersionsResponse {
+	success: boolean;
+	versions: JamVersion[];
+	pagination: {
+		total: number;
+		limit: number;
+		skip: number;
+		hasMore: boolean;
+	};
+}
+
+export interface InvitesResponse {
+	success: boolean;
+	invites: JamInvite[];
+}
+
+export interface RequestsResponse {
+	success: boolean;
+	requests: JamRequest[];
 }

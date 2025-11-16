@@ -21,7 +21,7 @@
 
 <div class="error-page">
 	<div class="error-container">
-		<div class="error-icon">⚠️</div>
+		<div class="error-icon">!</div>
 		<h1 class="error-status">{status}</h1>
 		<h2 class="error-title">
 			{#if status === 404}

@@ -35,15 +35,16 @@
 		}
 
 		// Validate file type
-		const validTypes = ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/ogg', 'audio/webm'];
-		if (!validTypes.includes(audioFile.type) && !audioFile.name.match(/\.(mp3|wav|ogg|webm)$/i)) {
-			error = 'Please upload a valid audio file (MP3, WAV, OGG, or WebM)';
+		const validTypes = ['audio/mpeg', 'audio/wav', 'audio/mp3', 'audio/ogg', 'audio/webm', 'audio/x-m4a'];
+		if (!validTypes.includes(audioFile.type) && !audioFile.name.match(/\.(mp3|wav|ogg|webm|m4a)$/i)) {
+			error = 'Please upload a valid audio file (MP3, WAV, OGG, WebM, or M4A)';
 			return;
 		}
 
 		// Validate file size (max 50MB)
 		if (audioFile.size > 50 * 1024 * 1024) {
-			error = 'Audio file must be less than 50MB';
+			const fileSizeMB = (audioFile.size / (1024 * 1024)).toFixed(2);
+			error = `Audio file is too large (${fileSizeMB}MB). Maximum size is 50MB.`;
 			return;
 		}
 
@@ -65,11 +66,32 @@
 
 			// Redirect to profile after successful upload
 			goto('/profile');
-		} catch (err: unknown) {
+		} catch (err: any) {
 			console.error('Failed to upload clip:', err);
-			error =
-				(err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
-				'Failed to upload clip. Please try again.';
+
+			// Extract detailed error message from backend response
+			const backendError = err?.response?.data;
+
+			if (backendError) {
+				// Use the detailed message from backend
+				error = backendError.message || backendError.error || 'Failed to upload clip. Please try again.';
+
+				// Add additional context if available
+				if (backendError.receivedType) {
+					error += ` (Received file type: ${backendError.receivedType})`;
+				} else if (backendError.actualSize && backendError.maxSize) {
+					const actualMB = (backendError.actualSize / (1024 * 1024)).toFixed(2);
+					const maxMB = (backendError.maxSize / (1024 * 1024)).toFixed(2);
+					error += ` (Your file: ${actualMB}MB, Max: ${maxMB}MB)`;
+				}
+			} else if (err?.message) {
+				// Network error or other client-side error
+				error = err.message.includes('Network')
+					? 'Network error. Please check your connection and try again.'
+					: 'Failed to upload clip. Please try again.';
+			} else {
+				error = 'An unexpected error occurred. Please try again.';
+			}
 		} finally {
 			isSubmitting = false;
 		}
@@ -130,11 +152,10 @@
 				</div>
 				{#if audioFileName}
 					<div class="file-info">
-						<span class="file-icon">🎵</span>
 						<span class="file-name">{audioFileName}</span>
 					</div>
 				{/if}
-				<small class="help-text">Supported formats: MP3, WAV, OGG, WebM (Max 50MB)</small>
+				<small class="help-text">Supported formats: MP3, WAV, OGG, WebM, M4A (Max 50MB)</small>
 			</div>
 
 			<div class="form-actions">
@@ -259,10 +280,6 @@
 		background: #f8f9fa;
 		border-radius: 0.5rem;
 		border: 1px solid #e9ecef;
-	}
-
-	.file-icon {
-		font-size: 1.5rem;
 	}
 
 	.file-name {

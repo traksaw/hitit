@@ -2,6 +2,8 @@
 	import { goto } from '$app/navigation';
 	import { authStore } from '$lib/stores/auth';
 	import { authAPI } from '$lib/api/client';
+	import ThemeToggle from './ThemeToggle.svelte';
+	import NotificationBell from './NotificationBell.svelte';
 
 	let isLoggingOut = false;
 
@@ -45,6 +47,9 @@
 					Profile
 				</a>
 
+				<ThemeToggle />
+				<NotificationBell />
+
 				<div class="flex items-center gap-3 pl-0 md:border-l md:border-white/30 md:pl-4">
 					<img
 						src={$authStore.user.image}
@@ -61,6 +66,8 @@
 					</button>
 				</div>
 			{:else}
+				<ThemeToggle />
+
 				<a
 					href="/login"
 					class="rounded-lg px-4 py-2 font-medium text-white no-underline transition-colors hover:bg-white/10"

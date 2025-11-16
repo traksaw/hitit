@@ -31,7 +31,7 @@
 {#if hasError}
 	<div class="error-boundary">
 		<div class="error-content">
-			<div class="error-icon">⚠️</div>
+			<div class="error-icon">!</div>
 			<h2>Something went wrong</h2>
 			<p class="error-text">{errorMessage}</p>
 			<button onclick={retry} class="retry-btn">Reload Page</button>

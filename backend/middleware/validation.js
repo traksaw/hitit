@@ -1,13 +1,24 @@
 const { body, validationResult } = require('express-validator');
 
 // Validation middleware to handle errors
+// Supports both JSON (for API) and flash messages (for EJS templates)
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    req.flash(
-      'errors',
-      errors.array().map((err) => err.msg)
-    );
+    const errorMessages = errors.array().map((err) => err.msg);
+
+    // Check if this is an API request (JSON response expected)
+    if (req.path.startsWith('/api/') || req.headers.accept?.includes('application/json')) {
+      return res.status(400).json({
+        success: false,
+        error: 'Validation failed',
+        message: errorMessages[0], // First error message
+        errors: errorMessages, // All error messages
+      });
+    }
+
+    // Traditional flash message for EJS templates
+    req.flash('errors', errorMessages);
     return res.redirect('back');
   }
   next();
@@ -101,10 +112,22 @@ const validateSignup = [
 ];
 
 // File upload validation
+// Supports both JSON (for API) and flash messages (for EJS templates)
 const validateFileUpload = (allowedTypes, maxSizeMB = 50) => {
   return (req, res, next) => {
+    const isApiRequest =
+      req.path.startsWith('/api/') || req.headers.accept?.includes('application/json');
+
     if (!req.file) {
-      req.flash('errors', { msg: 'Please select a file to upload' });
+      const errorMsg = 'Please select a file to upload';
+      if (isApiRequest) {
+        return res.status(400).json({
+          success: false,
+          error: 'No file uploaded',
+          message: errorMsg,
+        });
+      }
+      req.flash('errors', { msg: errorMsg });
       return res.redirect('back');
     }
 
@@ -117,8 +140,10 @@ const validateFileUpload = (allowedTypes, maxSizeMB = 50) => {
         'audio/x-wav',
         'audio/mp4',
         'audio/x-m4a',
+        'audio/ogg',
+        'audio/webm',
       ],
-      image: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'],
+      image: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
       all: [
         'audio/mpeg',
         'audio/mp3',
@@ -127,24 +152,47 @@ const validateFileUpload = (allowedTypes, maxSizeMB = 50) => {
         'audio/x-wav',
         'audio/mp4',
         'audio/x-m4a',
+        'audio/ogg',
+        'audio/webm',
         'image/jpeg',
         'image/jpg',
         'image/png',
         'image/webp',
+        'image/gif',
       ],
     };
 
     const mimeTypes = allowedMimeTypes[allowedTypes] || allowedMimeTypes.all;
 
     if (!mimeTypes.includes(req.file.mimetype)) {
-      req.flash('errors', { msg: `Invalid file type. Allowed: ${allowedTypes}` });
+      const errorMsg = `Invalid file type. Allowed: ${allowedTypes}`;
+      if (isApiRequest) {
+        return res.status(400).json({
+          success: false,
+          error: 'Invalid file type',
+          message: `Please upload a valid ${allowedTypes} file`,
+          receivedType: req.file.mimetype,
+          allowedTypes: mimeTypes,
+        });
+      }
+      req.flash('errors', { msg: errorMsg });
       return res.redirect('back');
     }
 
     // Check file size (in bytes)
     const maxSize = maxSizeMB * 1024 * 1024;
     if (req.file.size > maxSize) {
-      req.flash('errors', { msg: `File too large. Maximum size: ${maxSizeMB}MB` });
+      const errorMsg = `File too large. Maximum size: ${maxSizeMB}MB`;
+      if (isApiRequest) {
+        return res.status(400).json({
+          success: false,
+          error: 'File too large',
+          message: `${allowedTypes === 'audio' ? 'Audio' : 'Image'} file must be less than ${maxSizeMB}MB. Your file is ${(req.file.size / (1024 * 1024)).toFixed(2)}MB`,
+          maxSize: maxSize,
+          actualSize: req.file.size,
+        });
+      }
+      req.flash('errors', { msg: errorMsg });
       return res.redirect('back');
     }
 

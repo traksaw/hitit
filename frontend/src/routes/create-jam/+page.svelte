@@ -9,6 +9,7 @@
 	let genre = '';
 	let imageFile: File | null = null;
 	let imagePreview: string | null = null;
+	let isPrivate = false; // Privacy toggle
 	let error = '';
 	let isSubmitting = false;
 
@@ -48,6 +49,20 @@
 			return;
 		}
 
+		// Validate image file type
+		const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+		if (!validImageTypes.includes(imageFile.type) && !imageFile.name.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+			error = 'Please upload a valid image file (JPEG, PNG, WebP, or GIF)';
+			return;
+		}
+
+		// Validate image file size (max 10MB)
+		if (imageFile.size > 10 * 1024 * 1024) {
+			const fileSizeMB = (imageFile.size / (1024 * 1024)).toFixed(2);
+			error = `Image file is too large (${fileSizeMB}MB). Maximum size is 10MB.`;
+			return;
+		}
+
 		if (!$authStore.isAuthenticated) {
 			goto('/login');
 			return;
@@ -61,17 +76,39 @@
 			formData.append('title', title);
 			formData.append('description', description);
 			formData.append('genre', genre);
+			formData.append('isPrivate', String(isPrivate)); // Add privacy setting
 			formData.append('file', imageFile);
 
 			await jamAPI.create(formData);
 
 			// Redirect to profile after successful creation
 			goto('/profile');
-		} catch (err: unknown) {
+		} catch (err: any) {
 			console.error('Failed to create jam:', err);
-			error =
-				(err as { response?: { data?: { error?: string } } })?.response?.data?.error ||
-				'Failed to create jam. Please try again.';
+
+			// Extract detailed error message from backend response
+			const backendError = err?.response?.data;
+
+			if (backendError) {
+				// Use the detailed message from backend
+				error = backendError.message || backendError.error || 'Failed to create jam. Please try again.';
+
+				// Add additional context if available
+				if (backendError.receivedType) {
+					error += ` (Received file type: ${backendError.receivedType})`;
+				} else if (backendError.actualSize && backendError.maxSize) {
+					const actualMB = (backendError.actualSize / (1024 * 1024)).toFixed(2);
+					const maxMB = (backendError.maxSize / (1024 * 1024)).toFixed(2);
+					error += ` (Your file: ${actualMB}MB, Max: ${maxMB}MB)`;
+				}
+			} else if (err?.message) {
+				// Network error or other client-side error
+				error = err.message.includes('Network')
+					? 'Network error. Please check your connection and try again.'
+					: 'Failed to create jam. Please try again.';
+			} else {
+				error = 'An unexpected error occurred. Please try again.';
+			}
 		} finally {
 			isSubmitting = false;
 		}
@@ -141,6 +178,33 @@
 					disabled={isSubmitting}
 					class="input-field resize-y disabled:cursor-not-allowed disabled:bg-gray-100"
 				></textarea>
+			</div>
+
+			<!-- Privacy Toggle -->
+			<div class="rounded-lg border-2 border-gray-200 bg-gray-50 p-4">
+				<label class="flex cursor-pointer items-start gap-3">
+					<input
+						type="checkbox"
+						bind:checked={isPrivate}
+						disabled={isSubmitting}
+						class="mt-1 h-5 w-5 cursor-pointer rounded border-gray-300 text-purple-600 transition-all focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+					/>
+					<div class="flex-1">
+						<div class="flex items-center gap-2">
+							<span class="text-sm font-semibold text-gray-900">Make this jam private</span>
+							<span class="text-lg">[Private]</span>
+						</div>
+						<p class="mt-1 text-xs leading-relaxed text-gray-600">
+							{#if isPrivate}
+								This jam will <strong>only be visible to you and collaborators</strong>. It won't appear
+								in public feeds or search results.
+							{:else}
+								This jam will be <strong>public and visible to everyone</strong>. Anyone can discover it
+								in feeds and search results.
+							{/if}
+						</p>
+					</div>
+				</label>
 			</div>
 
 			<div>

@@ -27,7 +27,7 @@ require('./config/passport')(passport);
 console.log('connecting to database');
 //Connect To Database
 connectDB().then(() => {
-  console.log('✅ Database connected, starting server...');
+  console.log('Database connected, starting server...');
 
   // Create HTTP server
   const server = http.createServer(app);
@@ -36,9 +36,23 @@ connectDB().then(() => {
   collaborationService.initialize(server);
 
   server.listen(process.env.PORT, () => {
-    console.log('🚀 Server is running, you better catch it!');
-    console.log(`🌐 HTTP Server on port ${process.env.PORT}`);
-    console.log('🔌 WebSocket Server ready for collabor ation');
+    console.log('Server is running, you better catch it!');
+    console.log(`HTTP Server on port ${process.env.PORT}`);
+    console.log('WebSocket Server ready for collaboration');
+  });
+
+  // Handle server errors
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`Port ${process.env.PORT} is already in use`);
+      console.error(
+        "Try: lsof -i :${process.env.PORT} | grep LISTEN | awk '{print $2}' | xargs kill"
+      );
+      process.exit(1);
+    } else {
+      console.error('Server error:', err);
+      process.exit(1);
+    }
   });
 });
 
@@ -85,20 +99,22 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // Set to true if using HTTPS
+      secure: process.env.NODE_ENV === 'production', // true in production (requires HTTPS)
+      httpOnly: true, // Prevent XSS attacks
       maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax', // CSRF protection
     },
     store: MongoStore.create({ mongoUrl: process.env.MONGODB_STRING }),
   })
 );
 
 app.use((req, res, next) => {
-  console.log('🔍 Middleware Debug: Checking req.session...');
+  console.log('Middleware Debug: Checking req.session...');
   console.log('req.session:', req.session); // Should not be undefined
   if (!req.session) {
-    console.error('❌ ERROR: req.session is undefined! Check express-session setup.');
+    console.error('ERROR: req.session is undefined! Check express-session setup.');
   } else {
-    console.log('✅ req.session exists:', req.session);
+    console.log('req.session exists:', req.session);
   }
   next();
 });

@@ -24,10 +24,10 @@ require("./config/passport")(passport);
 console.log('connecting to database')
 //Connect To Database
 connectDB().then(() => {
-  console.log('✅ Database connected, starting server...');
+  console.log('Database connected, starting server...');
 
   app.listen(process.env.PORT, () => {
-    console.log("🚀 Server is running, you better catch it!");
+    console.log("Server is running, you better catch it!");
   });
 });
 
@@ -70,12 +70,12 @@ app.use(
 );
 
 app.use((req, res, next) => {
-  console.log("🔍 Middleware Debug: Checking req.session...");
+  console.log("Middleware Debug: Checking req.session...");
   console.log("req.session:", req.session); // Should not be undefined
   if (!req.session) {
-    console.error("❌ ERROR: req.session is undefined! Check express-session setup.");
+    console.error("ERROR: req.session is undefined! Check express-session setup.");
   } else {
-    console.log("✅ req.session exists:", req.session);
+    console.log("req.session exists:", req.session);
   }
   next();
 });
