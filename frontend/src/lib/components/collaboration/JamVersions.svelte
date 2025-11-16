@@ -235,7 +235,7 @@
 
 						{#if version.tags.length > 0}
 							<div class="version-tags">
-								{#each version.tags as tag}
+								{#each version.tags as tag (tag)}
 									<span class="tag">{tag}</span>
 								{/each}
 							</div>
