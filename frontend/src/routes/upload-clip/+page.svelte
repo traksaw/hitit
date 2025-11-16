@@ -76,7 +76,7 @@
 
 			// Redirect to profile after successful upload
 			goto('/profile');
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Failed to upload clip:', err);
 
 			// Extract detailed error message from backend response

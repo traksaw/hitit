@@ -120,7 +120,7 @@
 						{#if request.skills && request.skills.length > 0}
 							<div class="skills-list">
 								<span class="skills-label">Skills:</span>
-								{#each request.skills as skill}
+								{#each request.skills as skill (skill)}
 									<span class="skill-tag">{skill}</span>
 								{/each}
 							</div>

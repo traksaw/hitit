@@ -86,7 +86,7 @@
 
 			// Redirect to profile after successful creation
 			goto('/profile');
-		} catch (err: any) {
+		} catch (err: unknown) {
 			console.error('Failed to create jam:', err);
 
 			// Extract detailed error message from backend response

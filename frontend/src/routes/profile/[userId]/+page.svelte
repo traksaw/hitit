@@ -1,7 +1,7 @@
 <script lang="ts">
 	// import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { authAPI, jamAPI, clipAPI, type User, type Jam, type Clip } from '$lib/api';
+	import { jamAPI, clipAPI, type User, type Jam, type Clip } from '$lib/api';
 	// import { authStore } from '$lib/stores/auth';
 	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import JamCard from '$lib/components/JamCard.svelte';
@@ -146,7 +146,7 @@
 							<div class="mb-4">
 								<p class="mb-2 text-sm font-semibold text-gray-700">Favorite Genres:</p>
 								<div class="flex flex-wrap justify-center gap-2 md:justify-start">
-									{#each user.favoriteGenres as genre}
+									{#each user.favoriteGenres as genre (genre)}
 										<span
 											class="bg-primary-dark rounded-full px-3 py-1 text-xs font-semibold text-white"
 										>
