@@ -90,24 +90,31 @@
 			console.error('Failed to create jam:', err);
 
 			// Extract detailed error message from backend response
-			const backendError = err?.response?.data;
+			const backendError =
+				err && typeof err === 'object' && 'response' in err
+					? (err.response as { data?: unknown })?.data
+					: null;
 
-			if (backendError) {
+			if (backendError && typeof backendError === 'object') {
 				// Use the detailed message from backend
+				const errorObj = backendError as Record<string, unknown>;
 				error =
-					backendError.message || backendError.error || 'Failed to create jam. Please try again.';
+					(errorObj.message as string) ||
+					(errorObj.error as string) ||
+					'Failed to create jam. Please try again.';
 
 				// Add additional context if available
-				if (backendError.receivedType) {
-					error += ` (Received file type: ${backendError.receivedType})`;
-				} else if (backendError.actualSize && backendError.maxSize) {
-					const actualMB = (backendError.actualSize / (1024 * 1024)).toFixed(2);
-					const maxMB = (backendError.maxSize / (1024 * 1024)).toFixed(2);
+				if (errorObj.receivedType) {
+					error += ` (Received file type: ${errorObj.receivedType})`;
+				} else if (errorObj.actualSize && errorObj.maxSize) {
+					const actualMB = (Number(errorObj.actualSize) / (1024 * 1024)).toFixed(2);
+					const maxMB = (Number(errorObj.maxSize) / (1024 * 1024)).toFixed(2);
 					error += ` (Your file: ${actualMB}MB, Max: ${maxMB}MB)`;
 				}
-			} else if (err?.message) {
+			} else if (err && typeof err === 'object' && 'message' in err) {
 				// Network error or other client-side error
-				error = err.message.includes('Network')
+				const message = String(err.message);
+				error = message.includes('Network')
 					? 'Network error. Please check your connection and try again.'
 					: 'Failed to create jam. Please try again.';
 			} else {
