@@ -24,7 +24,8 @@ export async function extractWaveform(
 		const arrayBuffer = await response.arrayBuffer();
 
 		// Create audio context
-		const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+		const audioContext = new (window.AudioContext ||
+			(window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
 
 		// Decode audio data
 		const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
