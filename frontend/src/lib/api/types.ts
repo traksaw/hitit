@@ -96,7 +96,7 @@ export interface JamActivity {
 		'comment_added' | 'jam_updated' | 'jam_published';
 	targetUser?: User;
 	targetClip?: Clip;
-	metadata?: Record<string, any>;
+	metadata?: Record<string, unknown>;
 	description: string;
 	createdAt: Date;
 }

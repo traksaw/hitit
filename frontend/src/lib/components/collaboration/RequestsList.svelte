@@ -2,7 +2,7 @@
 	import type { JamRequest } from '$lib/api/types';
 	import { formatDistanceToNow } from 'date-fns';
 	import LoadingSpinner from '../LoadingSpinner.svelte';
-	import { showToast } from '$lib/stores/toast';
+	// import { showToast } from '$lib/stores/toast';
 
 	const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
