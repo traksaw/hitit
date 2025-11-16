@@ -344,7 +344,7 @@
 			<div class="flex items-center gap-2">
 				<button
 					class="bg-lime-base hover:bg-lime-medium neon-glow flex h-10 w-10 items-center justify-center rounded-full transition-colors"
-					on:click={togglePlay}
+					onclick={togglePlay}
 				>
 					{#if isPlaying}
 						<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -359,7 +359,7 @@
 
 				<button
 					class="bg-lime-base/50 hover:bg-lime-base/70 flex h-8 w-8 items-center justify-center rounded transition-colors"
-					on:click={stopPlayback}
+					onclick={stopPlayback}
 					title="Stop"
 				>
 					<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
@@ -389,7 +389,7 @@
 				class="rounded px-3 py-1 {gridSnap
 					? 'bg-lime-base'
 					: 'bg-lime-base/20'} text-sm text-white transition-colors"
-				on:click={() => (gridSnap = !gridSnap)}
+				onclick={() => (gridSnap = !gridSnap)}
 			>
 				Snap: {gridSnap ? 'ON' : 'OFF'}
 			</button>
@@ -398,7 +398,7 @@
 			<div class="flex items-center gap-2">
 				<button
 					class="bg-lime-base/50 hover:bg-lime-base/70 flex h-8 w-8 items-center justify-center rounded transition-colors"
-					on:click={handleZoomOut}
+					onclick={handleZoomOut}
 					title="Zoom Out"
 				>
 					<span class="text-lg">−</span>
@@ -406,7 +406,7 @@
 				<span class="w-12 text-center text-sm">{Math.round(zoom)}px/s</span>
 				<button
 					class="bg-lime-base/50 hover:bg-lime-base/70 flex h-8 w-8 items-center justify-center rounded transition-colors"
-					on:click={handleZoomIn}
+					onclick={handleZoomIn}
 					title="Zoom In"
 				>
 					<span class="text-lg">+</span>
@@ -430,7 +430,7 @@
 				class="bg-lime-base hover:bg-lime-medium neon-glow flex items-center gap-2 rounded px-4 py-2 text-sm font-semibold text-white transition-colors {isExporting
 					? 'cursor-not-allowed opacity-50'
 					: ''}"
-				on:click={handleExport}
+				onclick={handleExport}
 				disabled={isExporting}
 				title="Export Mixdown"
 			>
@@ -461,9 +461,9 @@
 	<!-- Timeline Ruler -->
 	<div
 		class="timeline-ruler bg-lime-medium/20 border-lime-light relative h-10 overflow-x-auto border-b-2"
-		on:dragover={handleDragOver}
-		on:dragleave={handleDragLeave}
-		on:drop={handleDrop}
+		ondragover={handleDragOver}
+		ondragleave={handleDragLeave}
+		ondrop={handleDrop}
 		role="region"
 		aria-label="Timeline ruler"
 	>
@@ -494,9 +494,9 @@
 	<div
 		class="timeline-canvas bg-lime-lightest border-lime-light relative overflow-x-auto overflow-y-auto border-b-2"
 		style="max-height: 400px;"
-		on:dragover={handleDragOver}
-		on:dragleave={handleDragLeave}
-		on:drop={handleDrop}
+		ondragover={handleDragOver}
+		ondragleave={handleDragLeave}
+		ondrop={handleDrop}
 		role="region"
 		aria-label="Timeline canvas"
 	>
@@ -516,8 +516,8 @@
 						? 'bg-lime-base/5'
 						: 'bg-transparent'} hover:bg-lime-base/10 cursor-pointer transition-colors"
 					style="top: {i * 80}px; height: 80px;"
-					on:click={() => (selectedTrackIndex = i)}
-					on:keydown={(e) => e.key === 'Enter' && (selectedTrackIndex = i)}
+					onclick={() => (selectedTrackIndex = i)}
+					onkeydown={(e) => e.key === 'Enter' && (selectedTrackIndex = i)}
 					role="button"
 					tabindex="0"
 				>

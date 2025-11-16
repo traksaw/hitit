@@ -2,7 +2,7 @@
 	import type { JamVersion } from '$lib/api/types';
 	import { formatDistanceToNow } from 'date-fns';
 	import LoadingSpinner from '../LoadingSpinner.svelte';
-	import { showToast } from '$lib/stores/toast';
+	import { toast } from '$lib/stores/toast';
 
 	interface Props {
 		jamId: string;
@@ -68,7 +68,7 @@
 			}
 
 			const data = await response.json();
-			showToast(data.message || 'Version saved successfully', 'success');
+			toast.show(data.message || 'Version saved successfully', 'success');
 
 			// Reload versions
 			await loadVersions();
@@ -80,7 +80,7 @@
 			versionTags = '';
 			isPinned = false;
 		} catch (err) {
-			showToast(err instanceof Error ? err.message : 'Failed to save version', 'error');
+			toast.show(err instanceof Error ? err.message : 'Failed to save version', 'error');
 		} finally {
 			processing = false;
 		}
@@ -109,14 +109,14 @@
 			}
 
 			const data = await response.json();
-			showToast(data.message || 'Version restored successfully', 'success');
+			toast.show(data.message || 'Version restored successfully', 'success');
 
 			// Reload page to show restored state
 			setTimeout(() => {
 				window.location.reload();
 			}, 1500);
 		} catch (err) {
-			showToast(err instanceof Error ? err.message : 'Failed to restore version', 'error');
+			toast.show(err instanceof Error ? err.message : 'Failed to restore version', 'error');
 		} finally {
 			processing = false;
 		}
@@ -138,12 +138,12 @@
 				throw new Error('Failed to delete version');
 			}
 
-			showToast('Version deleted successfully', 'success');
+			toast.show('Version deleted successfully', 'success');
 
 			// Remove from list
 			versions = versions.filter((v) => v._id !== versionId);
 		} catch (err) {
-			showToast(err instanceof Error ? err.message : 'Failed to delete version', 'error');
+			toast.show(err instanceof Error ? err.message : 'Failed to delete version', 'error');
 		} finally {
 			processing = false;
 		}
@@ -262,7 +262,13 @@
 	{/if}
 
 	{#if showSaveModal}
-		<div class="modal-backdrop" onclick={() => (showSaveModal = false)}></div>
+		<div
+			class="modal-backdrop"
+			onclick={() => (showSaveModal = false)}
+			onkeydown={(e) => e.key === 'Enter' && (showSaveModal = false)}
+			role="button"
+			tabindex="0"
+		></div>
 		<div class="modal">
 			<div class="modal-header">
 				<h4>Save New Version</h4>

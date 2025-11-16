@@ -2,7 +2,7 @@
 	import type { JamInvite } from '$lib/api/types';
 	import { formatDistanceToNow } from 'date-fns';
 	import LoadingSpinner from '../LoadingSpinner.svelte';
-	import { showToast } from '$lib/stores/toast';
+	import { toast } from '$lib/stores/toast';
 
 	const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -48,7 +48,7 @@
 			}
 
 			const data = await response.json();
-			showToast(data.message || `Invite ${action}ed successfully`, 'success');
+			toast.show(data.message || `Invite ${action}ed successfully`, 'success');
 
 			// Remove the invite from the list
 			invites = invites.filter((inv) => inv._id !== inviteId);
@@ -61,7 +61,7 @@
 			}
 		} catch (err) {
 			console.error(`Error ${action}ing invite:`, err);
-			showToast(
+			toast.show(
 				err instanceof Error ? err.message : `Failed to ${action} invite`,
 				'error'
 			);

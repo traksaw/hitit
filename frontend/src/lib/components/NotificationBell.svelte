@@ -139,7 +139,7 @@
 
 <div class="notification-bell" bind:this={dropdownElement}>
 	<button
-		on:click={toggleDropdown}
+		onclick={toggleDropdown}
 		class="bell-button relative rounded-lg px-3 py-2 text-sm font-medium transition-all hover:bg-white/20"
 		title="Notifications"
 		aria-label="Notifications"
@@ -155,7 +155,7 @@
 			<div class="dropdown-header">
 				<h3 class="text-lg font-bold">Notifications</h3>
 				{#if unreadCount > 0}
-					<button on:click={markAllAsRead} class="mark-all-read">Mark all as read</button>
+					<button onclick={markAllAsRead} class="mark-all-read">Mark all as read</button>
 				{/if}
 			</div>
 
@@ -167,7 +167,7 @@
 				<div class="notifications-list">
 					{#each notifications as notification (notification._id)}
 						<button
-							on:click={() => handleNotificationClick(notification)}
+							onclick={() => handleNotificationClick(notification)}
 							class="notification-item {notification.read ? 'read' : 'unread'}"
 						>
 							<img

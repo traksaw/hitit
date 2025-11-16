@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Collaborator, CollaboratorRole, User } from '$lib/api/types';
-	import { showToast } from '$lib/stores/toast';
+	import { toast } from '$lib/stores/toast';
 	import LoadingSpinner from '../LoadingSpinner.svelte';
 
 	interface Props {
@@ -66,7 +66,7 @@
 			}
 
 			const data = await response.json();
-			showToast(data.message || 'Invite sent successfully', 'success');
+			toast.show(data.message || 'Invite sent successfully', 'success');
 
 			// Reset form
 			showInviteModal = false;
@@ -75,7 +75,7 @@
 			inviteMessage = '';
 			selectedRole = 'contributor';
 		} catch (err) {
-			showToast(err instanceof Error ? err.message : 'Failed to send invite', 'error');
+			toast.show(err instanceof Error ? err.message : 'Failed to send invite', 'error');
 		} finally {
 			processing = false;
 		}
@@ -103,7 +103,7 @@
 		}
 	}
 
-	let debounceTimer: number;
+	let debounceTimer: ReturnType<typeof setTimeout>;
 	$effect(() => {
 		clearTimeout(debounceTimer);
 		debounceTimer = setTimeout(() => {
@@ -147,7 +147,13 @@
 	</div>
 
 	{#if showInviteModal}
-		<div class="modal-backdrop" onclick={() => (showInviteModal = false)}></div>
+		<div
+			class="modal-backdrop"
+			onclick={() => (showInviteModal = false)}
+			onkeydown={(e) => e.key === 'Enter' && (showInviteModal = false)}
+			role="button"
+			tabindex="0"
+		></div>
 		<div class="modal">
 			<div class="modal-header">
 				<h4>Invite Collaborator</h4>
